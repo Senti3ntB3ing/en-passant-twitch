@@ -52,7 +52,7 @@ programmable({
 		const ratings = await getChess_comPuzzles(match[1]);
 		if (ratings == undefined)
 			return `Couldn't find Chess.com user '${match[1]}'.`;
-		return match[1] + '\'s Chess.com puzzle stats -> ' + ratings.map(
+		return saxon_genitive(match[1]) + ' Chess.com puzzle stats -> ' + ratings.map(
 			r => emojis[r.category] + ` ${r.category} ${r.rating}`
 		).join(', ') + '.';
 	}
