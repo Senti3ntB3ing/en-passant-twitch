@@ -14,6 +14,8 @@ export const Streamer = 'thechessnerdlive';
 export const StreamerID = '428214501';
 export const ZACH_FIDE_ID = '2624346';
 
+export const saxon_genitive = s => s + (s[s.length - 1] == 's' ? "'" : "'s");
+
 export const Time = {
 	second: 1000,
 	minute: 60 * 1000,

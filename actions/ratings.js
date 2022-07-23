@@ -3,7 +3,7 @@ import { getChess_comRatings, getChess_comPB, getChess_comPuzzles } from '../com
 import { getLichessRatings } from '../components/lichess.js';
 import { FIDE } from 'https://deno.land/x/fide_rs@v1.0.3/mod.ts';
 
-import { Prefix, ZACH_FIDE_ID } from '../config.js';
+import { Prefix, ZACH_FIDE_ID, saxon_genitive } from '../config.js';
 import { programmable } from '../parser.js';
 
 const emojis = {
@@ -52,7 +52,7 @@ programmable({
 		const ratings = await getChess_comPuzzles(match[1]);
 		if (ratings == undefined)
 			return `Couldn't find Chess.com user '${match[1]}'.`;
-		return match[1] + ' Chess.com puzzle stats -> ' + ratings.map(
+		return match[1] + '\'s Chess.com puzzle stats -> ' + ratings.map(
 			r => emojis[r.category] + ` ${r.category} ${r.rating}`
 		).join(', ') + '.';
 	}
@@ -81,7 +81,7 @@ programmable({
 		const ratings = await getChess_comRatings(match[1]);
 		if (ratings == undefined)
 			return `Couldn't find Chess.com user '${match[1]}'.`;
-		return match[1] + ' Chess.com ratings -> ' + ratings.map(
+		return saxon_genitive(match[1]) + ' Chess.com ratings -> ' + ratings.map(
 			r => emojis[r.category] + ` ${r.category} ${r.rating}`
 		).join(', ') + '.';
 	}
@@ -97,7 +97,7 @@ programmable({
 		const ratings = await getLichessRatings(match[1]);
 		if (ratings == undefined)
 			return `Couldn't find lichess.org user '${match[1]}'.`;
-		return match[1] + ' lichess.org ratings -> ' + ratings.map(
+		return saxon_genitive(match[1]) + ' lichess.org ratings -> ' + ratings.map(
 			r => emojis[r.category] + ` ${r.category} ${r.rating}`
 		).join(', ') + '.';
 	}
