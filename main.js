@@ -12,6 +12,7 @@ import { Streamer } from './config.js';
 import './actions/info.js';
 import './actions/queue.js';
 import './actions/ratings.js';
+import './actions/video.js';
 
 // ==== Tasks ==============================
 

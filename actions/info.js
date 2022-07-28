@@ -5,7 +5,7 @@ import { uptime, sub_count, follow_count } from '../components/twitch.js';
 
 programmable({
 	commands: [ 'time' ],
-	description: 'Gets Zach\s current time.',
+	description: 'Gets Zach\'s current time.',
 	execute: () => `For Zach it is ${(new Date()).toLocaleTimeString('en-US', {
 		timeZone: 'America/Montreal',
 		hour12: true, second: '2-digit', minute: '2-digit', hour: 'numeric'
@@ -14,7 +14,7 @@ programmable({
 
 programmable({
 	commands: [ 'age', 'birthday', 'bday' ],
-	description: 'Gets Zach\s birthday.',
+	description: 'Gets Zach\'s birthday.',
 	execute: () => {
 		const d = Date.now() - new Date('30 July 2001');
 		const m = new Date(d);
