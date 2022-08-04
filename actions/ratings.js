@@ -1,6 +1,6 @@
 
-import { getChess_comRatings, getChess_comPB, getChess_comPuzzles } from '../components/chess_com.js';
-import { getLichessRatings } from '../components/lichess.js';
+import { Chess } from '../components/chesscom.js';
+import { lichess } from '../components/lichessorg.js';
 import { FIDE } from 'https://deno.land/x/fide_rs@v1.0.3/mod.ts';
 
 import { Prefix, ZACH_FIDE_ID, saxon_genitive } from '../config.js';
@@ -33,7 +33,7 @@ programmable({
 	commands: [ 'personalbest', 'pb', 'peak' ], permissions: 'all',
 	description: 'Gets Zach\'s peak ratings on Chess.com.',
 	execute: async () => {
-		const ratings = await getChess_comPB('thechessnerd');
+		const ratings = await Chess.com.best('thechessnerd');
 		if (ratings == undefined)
 			return `Zach's Chess.com profile -> chess.com/member/thechessnerd`;
 		return 'Zach\'s Chess.com peak ratings -> ' + ratings.map(
@@ -49,7 +49,7 @@ programmable({
 		const match = data.message.match(PUZZLES_REGEX);
 		if (match == null || match.length < 2)
 			return `Try with ${Prefix}chess.com <username>.`;
-		const ratings = await getChess_comPuzzles(match[1]);
+		const ratings = await Chess.com.puzzles(match[1]);
 		if (ratings == undefined)
 			return `Couldn't find Chess.com user '${match[1]}'.`;
 		return saxon_genitive(match[1]) + ' Chess.com puzzle stats -> ' + ratings.map(
@@ -62,7 +62,7 @@ programmable({
 	commands: [ 'rating', 'ratings' ], permissions: 'all',
 	description: 'Gets Zach\'s current Chess.com ratings.',
 	execute: async () => {
-		const ratings = await getChess_comRatings('thechessnerd');
+		const ratings = await Chess.com.ratings('thechessnerd');
 		if (ratings == undefined)
 			return `Zach's Chess.com profile -> chess.com/member/thechessnerd`;
 		return 'Zach\'s Chess.com ratings -> ' + ratings.map(
@@ -78,7 +78,7 @@ programmable({
 		const match = data.message.match(CHESS_COM_REGEX);
 		if (match == null || match.length < 2)
 			return `Try with ${Prefix}chess.com <username>.`;
-		const ratings = await getChess_comRatings(match[1]);
+		const ratings = await Chess.com.ratings(match[1]);
 		if (ratings == undefined)
 			return `Couldn't find Chess.com user '${match[1]}'.`;
 		return saxon_genitive(match[1]) + ' Chess.com ratings -> ' + ratings.map(
@@ -94,7 +94,7 @@ programmable({
 		const match = data.message.match(LICHESS_REGEX);
 		if (match == null || match.length < 2)
 			return `Try with ${Prefix}lichess <username>.`;
-		const ratings = await getLichessRatings(match[1]);
+		const ratings = await lichess.org.ratings(match[1]);
 		if (ratings == undefined)
 			return `Couldn't find lichess.org user '${match[1]}'.`;
 		return saxon_genitive(match[1]) + ' lichess.org ratings -> ' + ratings.map(
