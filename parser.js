@@ -3,7 +3,7 @@ import { Prefix } from './config.js';
 import { Database } from './database.js';
 import { channel } from './main.js';
 
-export let actions = []; const programmables = [];
+export let actions = []; export const programmables = [];
 
 export const log = (component, text) => console.log(
 	`[${(new Date()).toLocaleTimeString('en-GB', {
