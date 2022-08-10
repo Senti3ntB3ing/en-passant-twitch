@@ -9,11 +9,8 @@ export async function gif(pgn, perspective = 'w') {
 	game.pgn(pgn);
 	const p = new Position(game.board);
 	const frames = [ await p.frame(perspective, true) ];
-	for (let i = 1; game.takeback() != null; i++) {
-		p.set(game.board).frame(perspective, true).then(
-			f => frames[i] = f
-		);
-	}
+	while (game.takeback() != null)
+		frames.push(await (p.set(game.board).frame(perspective, true)));
 	return encoder(frames.reverse());
 }
 
