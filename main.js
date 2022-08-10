@@ -58,7 +58,7 @@ const server = serve({ port: 8080 });
 					const fen = json.fen || SETUP;
 					const image = await diagram(fen, json.perspective);
 					if (image != null)
-						request.respond({ status: 200, body: image, type: 'image/png' });
+						request.respond({ status: 200, body: image });
 				} catch { console.error('invalid diagram data'); }
 			} break;
 			case '/map': case '/map/':
