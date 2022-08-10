@@ -59,7 +59,8 @@ const server = serve({ port: 8080 });
 					const image = await diagram(fen, json.perspective);
 					if (image != null)
 						request.respond({ status: 200, body: image });
-				} catch { console.error('invalid diagram data'); }
+					else request.respond({ status: 404, body: 'Not found' });
+				} catch { request.respond({ status: 404, body: 'Not found' }); }
 			} break;
 			case '/pgn': case '/pgn/': {
 				const data = await readAll(request.body);
@@ -69,7 +70,8 @@ const server = serve({ port: 8080 });
 					const image = await gif(pgn, json.perspective);
 					if (image != null)
 						request.respond({ status: 200, body: image });
-				} catch { console.error('invalid diagram data'); }
+					else request.respond({ status: 404, body: 'Not found' });
+				} catch { request.respond({ status: 404, body: 'Not found' }); }
 			} break;
 			case '/map': case '/map/':
 				request.respond({ status: 200, body: map() });
