@@ -1,11 +1,15 @@
 
+import { readAll } from 'https://deno.land/std@0.150.0/streams/conversion.ts';
+
 import { TwitchChat } from 'https://deno.land/x/tmi@v1.0.5/mod.ts';
 import { serve } from 'https://deno.land/std@0.98.0/http/server.ts';
+
+import { diagram } from './components/diagram.js';
 
 import { log, resolve, reloadActions } from './parser.js';
 import { help } from './help.js';
 import { map } from './map.js';
-import { Streamer } from './config.js';
+import { Streamer, SETUP } from './config.js';
 
 // ==== Actions ============================
 
@@ -46,13 +50,28 @@ const server = serve({ port: 8080 });
 
 (async () => {
 	for await (const request of server) {
-		if (request.url == '/map/') request.respond(
-			{ status: 200, body: map() }
-		); else {
-			await reloadActions();
-			request.respond(
-				{ status: 200, body: help(request.url == '/mod/') }
-			);
+		switch (request.url) {
+			case '/fen': case '/fen/': case '/diagram/': case '/diagram': {
+				const data = await readAll(request.body);
+				try {
+					const json = JSON.parse(new TextDecoder().decode(data));
+					const fen = json.fen || SETUP;
+					const image = await diagram(fen, json.perspective);
+					if (image != null)
+						request.respond({ status: 200, body: image });
+				} catch { console.error('invalid diagram data'); }
+			} break;
+			case '/map': case '/map/':
+				request.respond({ status: 200, body: map() });
+			break;
+			case '/mod': case '/mod/':
+				await reloadActions();
+				request.respond({ status: 200, body: help() });
+			break;
+			default:
+				await reloadActions();
+				request.respond({ status: 200, body: help(true) });
+			break;
 		}
 	}
 })();
