@@ -1,7 +1,10 @@
 
 import { Prefix, ordinal } from '../config.js';
 import { programmable, programmables } from '../parser.js';
+import { Persistent } from '../persistent.js';
 import { Chess } from '../components/chesscom.js';
+
+const q = new Persistent('queue');
 
 class Queue {
 
@@ -11,27 +14,48 @@ class Queue {
 
 	constructor() { this.#queue = []; }
 
-	enqueue(element, find_lambda) {
+	async enqueue(element, find_lambda) {
+		(await q.knock()).lock();
+		this.#queue = (await q.get()) ?? [];
 		if (this.#queue.findIndex(find_lambda) != -1) return null;
 		this.#queue.push(element);
 		const position = this.#queue.length;
+		(await q.set(this.#queue)).unlock();
 		return position;
 	}
-	position(find_lambda) {
+	async position(find_lambda) {
+		this.#queue = (await q.get()) ?? [];
 		const index = this.#queue.findIndex(find_lambda);
 		if (index == -1) return [ null, null ];
 		return [ this.#queue[index], index + 1 ];
 	}
-	dequeue() { return this.#queue.shift(); }
-	remove(filter_lambda) {
+	async dequeue() {
+		(await q.knock()).lock();
+		this.#queue = (await q.get()) ?? [];
+		if (this.#queue.length == 0) return null;
+		const removed = this.#queue.shift();
+		(await q.set(this.#queue)).unlock();
+		return removed;
+	}
+	async remove(filter_lambda) {
+		(await q.knock()).lock();
+		this.#queue = (await q.get()) ?? [];
 		const index = this.#queue.findIndex(filter_lambda);
 		if (index == -1) return [ null, null ];
 		const removed = this.#queue[index];
 		this.#queue = this.#queue.filter((_, i) => i != index);
+		(await q.set(this.#queue)).unlock();
 		return [ removed.user, removed.profile ];
 	}
-	clear() { this.#queue = []; }
-	list() { return this.#queue; }
+	async clear() {
+		(await q.knock()).lock();
+		this.#queue = [];
+		(await q.set(this.#queue)).unlock();
+	}
+	async list() {
+		this.#queue = (await q.get()) ?? [];
+		return this.#queue;
+	}
 
 }
 
@@ -50,7 +74,7 @@ programmable({
 			return `@${data.username}, try with ${Prefix}join <Chess.com username>.`;
 		if (!(await Chess.com.exists(username[1])))
 			return `@${data.username}, there is no Chess.com account with the username ${username[1]}.`;
-		const i = queue.enqueue({
+		const i = await queue.enqueue({
 			user: data.username, profile: username[1] },
 			e => e.user == data.username
 		);
@@ -63,9 +87,9 @@ programmable({
 programmable({
 	commands: [ 'leave' ], permissions: 'all',
 	description: 'Leave the current queue.',
-	execute: data => {
+	execute: async data => {
 		if (!queue.enabled) return `The queue is currently disabled.`;
-		queue.remove(e => e.user == data.username);
+		await queue.remove(e => e.user == data.username);
 		return `@${data.username}, you left the queue.`;
 	}
 });
@@ -73,9 +97,9 @@ programmable({
 programmable({
 	commands: [ 'position' ], permissions: 'all',
 	description: 'Get your position in the queue.',
-	execute: data => {
+	execute: async data => {
 		if (!queue.enabled) return `The queue is currently disabled.`;
-		const [ u, i ] = queue.position(e => e.user == data.username);
+		const [ u, i ] = await queue.position(e => e.user == data.username);
 		if (i == null) return `@${data.username}, you are not in the queue.`;
 		const j = ordinal(i);
 		return `@${data.username} aka '${u.profile}' on Chess.com, you are ${j} in the queue.`;
@@ -85,12 +109,12 @@ programmable({
 programmable({
 	commands: [ 'remove' ], permissions: 'mod',
 	description: 'Remove a user from the queue.',
-	execute: data => {
+	execute: async data => {
 		if (!queue.enabled) return `The queue is currently disabled.`;
 		let username = data.message.match(/remove\s+@?\s*(\w+)/);
 		if (username == null || username.length < 2) return;
 		username = username[1].replace(/<|>|@/g, '');
-		const [ user, profile ] = queue.remove(
+		const [ user, profile ] = await queue.remove(
 			e => e.user == username || e.profile == username
 		);
 		if (user == null) return `'${username}' is not in the queue.`;
@@ -101,9 +125,9 @@ programmable({
 programmable({
 	commands: [ 'next' ], permissions: 'mod',
 	description: 'Get the next in line in the queue.',
-	execute: () => {
+	execute: async () => {
 		if (!queue.enabled) return `The queue is currently disabled.`;
-		const element = queue.dequeue();
+		const element = await queue.dequeue();
 		if (element == undefined) return `There is no one in the queue.`;
 		return `@${element.user} aka '${element.profile}' on Chess.com is next.`;
 	}
@@ -112,9 +136,9 @@ programmable({
 programmable({
 	commands: [ 'queue', 'q' ],
 	description: 'Displays the current queue.',
-	execute: () => {
+	execute: async () => {
 		if (!queue.enabled) return `The queue is currently disabled.`;
-		const list = queue.list();
+		const list = await queue.list();
 		if (list.length == 0) return 'There is no one in the queue.';
 		return 'Queue: ' + list.map(e => e.profile).join(', ');
 	}
@@ -123,8 +147,8 @@ programmable({
 programmable({
 	commands: [ 'clear' ], permissions: 'mod',
 	description: 'Clears the current queue.',
-	execute: () => {
-		queue.clear();
+	execute: async () => {
+		await queue.clear();
 		return 'The queue has been cleared.';
 	}
 });
