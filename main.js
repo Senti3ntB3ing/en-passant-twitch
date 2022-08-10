@@ -78,11 +78,11 @@ const server = serve({ port: 8080 });
 			break;
 			case '/mod': case '/mod/':
 				await reloadActions();
-				request.respond({ status: 200, body: help() });
+				request.respond({ status: 200, body: help(true) });
 			break;
 			default:
 				await reloadActions();
-				request.respond({ status: 200, body: help(true) });
+				request.respond({ status: 200, body: help() });
 			break;
 		}
 	}
