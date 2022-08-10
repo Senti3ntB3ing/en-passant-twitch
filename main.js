@@ -4,7 +4,7 @@ import { readAll } from 'https://deno.land/std@0.150.0/streams/conversion.ts';
 import { TwitchChat } from 'https://deno.land/x/tmi@v1.0.5/mod.ts';
 import { serve } from 'https://deno.land/std@0.98.0/http/server.ts';
 
-import { diagram } from './components/diagram.js';
+import { diagram, gif } from './components/diagram.js';
 
 import { log, resolve, reloadActions } from './parser.js';
 import { help } from './help.js';
@@ -57,6 +57,16 @@ const server = serve({ port: 8080 });
 					const json = JSON.parse(new TextDecoder().decode(data));
 					const fen = json.fen || SETUP;
 					const image = await diagram(fen, json.perspective);
+					if (image != null)
+						request.respond({ status: 200, body: image });
+				} catch { console.error('invalid diagram data'); }
+			} break;
+			case '/pgn': case '/pgn/': {
+				const data = await readAll(request.body);
+				try {
+					const json = JSON.parse(new TextDecoder().decode(data));
+					const pgn = json.pgn || '';
+					const image = await gif(pgn, json.perspective);
 					if (image != null)
 						request.respond({ status: 200, body: image });
 				} catch { console.error('invalid diagram data'); }
