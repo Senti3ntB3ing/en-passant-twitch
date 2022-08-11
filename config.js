@@ -1,4 +1,8 @@
 
+Array.prototype.random = function() {
+	return this[Math.floor((Math.random() * this.length))];
+};
+
 export const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 export const ordinal = n => {
 	const s = [ 'th', 'st', 'nd', 'rd' ];

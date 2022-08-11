@@ -67,7 +67,7 @@ const server = serve({ port: 8080 });
 				try {
 					const json = JSON.parse(new TextDecoder().decode(data));
 					const pgn = json.pgn || '';
-					const image = await gif(pgn, json.perspective);
+					const image = gif(pgn, json.perspective);
 					if (image != null)
 						request.respond({ status: 200, body: image });
 					else request.respond({ status: 404, body: 'Not found' });
