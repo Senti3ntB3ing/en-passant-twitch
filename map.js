@@ -27,6 +27,7 @@ return `<!DOCTYPE html>
 		<pattern id="br" patternUnits="userSpaceOnUse" width="123" height="87" x="-10" y="-15"><image x="0" y="0" width="125" height="87" href="${vexillo}/br.svg"></image></pattern>
 		<pattern id="ca" patternUnits="userSpaceOnUse" width="200" height="100" x="-70" y="-25"><image x="0" y="0" width="200" height="100" href="${vexillo}/ca.svg"></image></pattern>
 		<pattern id="ch" patternUnits="userSpaceOnUse" width="10" height="10" x="-0.8" y="-2"><image x="0" y="0" width="10" height="10" href="${vexillo}/ch.svg"></image></pattern>
+		<pattern id="de" patternUnits="userSpaceOnUse" width="50" height="30" x="0" y="1"><image x="0" y="0" width="50" height="30" href="${vexillo}/de.svg"></image></pattern>
 		<pattern id="cn" patternUnits="userSpaceOnUse" width="75" height="50" x="0" y="0"><image x="0" y="0" width="75" height="50" href="${vexillo}/cn.svg"></image></pattern>
 		<pattern id="gb" patternUnits="userSpaceOnUse" width="40" height="20" x="30" y="0"><image x="0" y="0" width="40" height="20" href="${vexillo}/gb.svg"></image></pattern>
 		<pattern id="in" patternUnits="userSpaceOnUse" width="100" height="65" x="20" y="-20"><image x="0" y="0" width="100" height="65" href="${vexillo}/in.svg"></image></pattern>
@@ -355,7 +356,7 @@ return `<!DOCTYPE html>
 		<path cc="pl" d="M511.46,174.76l0.85,1.56l0.2,1.66l-0.7,1.61l-1.6,3.08l-1.35,0.61l-1.75-0.76l-1.05,0.05l-2.55,0.96l-2.9-0.86l-4.7-3.33l-4.6-2.47l-1.85-2.82l-0.35-6.65l3.6-3.13l4.7-1.56l1.75-0.2l-0.7,1.41l0.45,0.55l7.91,0.15l1.7-0.05l2.8,4.29l-0.7,1.76l0.3,2.07L511.46,174.76L511.46,174.76z"/>
 		<path cc="nl" d="M470.09,168.27l-4.53,2.23l0.96,0.87l0.1,2.23l-0.96-0.19l-1.06-1.65l-2.53,4.01l3.89,0.81l1.45,1.53l0.77,0.02l0.51-3.46l2.45-1.03L470.09,168.27L470.09,168.27z"/>
 		<path cc="be" d="M461.61,176.52l-0.64,1.6l6.88,4.54l1.98,0.47l0.07-2.15l-1.73-1.94h-1.06l-1.45-1.65L461.61,176.52L461.61,176.52z"/>
-		<path cc="de" d="M471.14,167.88l3.57-0.58v-2.52l2.99-0.49l1.64,1.65l1.73,0.19l2.7-1.17l2.41,0.68l2.12,1.84l0.29,6.89l2.12,2.82l-2.79,0.39l-4.63,2.91l0.39,0.97l4.14,3.88l-0.29,1.94l-3.85,1.94l-3.57,0.1l-0.87,1.84h-1.83l-0.87-1.94l-3.18-0.78l-0.1-3.2l-2.7-1.84l0.29-2.33l-1.83-2.52l0.48-3.3l2.5-1.17L471.14,167.88L471.14,167.88z"/>
+		<path cc="de" class="adopted" fill="url(#de)" desc="🇩🇪 chess.com/member/zuvex" d="M471.14,167.88l3.57-0.58v-2.52l2.99-0.49l1.64,1.65l1.73,0.19l2.7-1.17l2.41,0.68l2.12,1.84l0.29,6.89l2.12,2.82l-2.79,0.39l-4.63,2.91l0.39,0.97l4.14,3.88l-0.29,1.94l-3.85,1.94l-3.57,0.1l-0.87,1.84h-1.83l-0.87-1.94l-3.18-0.78l-0.1-3.2l-2.7-1.84l0.29-2.33l-1.83-2.52l0.48-3.3l2.5-1.17L471.14,167.88L471.14,167.88z"/>
 		<g cc="dk">
 			<path d="M476.77,151.5l-4.15,4.59l-0.15,2.99l1.89,4.93l2.96-0.56l-0.37-4.03l2.04-2.28l-0.04-1.79l-1.44-3.73L476.77,151.5L476.77,151.5z"/>
 			<path d="M481.44,159.64l-0.93-0.04l-1.22,1.12l0.15,1.75l2.89,0.08l0.15-1.98L481.44,159.64L481.44,159.64z"/>
