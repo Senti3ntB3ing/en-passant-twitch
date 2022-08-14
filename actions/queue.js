@@ -69,7 +69,7 @@ programmable({
 		const join = programmables.find(p => p.commands.includes('join'));
 		if (join.permissions == 'sub' && !data.badges.subscriber)
 			return `@${data.username}, today the queue is only for subscribers.`;
-		const username = data.message.match(/join\s+<?\s*([^> ]+)\s*>?/gi);
+		const username = data.message.match(/join\s+<?\s*([^> ]+)\s*>?/i);
 		if (username == null || username.length < 2)
 			return `@${data.username}, try with ${Prefix}join <Chess.com username>.`;
 		if (!(await Chess.com.exists(username[1])))
@@ -111,7 +111,7 @@ programmable({
 	description: 'Insert somebody in the current queue.',
 	execute: async data => {
 		if (!queue.enabled) return `The queue is currently disabled.`;
-		const username = data.message.match(/insert\s+@?([^>@ ]+)\s+([^> ]+)/gi);
+		const username = data.message.match(/insert\s+@?([^>@ ]+)\s+([^> ]+)/i);
 		if (username == null || username.length < 3)
 			return `@${data.username}, try with ${Prefix}insert <twitch username> <chess.com username>.`;
 		if (!(await Chess.com.exists(username[2])))
@@ -131,7 +131,7 @@ programmable({
 	description: 'Remove a user from the queue.',
 	execute: async data => {
 		if (!queue.enabled) return `The queue is currently disabled.`;
-		let username = data.message.match(/remove\s+@?\s*(\w+)/gi);
+		let username = data.message.match(/remove\s+@?\s*(\w+)/i);
 		if (username == null || username.length < 2) return;
 		username = username[1].replace(/<|>|@/g, '');
 		const [ user, profile ] = await queue.remove(
