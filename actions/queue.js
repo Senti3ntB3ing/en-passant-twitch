@@ -69,7 +69,7 @@ programmable({
 		const join = programmables.find(p => p.commands.includes('join'));
 		if (join.permissions == 'sub' && !data.badges.subscriber)
 			return `@${data.username}, today the queue is only for subscribers.`;
-		const username = data.message.match(/join\s+<?\s*(\w+)\s*>?/);
+		const username = data.message.match(/join\s+<?\s*([^>]+)\s*>?/);
 		if (username == null || username.length < 2)
 			return `@${data.username}, try with ${Prefix}join <Chess.com username>.`;
 		if (!(await Chess.com.exists(username[1])))
