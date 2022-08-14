@@ -69,7 +69,7 @@ programmable({
 		const join = programmables.find(p => p.commands.includes('join'));
 		if (join.permissions == 'sub' && !data.badges.subscriber)
 			return `@${data.username}, today the queue is only for subscribers.`;
-		const username = data.message.match(/join\s+<?\s*([^>]+)\s*>?/);
+		const username = data.message.match(/join\s+<?\s*([^>]+)\s*>?/gi);
 		if (username == null || username.length < 2)
 			return `@${data.username}, try with ${Prefix}join <Chess.com username>.`;
 		if (!(await Chess.com.exists(username[1])))
@@ -85,7 +85,7 @@ programmable({
 });
 
 programmable({
-	commands: [ 'leave' ], permissions: 'all',
+	commands: [ 'leave' ],
 	description: 'Leave the current queue.',
 	execute: async data => {
 		if (!queue.enabled) return `The queue is currently disabled.`;
@@ -95,7 +95,7 @@ programmable({
 });
 
 programmable({
-	commands: [ 'position' ], permissions: 'all',
+	commands: [ 'position' ],
 	description: 'Get your position in the queue.',
 	execute: async data => {
 		if (!queue.enabled) return `The queue is currently disabled.`;
@@ -103,6 +103,26 @@ programmable({
 		if (i == null) return `@${data.username}, you are not in the queue.`;
 		const j = ordinal(i);
 		return `@${data.username} aka '${u.profile}' on Chess.com, you are ${j} in the queue.`;
+	}
+});
+
+programmable({
+	commands: [ 'insert' ], permissions: 'mod',
+	description: 'Insert somebody in the current queue.',
+	execute: async data => {
+		if (!queue.enabled) return `The queue is currently disabled.`;
+		const username = data.message.match(/insert\s+@?([^>@]+)\s+([^>]+)/gi);
+		if (username == null || username.length < 3)
+			return `@${data.username}, try with ${Prefix}insert <twitch username> <chess.com username>.`;
+		if (!(await Chess.com.exists(username[2])))
+			return `@${data.username}, there is no Chess.com account with the username ${username[2]}.`;
+		const i = await queue.enqueue({
+			user: username[1], profile: username[2] },
+			e => e.user == username[1]
+		);
+		if (i == null) return `@${data.username}, ${username[2]} is already in the queue.`;
+		const j = ordinal(i);
+		return `@${username[1]} aka '${username[2]}' on Chess.com is ${j} in the queue.`;
 	}
 });
 
