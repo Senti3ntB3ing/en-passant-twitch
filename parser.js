@@ -31,7 +31,7 @@ export const announce = (text, color = '') => `/announce${color} ${text}`;
 
 // ==== Twitch Actions =========================================================
 
-const RRSLV = new RegExp(`(?:\\s|^)${Prefix}[A-Za-z0-9_\\.]+(?:\\s|$)`, 'i');
+const RRSLV = new RegExp(`${Prefix}[A-Za-z0-9_\\.]+`, 'i');
 
 function allowed(badges, permissions) {
 	if ((badges.broadcaster != undefined && badges.broadcaster) ||
