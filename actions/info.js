@@ -1,7 +1,7 @@
 
-import { Streamer, StreamerID } from '../config.js';
+import { Streamer } from '../config.js';
 import { programmable } from '../parser.js';
-import { uptime, sub_count, follow_count } from '../components/twitch.js';
+import { uptime, follow_count } from '../components/twitch.js';
 
 programmable({
 	commands: [ 'time' ],
