@@ -29,17 +29,11 @@ programmable({
 	execute: async () => `Zach has been streaming for ${await uptime(Streamer)}.`
 });
 
-/*programmable({
+programmable({
 	commands: [ 'followers' ],
 	description: 'Gets the current number of followers.',
-	execute: async () => `Zach has ${await follow_count(StreamerID)} followers.`
+	execute: async () => `Zach has ${await follow_count(Streamer)} followers.`
 });
-
-programmable({
-	commands: [ 'subscribers', 'subs', 'subcount' ],
-	description: 'Gets the current number of subscribers.',
-	execute: async () => `Zach has ${await sub_count(StreamerID)} subscribers.`
-});*/
 
 programmable({
 	commands: [ 'so', 'shoutout' ], permissions: 'mod',
