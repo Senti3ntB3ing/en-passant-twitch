@@ -24,11 +24,6 @@ export const task = (f, t) => {
 	}, t);
 };
 
-// ==== Twitch Announcements ===================================================
-
-// possible colors: blue, green, orange, purple.
-export const announce = (text, color = '') => `/announce${color} ${text}`;
-
 // ==== Twitch Actions =========================================================
 
 const RRSLV = new RegExp(`${Prefix}[A-Za-z0-9_\\.]+`, 'i');

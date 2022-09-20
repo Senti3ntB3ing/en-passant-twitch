@@ -1,4 +1,6 @@
 
+.env
+*.env
 test*.*
 *test.*
 _*.js
