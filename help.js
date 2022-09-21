@@ -2,7 +2,7 @@
 import { Prefix } from './config.js';
 import { reloadActions, actions, programmables } from './parser.js';
 
-const URL_FETCH = /(?:https?:\/\/)?(?:[A-Za-z0-9_\-]+\.)+(?:com?|it|uk|gov|org|tv|gg|be)(?:[^!,. ]+)*/g;
+const URL_FETCH = /(?:https?:\/\/)?(?:[A-Za-z0-9_\-]+\.)+(?:com?|it|uk|gov|org|tv|gg|be|gle)(?:[^!,. ]+)*/g;
 
 const urlify = text => text.replace(
 	URL_FETCH, '<a href="https://$&" target="_blank">$&</a>'
