@@ -11,16 +11,24 @@ export const log = (component, text) => console.log(
 	})} UTC] ${component}: ${text}`
 );
 
+const hearts = {
+	'🧡': "orange", '💚': "green", '💙': "blue", '💜': "purple"
+};
+
+const handler = message => {
+	if (message == undefined) return;
+	for (const heart in hearts) if (message.startsWith(heart)) {
+		channel.commands.announce(message.substring(1).trim(), hearts[heart]);
+		return;
+	}
+	channel.send(message);
+};
+
 export const task = (f, t) => {
 	setInterval(() => {
-		if (f.constructor.name == 'AsyncFunction') {
-			f(channel).then(result => {
-				if (result != undefined) channel.send(result);
-			});
-			return;
-		}
-		const result = f(channel);
-		if (result != undefined) channel.send(result);
+		if (f.constructor.name == 'AsyncFunction')
+			f(channel).then(handler);
+		else handler(f(channel));
 	}, t);
 };
 
@@ -49,7 +57,7 @@ export function resolve(data, channel) {
 	for (const action of actions) {
 		if (!action.commands.includes(command)) continue;
 		if (!allowed(data.badges, action.permissions)) return;
-		if (action.reply != undefined) channel.send(
+		if (action.reply != undefined) handler(
 			action.reply.replace(/%user(?:name)?%/gi, '@' + data.username)
 		);
 		return;
@@ -57,14 +65,9 @@ export function resolve(data, channel) {
 	for (const action of programmables) {
 		if (!action.commands.includes(command)) continue;
 		if (!allowed(data.badges, action.permissions)) return;
-		if (action.execute.constructor.name == 'AsyncFunction') {
-			action.execute(data, channel).then(result => {
-				if (result != undefined) channel.send(result);
-			});
-			return;
-		}
-		const result = action.execute(data, channel);
-		if (result != undefined) channel.send(result);
+		if (action.execute.constructor.name == 'AsyncFunction')
+			action.execute(data, channel).then(handler);
+		else handler(action.execute(data, channel));
 		return;
 	}
 }

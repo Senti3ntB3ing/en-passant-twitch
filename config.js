@@ -17,6 +17,7 @@ export const Prefix = '!';
 export const Streamer = 'thechessnerdlive';
 export const StreamerID = '428214501';
 export const ZACH_FIDE_ID = '2624346';
+export const DISCORD = 'discord.gg/DKHBFF22TJ';
 
 export const SETUP = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
@@ -40,12 +41,10 @@ export const Time = {
 	months: t => t * 30 * 24 * 60 * 60 * 1000,
 	years: t => t * 365 * 24 * 60 * 60 * 1000,
 	value: t => {
-		let cd = 24 * 60 * 60 * 1000,
-		ch = 60 * 60 * 1000,
-		d = Math.floor(t / cd),
+		const cd = 24 * 60 * 60 * 1000, ch = 60 * 60 * 1000;
+		let d = Math.floor(t / cd),
 		h = Math.floor((t - d * cd) / ch),
-		m = Math.round((t - d * cd - h * ch) / 60000),
-		pad = n => n < 10 ? '0' + n : n;
+		m = Math.round((t - d * cd - h * ch) / 60000);
 		if (m === 60) { h++; m = 0; }
 		if (h === 24) { d++; h = 0; }
 		let v = '';
