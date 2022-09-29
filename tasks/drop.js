@@ -5,5 +5,5 @@ import { live } from '../components/twitch.js';
 
 task(async () => {
 	if (await live(Streamer))
-		return '🧡 The Red Drop is out now -> thechessnerd.com/shop';
+		return '🧡 Check out our premium handmade chess boards at The Red Drop -> thechessnerd.com/shop';
 }, Time.minutes(30));
