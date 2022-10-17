@@ -28,8 +28,8 @@ export class Persistent {
 		try {
 			const result = await fetch(ENDPOINT, {
 				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: this.#key + "=" + JSON.stringify(value),
+				headers: { "Content-Type": "application/x-www-form-urlencoded" },
+				body: encodeURIComponent(this.#key) + "=" + encodeURIComponent(JSON.stringify(value)),
 			});
 			if (result.status == 200) return true;
 		}
