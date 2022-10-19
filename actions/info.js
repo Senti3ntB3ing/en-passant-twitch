@@ -3,6 +3,29 @@ import { Streamer } from '../config.js';
 import { programmable } from '../parser.js';
 import { uptime, follow_count } from '../components/twitch.js';
 
+// ==== Challenge ==============================================================
+
+let challenge = false;
+
+programmable({
+	commands: [ 'challenge', 'match' ],
+	description: 'Challenge Zach to a game.',
+	execute: () => challenge ?
+		"Zach is accepting challenges today, !join the queue to play him." :
+		"Sorry, Zach is not accepting challenges today."
+});
+
+programmable({
+	commands: [ 'togglechallenge', 'togglec' ], permissions: 'mod',
+	description: 'Toggle the challenge message.',
+	execute: () => {
+		challenge = !challenge;
+		return `Challenge mode is currently ${challenge ? 'on' : 'off'}.`;
+	}
+});
+
+// ==== Generic Info ===========================================================
+
 programmable({
 	commands: [ 'time' ],
 	description: 'Gets Zach\'s current time.',
