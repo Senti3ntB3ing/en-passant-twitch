@@ -76,7 +76,9 @@ programmable({
 		let username = data.message.match(/remove\s+@?\s*(\w+)/i);
 		if (username == null || username.length < 2) return;
 		username = username[1].replace(/<|>|@/g, '');
-		const [ user, profile ] = await queue.remove(username);
+		const result = await queue.remove(username);
+		if (result === false) return `${username} is not in the queue.`;
+		const [ user, profile ] = result;
 		if (user === null) return `'${username}' is not in the queue.`;
 		return `@${user} aka '${profile}' on Chess.com, removed from the queue.`;
 	}
