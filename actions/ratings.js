@@ -24,7 +24,7 @@ programmable({
 			return `Zach's FIDE profile -> ratings.fide.com/profile/` + ZACH_FIDE_ID;
 		return `Zach's FIDE ratings (ratings.fide.com/profile/${ZACH_FIDE_ID}) -> ` +
 		player.ratings.filter(r => r.rating != 'UNR').map(
-			r => emojis[r.category] + ` ${r.category}: ${r.rating}`
+			r => emojis[r.category] + ` ${r.category} ${r.rating}`
 		).join(', ') + '.';
 	}
 });
