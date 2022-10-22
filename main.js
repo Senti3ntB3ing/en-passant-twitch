@@ -2,7 +2,6 @@
 import { readAll } from 'https://deno.land/std@0.150.0/streams/conversion.ts';
 
 import { TwitchChat } from 'https://deno.land/x/tmi_beta@v0.1.2/mod.ts';
-import { serve } from 'https://deno.land/std@0.98.0/http/server.ts';
 
 import { diagram, gif } from './components/diagram.js';
 
@@ -10,6 +9,7 @@ import { log, resolve, reloadActions } from './parser.js';
 import { help } from './help.js';
 import { map } from './map.js';
 import { Streamer, SETUP, StreamerID } from './config.js';
+import { Server, ROOT } from './server.js';
 
 // ==== Actions ============================
 
@@ -48,45 +48,33 @@ log('status', 'twitch chat connected');
 
 // =========================================
 
-const server = serve({ port: 8080 });
+const server = new Server();
 
-(async () => {
-	for await (const request of server) {
-		switch (request.url) {
-			case '/fen': case '/fen/': case '/diagram/': case '/diagram': {
-				const data = await readAll(request.body);
-				try {
-					const json = JSON.parse(new TextDecoder().decode(data));
-					const fen = json.fen || SETUP;
-					const image = await diagram(fen, json.perspective);
-					if (image != null)
-						request.respond({ status: 200, body: image });
-					else request.respond({ status: 404, body: 'Not found' });
-				} catch { request.respond({ status: 404, body: 'Not found' }); }
-			} break;
-			case '/pgn': case '/pgn/': {
-				const data = await readAll(request.body);
-				try {
-					const json = JSON.parse(new TextDecoder().decode(data));
-					const pgn = json.pgn || '';
-					const image = gif(pgn, json.perspective);
-					if (image != null)
-						request.respond({ status: 200, body: image });
-					else request.respond({ status: 404, body: 'Not found' });
-				} catch { request.respond({ status: 404, body: 'Not found' }); }
-			} break;
-			case '/map': case '/map/':
-				request.respond({ status: 200, body: map() });
-			break;
-			case '/mod': case '/mod/':
-				await reloadActions();
-				request.respond({ status: 200, body: help(true) });
-			break;
-			default:
-				await reloadActions();
-				request.respond({ status: 200, body: help() });
-			break;
-		}
-	}
-})();
+server.listen([ 'fen', 'diagram' ], async request => {
+	const data = await readAll(request.body);
+	try {
+		const json = JSON.parse(new TextDecoder().decode(data));
+		const fen = json.fen || SETUP;
+		const image = await diagram(fen, json.perspective);
+		if (image != null) return { status: 200, body: image };
+		else return { status: 404, body: 'Not found' };
+	} catch { return { status: 404, body: 'Not found' }; }
+});
+
+server.listen('pgn', async request => {
+	const data = await readAll(request.body);
+	try {
+		const json = JSON.parse(new TextDecoder().decode(data));
+		const pgn = json.pgn || '';
+		const image = gif(pgn, json.perspective);
+		if (image != null) return { status: 200, body: image };
+		else return { status: 404, body: 'Not found' };
+	} catch { return { status: 404, body: 'Not found' }; }
+});
+
+server.listen('map', () => ({ status: 200, body: map() }));
+server.listen('mod', () => ({ status: 200, body: help(true) }));
+server.listen(ROOT, () => ({ status: 200, body: help() }));
+
+server.start();
 log('status', 'server connected');
