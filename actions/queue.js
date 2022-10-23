@@ -31,7 +31,6 @@ programmable({
 	commands: [ 'leave' ],
 	description: 'Leave the current queue.',
 	execute: async data => {
-		if (!queue.enabled) return `The queue is currently disabled.`;
 		if (await queue.remove(data.username))
 			return `@${data.username}, you left the queue.`;
 		else return `@${data.username}, you are not in the queue.`;
@@ -42,7 +41,6 @@ programmable({
 	commands: [ 'position' ],
 	description: 'Get your position in the queue.',
 	execute: async data => {
-		if (!queue.enabled) return `The queue is currently disabled.`;
 		const [ u, i ] = await queue.position(data.username);
 		if (i === null) return `@${data.username}, you are not in the queue.`;
 		const j = ordinal(i);
@@ -54,7 +52,6 @@ programmable({
 	commands: [ 'insert' ], permissions: 'mod',
 	description: 'Insert somebody in the current queue.',
 	execute: async data => {
-		if (!queue.enabled) return `The queue is currently disabled.`;
 		const username = data.message.match(/insert\s+@?([^>@ ]+)\s+([^> ]+)/i);
 		if (username == null || username.length < 3)
 			return `@${data.username}, try with ${Prefix}insert <twitch username> <chess.com username>.`;
@@ -72,7 +69,6 @@ programmable({
 	commands: [ 'remove' ], permissions: 'mod',
 	description: 'Remove a user from the queue.',
 	execute: async data => {
-		if (!queue.enabled) return `The queue is currently disabled.`;
 		let username = data.message.match(/remove\s+@?\s*(\w+)/i);
 		if (username == null || username.length < 2) return;
 		username = username[1].replace(/<|>|@/g, '');
@@ -88,7 +84,6 @@ programmable({
 	commands: [ 'next' ], permissions: 'mod',
 	description: 'Get the next in line in the queue.',
 	execute: async () => {
-		if (!queue.enabled) return `The queue is currently disabled.`;
 		const element = await queue.dequeue();
 		if (element === undefined) return `There is no one left in the queue.`;
 		return `@${element.user} aka '${element.profile}' on Chess.com is next.`;
@@ -99,7 +94,6 @@ programmable({
 	commands: [ 'queue', 'q' ],
 	description: 'Displays the current queue.',
 	execute: async () => {
-		if (!queue.enabled) return `The queue is currently disabled.`;
 		const list = await queue.list();
 		if (list.length === 0) return 'There is no one in the queue.';
 		return 'Queue: ' + list.map(e => e.profile).join(', ');
