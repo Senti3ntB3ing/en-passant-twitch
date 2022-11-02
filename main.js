@@ -6,7 +6,7 @@ import { randomBoard, randomThread, posts } from './components/4chan.js';
 import { diagram, gif } from './components/diagram.js';
 
 import { log, resolve, actions, programmables, refresh } from './parser.js';
-import { Streamer, SETUP, StreamerID } from './config.js';
+import { Streamer, SETUP, StreamerID, Prefix } from './config.js';
 import { Server, ROOT, NOT_FOUND } from './server.js';
 
 // ==== Actions ============================
@@ -80,6 +80,7 @@ server.listen([ ROOT, 'help', 'mod' ], async request => {
 			Deno.readFileSync('./help.html')
 		).replace('`%ACTIONS%`', JSON.stringify(actions))
 		.replace('`%PROGRAMMABLES%`', JSON.stringify(programmables))
+		.replace('`%PREFIX%`', `'${Prefix}'`)
 		.replace('`%MOD%`', JSON.stringify(mod))
 	};
 });
