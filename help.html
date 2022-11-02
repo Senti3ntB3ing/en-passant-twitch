@@ -45,18 +45,18 @@
 			URL_FETCH, '<a href="https://$&" target="_blank">$&</a>'
 		).replace(/@\w+/g, '<span class="text-gray-300">$&</span>');
 		const emojis = p => ({ mod: '🛂', sub: '💟', vip: '✴️', all: '✅' }[p]);
-		let actions = `%ACTIONS%`, programmables = `%PROGRAMMABLES%`, mod = `%MOD%`;
-		actions = actions.filter(a => mod || a.permissions != 'mod').sort(
+		const mod = `%MOD%`, prefix = `%PREFIX%`;
+		const actions = `%ACTIONS%`.filter(a => mod || a.permissions != 'mod').sort(
 			(a, b) => a.commands[0] > b.commands[0] ? 1 : -1
 		).map(a => `<tr class="bg-black bg-opacity-20">
-			<td class="px-6 py-4 whitespace-nowrap font-mono">${a.commands.map(c => Prefix + c).join(' ')}</td>
+			<td class="px-6 py-4 whitespace-nowrap font-mono">${a.commands.map(c => prefix + c).join(' ')}</td>
 			<td class="px-6 py-4 whitespace-nowrap">${emojis(a.permissions)} <strong class="uppercase font-mono">${a.permissions}</strong></td>
 			<td class="px-6 py-4" style="max-width:700px">${urlify(a.reply).replace(/->/g, '→')}</td>
 		</tr>`).join('\n')
-		programmables = programmables.filter(p => mod || p.permissions != 'mod').sort(
+		const programmables = `%PROGRAMMABLES%`.filter(p => mod || p.permissions != 'mod').sort(
 			(a, b) => a.commands[0] > b.commands[0] ? 1 : -1
 		).map(p => `<tr class="bg-black bg-opacity-20">
-			<td class="px-6 py-4 whitespace-nowrap font-mono">${p.commands.map(c => Prefix + c).join(' ')}</td>
+			<td class="px-6 py-4 whitespace-nowrap font-mono">${p.commands.map(c => prefix + c).join(' ')}</td>
 			<td class="px-6 py-4 whitespace-nowrap">${emojis(p.permissions)} <strong class="uppercase font-mono">${p.permissions}</strong></td>
 			<td class="px-6 py-4" style="max-width:700px">${urlify(p.description).replace(/->/g, '→')}</td>
 		</tr>`).join('\n');

@@ -7,7 +7,7 @@ import { diagram, gif } from './components/diagram.js';
 
 import { log, resolve, actions, programmables, refresh } from './parser.js';
 import { Streamer, SETUP, StreamerID } from './config.js';
-import { Server, ROOT } from './server.js';
+import { Server, ROOT, NOT_FOUND } from './server.js';
 
 // ==== Actions ============================
 
@@ -68,6 +68,8 @@ server.listen('pgn', async request => {
 		else return { status: 404, body: 'Not found' };
 	} catch { return { status: 404, body: 'Not found' }; }
 });
+
+server.listen(NOT_FOUND, () => ({ status: 404, body: 'Not found' }));
 
 server.listen([ ROOT, 'help', 'mod' ], async request => {
 	await refresh();

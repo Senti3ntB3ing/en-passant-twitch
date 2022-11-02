@@ -1,7 +1,7 @@
 
 import { serve } from 'https://deno.land/std@0.98.0/http/server.ts';
 
-export const ROOT = '@', ALL = '*';
+export const ROOT = '@', ALL = '*', NOT_FOUND = '404';
 const PRX = /(^\/+)|(\/+$)/g;
 
 export class Server {
@@ -47,6 +47,13 @@ export class Server {
 				else response = handler(request);
 				if (response !== undefined) request.respond(response);
 				else request.respond({ status: 200, body: 'OK' });
+			} else if (NOT_FOUND in this.#handlers) {
+				const handler = this.#handlers[NOT_FOUND];
+				if (handler.constructor.name == 'AsyncFunction')
+					response = await handler(request);
+				else response = handler(request);
+				if (response !== undefined) request.respond(response);
+				else request.respond({ status: 404, body: 'OK' });
 			} else request.respond({ status: 404 });
 		}
 	}
