@@ -45,7 +45,7 @@
 			URL_FETCH, '<a href="https://$&" target="_blank">$&</a>'
 		).replace(/@\w+/g, '<span class="text-gray-300">$&</span>');
 		const emojis = p => ({ mod: '🛂', sub: '💟', vip: '✴️', all: '✅' }[p]);
-		let actions = `%ACTIONS%`, programmables = `%PROGRAMMABLES%`;
+		let actions = `%ACTIONS%`, programmables = `%PROGRAMMABLES%`, mod = `%MOD%`;
 		actions = actions.filter(a => mod || a.permissions != 'mod').sort(
 			(a, b) => a.commands[0] > b.commands[0] ? 1 : -1
 		).map(a => `<tr class="bg-black bg-opacity-20">
@@ -61,10 +61,8 @@
 			<td class="px-6 py-4" style="max-width:700px">${urlify(p.description).replace(/->/g, '→')}</td>
 		</tr>`).join('\n');
 		document.getElementById('list').innerHTML = actions;
-		if (programmables !== undefined && programmables.length) {
-			document.getElementById('list').innerHTML += `<tr><td colspan="3" class="divider"><hr style="border-color:#1F2838"></td></tr>`;
-			document.getElementById('list').innerHTML += programmables;
-		}
+		document.getElementById('list').innerHTML += `<tr><td colspan="3" class="divider"><hr style="border-color:#1F2838"></td></tr>`;
+		document.getElementById('list').innerHTML += programmables;
 	</script>
 </body>
 </html>

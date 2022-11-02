@@ -69,24 +69,16 @@ server.listen('pgn', async request => {
 	} catch { return { status: 404, body: 'Not found' }; }
 });
 
-server.listen([ ROOT, 'help' ], async () => {
+server.listen([ ROOT, 'help', 'mod' ], async request => {
 	await refresh();
-	return {
-		headers: new Headers({ 'Content-Type': 'text/html' }),
-		status: 200, body: new TextDecoder().decode(
-			Deno.readFileSync('./help.html')
-		).replace('`%ACTIONS%`', JSON.stringify(actions))
-		.replace('`%PROGRAMMABLES%`', '[]')
-	};
-});
-server.listen('mod', async () => {
-	await refresh();
+	const mod = request.url.includes('mod');
 	return {
 		headers: new Headers({ 'Content-Type': 'text/html' }),
 		status: 200, body: new TextDecoder().decode(
 			Deno.readFileSync('./help.html')
 		).replace('`%ACTIONS%`', JSON.stringify(actions))
 		.replace('`%PROGRAMMABLES%`', JSON.stringify(programmables))
+		.replace('`%MOD%`', JSON.stringify(mod))
 	};
 });
 
