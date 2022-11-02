@@ -1,12 +1,11 @@
 
 import { readAll } from 'https://deno.land/std@0.150.0/streams/conversion.ts';
-
 import { TwitchChat } from 'https://deno.land/x/tmi_beta@v0.1.2/mod.ts';
 
+import { randomBoard, randomThread, posts } from './components/4chan.js';
 import { diagram, gif } from './components/diagram.js';
 
-import { log, resolve, reloadActions } from './parser.js';
-import { help } from './help.js';
+import { log, resolve, actions, programmables, refresh } from './parser.js';
 import { Streamer, SETUP, StreamerID } from './config.js';
 import { Server, ROOT } from './server.js';
 
@@ -42,7 +41,6 @@ try {
 	console.error(e);
 	Deno.exit(1);
 }
-reloadActions(); // loads the twitch actions from database
 log('status', 'twitch chat connected');
 
 // =========================================
@@ -71,18 +69,42 @@ server.listen('pgn', async request => {
 	} catch { return { status: 404, body: 'Not found' }; }
 });
 
-server.listen('mod', () => ({ status: 200, body: help(true) }));
+server.listen([ ROOT, 'help' ], async () => {
+	await refresh();
+	return {
+		headers: new Headers({ 'Content-Type': 'text/html' }),
+		status: 200, body: new TextDecoder().decode(
+			Deno.readFileSync('./help.html')
+		).replace('`%ACTIONS%`', JSON.stringify(actions))
+		.replace('`%PROGRAMMABLES%`', '[]')
+	};
+});
+server.listen('mod', async () => {
+	await refresh();
+	return {
+		headers: new Headers({ 'Content-Type': 'text/html' }),
+		status: 200, body: new TextDecoder().decode(
+			Deno.readFileSync('./help.html')
+		).replace('`%ACTIONS%`', JSON.stringify(actions))
+		.replace('`%PROGRAMMABLES%`', JSON.stringify(programmables))
+	};
+});
 
 server.listen('map', () => ({
-	headers: { 'Content-Type': 'text/html' },
-	status: 200, body: Deno.readFileSync('/map.html')
+	headers: new Headers({ 'Content-Type': 'text/html' }),
+	status: 200, body: Deno.readFileSync('./map.html')
 }));
-server.listen('training', () => ({
-	headers: { 'Content-Type': 'text/html' },
-	status: 200, body: Deno.readFileSync('/training.html')
-}));
-
-server.listen(ROOT, () => ({ status: 200, body: help() }));
+server.listen('training', async () => {
+	const board = await randomBoard();
+	const thread = await randomThread(board);
+	const messages = await posts(board, thread);
+	return {
+		headers: new Headers({ 'Content-Type': 'text/html' }),
+		status: 200, body: new TextDecoder().decode(
+			Deno.readFileSync('./training.html')
+		).replace('`%MESSAGES%`', JSON.stringify(messages))
+	};
+});
 
 server.start();
 log('status', 'server connected');

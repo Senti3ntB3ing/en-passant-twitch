@@ -134,3 +134,5 @@ export function programmable(command) {
 	if (command.permissions == undefined) command.permissions = 'all';
 	programmables.push(command);
 }
+
+export async function refresh() { actions = await reloadActions(); }
