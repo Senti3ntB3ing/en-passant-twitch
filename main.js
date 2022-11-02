@@ -7,7 +7,6 @@ import { diagram, gif } from './components/diagram.js';
 
 import { log, resolve, reloadActions } from './parser.js';
 import { help } from './help.js';
-import { map } from './map.js';
 import { Streamer, SETUP, StreamerID } from './config.js';
 import { Server, ROOT } from './server.js';
 
@@ -72,8 +71,17 @@ server.listen('pgn', async request => {
 	} catch { return { status: 404, body: 'Not found' }; }
 });
 
-server.listen('map', () => ({ status: 200, body: map() }));
 server.listen('mod', () => ({ status: 200, body: help(true) }));
+
+server.listen('map', () => ({
+	headers: { 'Content-Type': 'text/html' },
+	status: 200, body: Deno.readFileSync('/map.html')
+}));
+server.listen('training', () => ({
+	headers: { 'Content-Type': 'text/html' },
+	status: 200, body: Deno.readFileSync('/training.html')
+}));
+
 server.listen(ROOT, () => ({ status: 200, body: help() }));
 
 server.start();

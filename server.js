@@ -1,7 +1,7 @@
 
 import { serve } from 'https://deno.land/std@0.98.0/http/server.ts';
 
-export const ROOT = '@';
+export const ROOT = '@', ALL = '*';
 const PRX = /(^\/+)|(\/+$)/g;
 
 export class Server {
@@ -35,6 +35,13 @@ export class Server {
 				else request.respond({ status: 200, body: 'OK' });
 			} else if (request.url.length === 0) {
 				const handler = this.#handlers[ROOT];
+				if (handler.constructor.name == 'AsyncFunction')
+					response = await handler(request);
+				else response = handler(request);
+				if (response !== undefined) request.respond(response);
+				else request.respond({ status: 200, body: 'OK' });
+			} else if (ALL in this.#handlers) {
+				const handler = this.#handlers[ALL];
 				if (handler.constructor.name == 'AsyncFunction')
 					response = await handler(request);
 				else response = handler(request);
