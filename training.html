@@ -307,18 +307,16 @@
 						year: 'numeric', month: 'numeric', day: 'numeric',
 						hour: 'numeric', minute: 'numeric',
 						hour12: true
-					}).format(new Date(message.date * 1000)).toUpperCase()
-					.replace(', ', ' at ').replace(/<\/?wbr>/g, '')
-					.replace(/(?:https?:\/\/)[^\s]+/g, '<a href="$&" target="_blank">$&</a>')
-					.replace(/\[([A-Za-z]+?)\](.*?)\[\/\1\]/g, '<span class="$1">$2</span>')
-				}</span>
+					}).format(new Date(message.date * 1000)).toUpperCase().replace(', ', ' at ')}</span>
 					<div class="actions">
 						<button class="action ban"></button>
 						<button class="action timeout"></button>
 						<button class="action delete"></button>
 						<button class="action flag"></button>
 					</div>
-					<br><span class="text">${message.message}</span>`;
+					<br><span class="text">${message.message.replace(/<\/?wbr>/g, '')
+					.replace(/(?:https?:\/\/)[^\s]+/g, '<a href="$&" target="_blank">$&</a>')
+					.replace(/\[([A-Za-z]+?)\](.*?)\[\/\1\]/g, '<span class="$1">$2</span>')}</span>`;
 				convo.appendChild(div);
 			});
 		}
