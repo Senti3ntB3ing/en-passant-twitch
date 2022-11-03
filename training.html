@@ -181,6 +181,7 @@
 	.time {
 		color: #72767D;
 		font-size: 20px;
+		margin-right: 10px;
 	}
 	.expiration {
 		color: #e71d36;
@@ -290,8 +291,8 @@
 	</div>
 	<script type="text/javascript">
 		const names = [ "Graggle", "Locke", "Phibi", "Cap", "Pepe" ];
+		const messages = `%MESSAGES%`;
 		async function load() {
-			const messages = `%MESSAGES%`;
 			const convo = document.getElementById("convo");
 			convo.innerHTML = "";
 			messages.forEach(message => {
@@ -344,7 +345,7 @@
 		}
 		load();
 		document.getElementById("reset").addEventListener("click", load);
-		document.getElementById("next").addEventListener("click", location.reload);
+		document.getElementById("next").addEventListener("click", window.location.reload);
 	</script>
 </body>
 </html>
