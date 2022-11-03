@@ -296,7 +296,7 @@
 						year: 'numeric', month: 'numeric', day: 'numeric',
 						hour: 'numeric', minute: 'numeric',
 						hour12: true
-					}).format(new Date(message.date * 1000))}</span>
+					}).format(new Date(message.date * 1000)).toUpperCase().replace(', ', ' at ')}</span>
 					<div class="actions">
 						<button class="action ban"></button>
 						<button class="action timeout"></button>
