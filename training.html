@@ -301,8 +301,8 @@
 				const div = document.createElement("div");
 				div.classList.add("message");
 				message.author = message.author || names.random();
-				div.classList.add(author);
-				div.innerHTML = `<strong>${author}</strong>
+				div.classList.add(message.author);
+				div.innerHTML = `<strong>${message.author}</strong>
 					<span class="time">${new Intl.DateTimeFormat('en-GB', {
 						year: 'numeric', month: 'numeric', day: 'numeric',
 						hour: 'numeric', minute: 'numeric',
