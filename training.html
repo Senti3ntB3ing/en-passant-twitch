@@ -282,7 +282,7 @@
 					</div>
 					<div id="controls">
 						<button class="control dark" id="reset">Reset</button>
-						<button class="control blue" id="submit">Next Challenge</button>
+						<button class="control blue" id="next">Next Challenge</button>
 					</div>
 				</div>
 			</div>
@@ -290,8 +290,6 @@
 	</div>
 	<script type="text/javascript">
 		const names = [ "Graggle", "Locke", "Phibi", "Cap", "Pepe" ];
-		// const tag = prompt("What is your discord tag? (example#0000)");
-		// if (!/^.+#\d{4}$/g.test(tag)) window.close();
 		async function load() {
 			const messages = `%MESSAGES%`;
 			const convo = document.getElementById("convo");
@@ -302,7 +300,7 @@
 					message.message = message.message.substring(0, 500) + "...";
 				const div = document.createElement("div");
 				div.classList.add("message");
-				const author = names.random();
+				message.author = message.author || names.random();
 				div.classList.add(author);
 				div.innerHTML = `<strong>${author}</strong>
 					<span class="time">${new Intl.DateTimeFormat('en-GB', {
@@ -321,36 +319,33 @@
 					.replace(/\[([A-Za-z]+?)\](.*?)\[\/\1\]/g, '<span class="$1">$2</span>')}</span>`;
 				convo.appendChild(div);
 			});
+			// add the event listener to the buttons:
+			const buttons = document.getElementsByClassName("action");
+			for (let i = 0; i < buttons.length; i++) {
+				buttons[i].addEventListener("click", function() {
+					// get the parent message:
+					const message = this.parentNode.parentNode;
+					// get the class of the button:
+					const action = this.className.replace("action", "").trim();
+					switch (action) {
+						case "ban": message.classList.toggle("banned"); break;
+						case "delete": message.classList.toggle("deleted"); break;
+						case "flag": message.classList.toggle("flagged"); break;
+						case "timeout": {
+							const time = message.getElementsByClassName("time")[0];
+							time.innerHTML = timeout + "10 Minutes Timeout";
+							time.classList.add("expiration");
+							time.classList.remove("time");
+						} break;
+					}
+					// disable and remove the buttons:
+					this.parentNode.remove();
+				});
+			}
 		}
 		load();
-		// add the event listener to the buttons:
-		const buttons = document.getElementsByClassName("action");
-		for (let i = 0; i < buttons.length; i++) {
-			buttons[i].addEventListener("click", function() {
-				// get the parent message:
-				const message = this.parentNode.parentNode;
-				// get the class of the button:
-				const action = this.className.replace("action", "").trim();
-				switch (action) {
-					case "ban": message.classList.toggle("banned"); break;
-					case "delete": message.classList.toggle("deleted"); break;
-					case "flag": message.classList.toggle("flagged"); break;
-					case "timeout": {
-						let timeout = prompt("Please enter timeout time:\n60 Seconds • 5 Minutes • 10 Minutes • 1 Hour • 1 Day • 1 Week", "10 Minutes");
-						timeout = timeout.replace(/(\d)([^ 0-9])/g, "$1 $2").replace(/([\-.]|\s)+/g, ' ').trim().toTitleCase();
-						console.log(timeout);
-						const RGX = /^(60 Seconds)|((5|10) Minutes)|(1 (Hour|Day|Week))$/;
-						if (!RGX.test(timeout)) { alert("Invalid timeout time."); return; }
-						const time = message.getElementsByClassName("time")[0];
-						time.innerHTML = timeout + " Timeout";
-						time.classList.add("expiration");
-						time.classList.remove("time");
-					} break;
-				}
-				// disable and remove the buttons:
-				this.parentNode.remove();
-			});
-		}
+		document.getElementById("reset").addEventListener("click", load);
+		document.getElementById("next").addEventListener("click", location.reload);
 	</script>
 </body>
 </html>
