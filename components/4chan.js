@@ -30,7 +30,7 @@ export async function posts(board, thread) {
 	const data = await fetch(endpoint);
 	if (!data.ok) return null;
 	const json = await data.json();
-	return json.posts.filter(p => p.com !== undefined).map(post => ({
+	return json.posts.filter(p => p.com !== undefined && p.com.length > 0).map(post => ({
 		message: post.com.replace(/^<a.*?<br>/g, '')
 			.replace(/(<br>)+/g, '\n')
 			.replace(/<a.*?class="quotelink">.*?<\/a>/g, '')

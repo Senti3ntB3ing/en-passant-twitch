@@ -92,7 +92,9 @@ server.listen('map', () => ({
 server.listen('training', async () => {
 	const board = await randomBoard();
 	const thread = await randomThread(board);
-	const messages = await posts(board, thread);
+	let messages = await posts(board, thread);
+	// get first 10 to 20 rand messages:
+	messages = messages.slice(0, Math.floor(Math.random() * 10) + 10);
 	return {
 		headers: new Headers({ 'Content-Type': 'text/html' }),
 		status: 200, body: new TextDecoder().decode(

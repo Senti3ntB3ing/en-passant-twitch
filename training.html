@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Discord MOD Test</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css">
-	<link href="http://fonts.cdnfonts.com/css/whitney-2?styles=68522,68524" rel="stylesheet">
+	<link href="https://fonts.cdnfonts.com/css/whitney-2?styles=68522,68524" rel="stylesheet">
 	<style>
 	@font-face {
 		font-family: 'Ginto';
@@ -78,7 +78,7 @@
 	button.blue-hover:hover { color: rgb(42, 34, 241) !important; }
 	#convo {
 		padding: 40px 30px;
-		width: 600px;
+		width: 1000px;
 		background: #282841;
 		color: #DCDDDE;
 		display: flex;
@@ -286,6 +286,7 @@
 			const convo = document.getElementById("convo");
 			convo.innerHTML = "";
 			messages.forEach(message => {
+				if (message.message.length == 0) return;
 				const div = document.createElement("div");
 				div.classList.add("message");
 				const author = names.random();
