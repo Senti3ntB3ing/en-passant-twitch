@@ -187,6 +187,7 @@
 		color: #e71d36;
 		font-size: 20px;
 	}
+	.hidden { display: none; }
 	.spoiler {
 		background-color: #1C1B29;
 		color: #1C1B29;
@@ -309,6 +310,7 @@
 						hour: 'numeric', minute: 'numeric',
 						hour12: true
 					}).format(new Date(message.date * 1000)).toUpperCase().replace(', ', ' at ')}</span>
+					<span class="expiration hidden">10 Minutes Timeout</span>
 					<div class="actions">
 						<button class="action ban"></button>
 						<button class="action timeout"></button>
@@ -320,6 +322,7 @@
 					.replace(/\[([A-Za-z]+?)\](.*?)\[\/\1\]/g, '<span class="$1">$2</span>')}</span>`;
 				convo.appendChild(div);
 			});
+			function findName(message) { return message.querySelector("strong").innerText; }
 			// add the event listener to the buttons:
 			const buttons = document.getElementsByClassName("action");
 			for (let i = 0; i < buttons.length; i++) {
@@ -329,14 +332,21 @@
 					// get the class of the button:
 					const action = this.className.replace("action", "").trim();
 					switch (action) {
-						case "ban": message.classList.toggle("banned"); break;
+						case "ban": {
+							const banned = findName(message);
+							const posts = document.getElementsByClassName(banned);
+							for (const post of posts) post.classList.toggle("banned");
+						} break;
 						case "delete": message.classList.toggle("deleted"); break;
 						case "flag": message.classList.toggle("flagged"); break;
-						case "timeout":
-							message.getElementsByClassName("time")[0].innerHTML = "10 Minutes Timeout";
-							time.classList.add("expiration");
-							time.classList.remove("time");
-						break;
+						case "timeout": {
+							const timed = findName(message);
+							const posts = document.getElementsByClassName(timed);
+							for (const post of posts) {
+								post.getElementsByClassName("time")[0].classList.toggle("hidden");
+								post.getElementsByClassName("expiration")[0].classList.toggle("hidden");
+							}
+						} break;
 					}
 					// disable and remove the buttons:
 					this.parentNode.remove();
@@ -344,7 +354,7 @@
 			}
 		}
 		load();
-		document.getElementById("reset").addEventListener("click", load);
+		document.getElementById("reset").addEventListener("click", () => { load(); window.scrollTo(0, 0); });
 		document.getElementById("next").addEventListener("click", window.location.reload);
 	</script>
 </body>
