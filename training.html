@@ -348,14 +348,12 @@
 							}
 						} break;
 					}
-					// disable and remove the buttons:
-					this.parentNode.remove();
 				});
 			}
 		}
 		load();
 		document.getElementById("reset").addEventListener("click", () => { load(); window.scrollTo(0, 0); });
-		document.getElementById("next").addEventListener("click", window.location.reload);
+		document.getElementById("next").addEventListener("click", () => window.location.reload());
 	</script>
 </body>
 </html>
