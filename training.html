@@ -331,12 +331,11 @@
 						case "ban": message.classList.toggle("banned"); break;
 						case "delete": message.classList.toggle("deleted"); break;
 						case "flag": message.classList.toggle("flagged"); break;
-						case "timeout": {
-							const time = message.getElementsByClassName("time")[0];
-							time.innerHTML = timeout + "10 Minutes Timeout";
+						case "timeout":
+							message.getElementsByClassName("time")[0].innerHTML = "10 Minutes Timeout";
 							time.classList.add("expiration");
 							time.classList.remove("time");
-						} break;
+						break;
 					}
 					// disable and remove the buttons:
 					this.parentNode.remove();
