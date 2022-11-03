@@ -308,8 +308,8 @@
 						hour: 'numeric', minute: 'numeric',
 						hour12: true
 					}).format(new Date(message.date * 1000)).toUpperCase()
-					.replace(', ', ' at ')
-					.replace(/(?:(?:https?:\/\/)|(?:www\.))[^\s]+/g, '<a href="$&" target="_blank">$&</a>')
+					.replace(', ', ' at ').replace(/<\/?wbr>/g, '')
+					.replace(/(?:https?:\/\/)[^\s]+/g, '<a href="$&" target="_blank">$&</a>')
 					.replace(/\[([A-Za-z]+?)\](.*?)\[\/\1\]/g, '<span class="$1">$2</span>')
 				}</span>
 					<div class="actions">
