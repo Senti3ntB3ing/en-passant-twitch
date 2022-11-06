@@ -91,6 +91,8 @@ programmable({
 	description: 'Gets your current follow age.',
 	execute: async data => {
 		const user = data.username;
+		if (data.username == 'thechessnerdlive')
+			return 'Zach has been following himself since 4 April 2019.';
 		const response = await fetch(
 			`https://api.2g.be/twitch/followage/${Streamer}/${user}?format=ymwd`
 		);
