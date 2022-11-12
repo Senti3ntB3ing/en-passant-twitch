@@ -30,7 +30,7 @@ programmable({
 });
 
 programmable({
-	commands: [ 'personalbest', 'pb', 'peak' ], permissions: 'all',
+	commands: [ 'personalbest', 'pb', 'peak', 'ath' ], permissions: 'all',
 	description: 'Gets Zach\'s peak ratings on Chess.com.',
 	execute: async () => {
 		const ratings = await Chess.com.best('thechessnerd');
