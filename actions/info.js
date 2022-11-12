@@ -85,14 +85,36 @@ programmable({
 	}
 });
 
+const leap = (y) => ((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0);
+
+function difference(major, minor) {
+	if (major < minor) [ major, minor ] = [ minor, major ];
+	const monthsDays = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+	const majorDays = Math.floor(major.valueOf() / 86400000);
+	const minorDays = Math.floor(minor.valueOf() / 86400000);
+	let delta = majorDays - minorDays, years = 0, months = 0;
+	let i = minor.getFullYear(), l = leap(i) ? 366 : 365;
+	while (delta >= l) delta -= l = (leap(i++) ? 366 : 365);
+	years = i - minor.getFullYear();
+	while (delta >= monthsDays[months]) delta -= monthsDays[months++];
+	return { years, months, weeks: Math.floor(delta / 7), days: delta % 7 };
+}
+
 // https://api.2g.be/twitch/followage/thechessnerdlive/user?format=ymwd)
 programmable({
 	commands: [ 'followage' ], permissions: 'all',
 	description: 'Gets your current follow age.',
 	execute: async data => {
 		const user = data.username;
-		if (data.username == 'thechessnerdlive')
-			return 'Zach has been following himself since 4 April 2019.';
+		if (data.username == 'thechessnerdlive') {
+			const d = difference(new Date(), new Date(2019, 4, 4));
+			let s = 'Zach has been streaming for ';
+			if (d.years > 0) s += `${d.years} years, `;
+			if (d.months > 0) s += `${d.months} months, `;
+			if (d.weeks > 0) s += `${d.weeks} weeks, `;
+			if (d.days > 0) s += `${d.days} days.`;
+			return s;
+		}
 		const response = await fetch(
 			`https://api.2g.be/twitch/followage/${Streamer}/${user}?format=ymwd`
 		);
