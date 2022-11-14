@@ -49,7 +49,11 @@ programmable({
 programmable({
 	commands: [ 'uptime' ],
 	description: 'Gets the uptime of the stream.',
-	execute: async () => `Zach has been streaming for ${await uptime(Streamer)}.`
+	execute: async () => {
+		const up = await uptime(Streamer);
+		if (up === null) return 'Zach is not currently streaming.';
+		return `Zach has been streaming for ${await uptime(Streamer)}.`
+	}
 });
 
 programmable({
