@@ -11,9 +11,9 @@ const emojis = {
 	tactics: '🧩', 'puzzle rush': '🔥',
 };
 
-const CHESS_COM_REGEX = new RegExp(Prefix + 'chess\\.?com\\s+(\\w+)');
-const PUZZLES_REGEX = new RegExp(Prefix + 'puzzles\\s+(\\w+)');
-const LICHESS_REGEX = new RegExp(Prefix + 'lichess(?:\\.org)?\\s+(\\w+)');
+const CHESS_COM_REGEX = new RegExp(Prefix + 'chess\\.?com\\s+<?([A-Za-z0-9_\\-]+)>?');
+const PUZZLES_REGEX = new RegExp(Prefix + 'puzzles\\s+<?(\\w+)>?');
+const LICHESS_REGEX = new RegExp(Prefix + 'lichess(?:\\.org)?\\s+<?([A-Za-z0-9_\\-]+)>?');
 
 programmable({
 	commands: [ 'fide' ], permissions: 'all',
