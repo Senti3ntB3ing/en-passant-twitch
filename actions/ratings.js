@@ -7,8 +7,8 @@ import { Prefix, ZACH_FIDE_ID, saxon_genitive } from '../config.js';
 import { programmable } from '../parser.js';
 
 const emojis = {
-	blitz: '⚡️', bullet: '🔫', rapid: '⏱', classical: '⏳', standard: '🕰',
-	tactics: '🧩', 'puzzle rush': '🔥',
+	blitz: '⚡️', bullet: '🔫', rapid: '⏱️', classical: '⏳', standard: '🕰',
+	daily: '☀️', tactics: '🧩', 'puzzle rush': '🔥',
 };
 
 const CHESS_COM_REGEX = new RegExp(Prefix + 'chess\\.?com\\s+<?([A-Za-z0-9_\\-]+)>?');
