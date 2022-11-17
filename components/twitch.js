@@ -74,7 +74,7 @@ export async function uptime(streamer) {
 	const d = e.getTime() - s.getTime();
 	const h = Math.floor((d % Time.day) / Time.hour);
 	const m = Math.floor((d % Time.hour) / Time.minute);
-	return `${h}h ${m}m`;
+	return h > 0 ? `${h}h ${m}m` : `${m}m`;
 }
 
 export async function follow_count(streamer) {
