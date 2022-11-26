@@ -3,13 +3,15 @@ import { Streamer } from '../config.js';
 import { programmable } from '../parser.js';
 import { uptime, follow_count } from '../components/twitch.js';
 import { log } from '../parser.js';
+import { channel } from '../main.js';
 
 programmable({
 	commands: [ 'restart' ], permissions: 'mod',
 	description: 'Restarts the bot.',
 	execute: () => {
+		channel.send(`Click on this link to force a restart`);
 		log('status', 'force restart');
-		throw new Error('Restarting...');
+		setTimeout(() => Deno.exit(1), 1000);
 	}
 });
 
