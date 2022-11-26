@@ -2,6 +2,16 @@
 import { Streamer } from '../config.js';
 import { programmable } from '../parser.js';
 import { uptime, follow_count } from '../components/twitch.js';
+import { log } from '../parser.js';
+
+programmable({
+	commands: [ 'restart' ], permissions: 'mod',
+	description: 'Restarts the bot.',
+	execute: () => {
+		log('status', 'force restart');
+		throw new Error('Restarting...');
+	}
+});
 
 // ==== Challenge ==============================================================
 
