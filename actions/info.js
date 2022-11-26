@@ -9,7 +9,7 @@ programmable({
 	commands: [ 'restart' ], permissions: 'mod',
 	description: 'Restarts the bot.',
 	execute: () => {
-		channel.send(`Click on this link to force a restart`);
+		channel.send(`Force restart -> en-passant-twitch.cristian-98.repl.co`);
 		log('status', 'force restart');
 		setTimeout(() => Deno.exit(1), 1000);
 	}
