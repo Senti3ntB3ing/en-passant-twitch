@@ -110,7 +110,7 @@ programmable({
 });
 
 programmable({
-	commands: [ 'subq', 'subonlyq' ], permissions: 'mod',
+	commands: [ 'subq' ], permissions: 'mod',
 	description: 'Toggles subonly mode for the current queue.',
 	execute: () => {
 		const join = programmables.find(p => p.commands.includes('join'));
