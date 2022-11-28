@@ -85,6 +85,18 @@ server.listen([ ROOT, 'help', 'mod' ], async request => {
 	};
 });
 
+server.listen('audit', async request => {
+	const audit = new TextDecoder().decode(
+		Deno.readFileSync('./audit.json')
+	);
+	return {
+		headers: new Headers({ 'Content-Type': 'text/html' }),
+		status: 200, body: new TextDecoder().decode(
+			Deno.readFileSync('./audit.html')
+		).replace('`%AUDIT%`', JSON.stringify(audit))
+	};
+});
+
 server.listen('map', () => ({
 	headers: new Headers({ 'Content-Type': 'text/html' }),
 	status: 200, body: Deno.readFileSync('./map.html')
