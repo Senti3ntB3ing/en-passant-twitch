@@ -20,8 +20,6 @@
 <body class="bg-gray-900">
 	<div class="flex flex-col items-center justify-center w-screen min-h-screen bg-gray-900 py-10">
 		<h1 class="text-lg text-gray-200 font-medium">en-passant 🇺🇳 <span class="bot">BOT</span> Twitch Actions 💈</h1>
-		<h3><strong>Queue status:</strong> 🔴 disabled, 🔴 sub-only off.</h3>
-		<h3><strong>Challenge status:</strong> 🟢 enabled.</h3>
 		<div class="flex flex-col mt-6">
 			<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 				<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -57,8 +55,8 @@
 			<td class="px-6 py-4 whitespace-nowrap uppercase">challenge</td>
 			<td class="px-6 py-4 whitespace-nowrap">${emojis(challenge)} <strong class="uppercase font-mono">${queue}</strong></td>
 			<td class="px-6 py-4" style="max-width:700px">${
-				challenge ? "Zach is accepting challenges today, !join the queue to play him." :
-				"Sorry, Zach is not accepting challenges today."
+				challenge ? "Zach is accepting challenges today, !join the queue to play him" :
+				"Sorry, Zach is not accepting challenges today"
 			}.</td>
 		</tr>`;
 		const actions = `%ACTIONS%`.filter(a => mod || a.permissions != 'mod').sort(
