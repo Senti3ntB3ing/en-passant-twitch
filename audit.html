@@ -76,6 +76,7 @@
 			<td class="px-6 py-4" style="max-width:700px">${
 				urlify(a.reason).replace(/\|\|(.*?)\|\|/g, '<span class="spoiler">$1</span>')
 					.replace(/@(everyone|here)/g, '<strong class="font-mono">@$1</strong>')
+					.replace(/`(.*?)`/g, '<span class="font-mono"><code>$1</code></span>')
 			}</td>
 		</tr>`).join('\n');
 	</script>
