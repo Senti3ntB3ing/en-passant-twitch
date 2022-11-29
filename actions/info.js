@@ -123,7 +123,7 @@ programmable({
 	execute: async data => {
 		const user = data.username;
 		if (data.username == 'thechessnerdlive') {
-			const d = difference(new Date(), new Date(2021, 9, 11));
+			const d = difference(new Date(), new Date(2022, 2, 19));
 			let s = 'Zach has been streaming for ';
 			if (d.years > 0) s += `${d.years} years, `;
 			if (d.months > 0) s += `${d.months} months, `;
