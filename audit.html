@@ -27,14 +27,14 @@
 			color: #fff;
 		}
 		.spoiler {
-			background-color: #1C1B29;
-			color: #1C1B29;
+			background-color: #101827;
+			color: #101827;
 			padding: 0 4px;
 			border-radius: 2px;
 			transition: all .3s ease-in-out;
 			cursor: pointer;
 		}
-		.spoiler:hover { color: #DCDDDE; }
+		.spoiler:hover { color: #9CA3AF; }
 	</style>
 </head>
 <body class="bg-gray-900">
@@ -66,7 +66,7 @@
 		).replace(/@\w+/g, '<span class="text-gray-300">$&</span>');
 		const emojis = p => ({
 			'BAN': '🚫', 'WARN': '🚸', 'KICK': '👠', 'SAFE': '🛡️',
-			'60S-T': '⏱️', '1M-T': '⏱️', '5M-T': '⏲️', '10M-T': '⏰',
+			'60S-T': '⏱️', '1M-T': '⏱️', '5M-T': '⏲️', '10M-T': '🧨',
 			'1H-T': '🕰️', '1D-T': '🗞️', '1W-T': '🗓️',
 		}[p]);
 		document.getElementById('list').innerHTML = JSON.parse(`%AUDIT%`).map(
