@@ -4,7 +4,7 @@ import { programmable, programmables } from '../parser.js';
 import { Chess } from '../components/chesscom.js';
 import { Queue } from '../components/queue.js';
 
-const queue = new Queue();
+export const queue = new Queue();
 
 programmable({
 	commands: [ 'join' ],

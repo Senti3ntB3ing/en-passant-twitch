@@ -9,6 +9,9 @@ import { log, resolve, actions, programmables, refresh } from './parser.js';
 import { Streamer, SETUP, StreamerID, Prefix } from './config.js';
 import { Server, ROOT, NOT_FOUND } from './server.js';
 
+import { queue } from './actions/queue.js';
+import { challenge } from './actions/info.js';
+
 // ==== Actions ============================
 
 import './actions/info.js';
@@ -74,6 +77,7 @@ server.listen(NOT_FOUND, () => ({ status: 404, body: 'Not found' }));
 server.listen([ ROOT, 'help', 'mod' ], async request => {
 	await refresh();
 	const mod = request.url.includes('mod');
+	const join = programmables.find(p => p.commands.includes('join'));
 	return {
 		headers: new Headers({ 'Content-Type': 'text/html' }),
 		status: 200, body: new TextDecoder().decode(
@@ -82,25 +86,26 @@ server.listen([ ROOT, 'help', 'mod' ], async request => {
 		.replace('`%PROGRAMMABLES%`', JSON.stringify(programmables))
 		.replace('`%PREFIX%`', `'${Prefix}'`)
 		.replace('`%MOD%`', JSON.stringify(mod))
+		.replace('`%QUEUE%`', queue.enabled ? 'true' : 'false')
+		.replace('`%CHALLENGE%`', challenge ? 'true' : 'false')
+		.replace('`%SUBONLY%`', join.permissions === 'sub' ? 'true' : 'false')
 	};
 });
 
-server.listen('audit', async request => {
-	const audit = new TextDecoder().decode(
+server.listen('audit', () => ({
+	headers: new Headers({ 'Content-Type': 'text/html' }),
+	status: 200, body: new TextDecoder().decode(
+		Deno.readFileSync('./audit.html')
+	).replace('`%AUDIT%`', JSON.stringify(new TextDecoder().decode(
 		Deno.readFileSync('./audit.json')
-	);
-	return {
-		headers: new Headers({ 'Content-Type': 'text/html' }),
-		status: 200, body: new TextDecoder().decode(
-			Deno.readFileSync('./audit.html')
-		).replace('`%AUDIT%`', JSON.stringify(audit))
-	};
-});
+	)))
+}));
 
 server.listen('map', () => ({
 	headers: new Headers({ 'Content-Type': 'text/html' }),
 	status: 200, body: Deno.readFileSync('./map.html')
 }));
+
 server.listen('training', async () => {
 	const board = await randomBoard();
 	const thread = await randomThread(board);

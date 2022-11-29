@@ -17,7 +17,7 @@ programmable({
 
 // ==== Challenge ==============================================================
 
-let challenge = false;
+export let challenge = false;
 
 programmable({
 	commands: [ 'challenge', 'match' ],
