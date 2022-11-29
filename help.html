@@ -47,15 +47,15 @@
 		const emojis = p => ({ mod: '🛂', sub: '💟', vip: '✴️', all: '✅', off: '🔴', on:'🟢', soff: '⚪️', son: '🟣' }[p]);
 		const mod = `%MOD%`, prefix = `%PREFIX%`, queue = `%QUEUE%`, challenge = `%CHALLENGE%`, subonly = `%SUBONLY%`;
 		const status = `<tr class="bg-black bg-opacity-20">
-			<td class="px-6 py-4 whitespace-nowrap uppercase text-blue"><b>queue</b></td>
+			<td class="px-6 py-4 whitespace-nowrap uppercase text-blue"><b>queue status</b></td>
 			<td class="px-6 py-4 whitespace-nowrap">${emojis(queue)} <strong class="uppercase font-mono">${queue}</strong></td>
 			<td class="px-6 py-4" style="max-width:700px">The queue is ${queue}. Sub-only mode is ${emojis('s' + subonly)} ${subonly}.</td>
 		</tr>
 		<tr class="bg-black bg-opacity-20">
-			<td class="px-6 py-4 whitespace-nowrap uppercase text-blue"><b>challenge</b></td>
-			<td class="px-6 py-4 whitespace-nowrap">${emojis(challenge ? 'on' : 'off')} <strong class="uppercase font-mono">${queue}</strong></td>
+			<td class="px-6 py-4 whitespace-nowrap uppercase text-blue"><b>challenge status</b></td>
+			<td class="px-6 py-4 whitespace-nowrap">${emojis(challenge)} <strong class="uppercase font-mono">${challenge}</strong></td>
 			<td class="px-6 py-4" style="max-width:700px">${
-				challenge ? "Zach is accepting challenges today, !join the queue to play him" :
+				challenge === 'on' ? "Zach is accepting challenges today, !join the queue to play him" :
 				"Sorry, Zach is not accepting challenges today"
 			}.</td>
 		</tr>`;

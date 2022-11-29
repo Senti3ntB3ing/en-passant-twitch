@@ -87,7 +87,7 @@ server.listen([ ROOT, 'help', 'mod' ], async request => {
 		.replace('`%PREFIX%`', `'${Prefix}'`)
 		.replace('`%MOD%`', JSON.stringify(mod))
 		.replace('`%QUEUE%`', queue.enabled ? "'on'" : "'off'")
-		.replace('`%CHALLENGE%`', challenge ? 'true' : 'false')
+		.replace('`%CHALLENGE%`', challenge ? "'on'" : "'off'")
 		.replace('`%SUBONLY%`', join.permissions === 'sub' ? "'on'" : "'off'")
 	};
 });
