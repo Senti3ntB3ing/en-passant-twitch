@@ -56,5 +56,6 @@
 	{ "tag": "morgan#4999", "punishment": "BAN", "reason": "Self promotion." },
 	{ "tag": "ZEUS#9153", "punishment": "BAN", "reason": "NSFW profile picture and biography." },
 	{ "tag": "Valuate•Asset#1050", "punishment": "BAN", "reason": "Scam messages." },
-	{ "tag": "W0LF#8968", "punishment": "BAN", "reason": "Moderator disrespect, insults." }
+	{ "tag": "W0LF#8968", "punishment": "BAN", "reason": "Moderator disrespect, insults." },
+	{ "tag": "' Yosef .#3527", "punishment": "WARN", "reason": "Pinging @Zach."}
 ]
