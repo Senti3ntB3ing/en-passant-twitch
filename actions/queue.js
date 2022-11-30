@@ -12,14 +12,14 @@ programmable({
 	execute: async data => {
 		if (!queue.enabled) return `The queue is currently disabled.`;
 		const join = programmables.find(p => p.commands.includes('join'));
-		if (join.permissions == 'sub' && !data.badges.subscriber)
+		if (join.permissions === 'sub' && !data.badges.subscriber)
 			return `@${data.username}, today the queue is only for subscribers.`;
 		const username = data.message.match(/join\s+<?\s*([^> ]+)\s*>?/i);
 		if (username == null || username.length < 2)
 			return `@${data.username}, try with ${Prefix}join <Chess.com username>.`;
 		if (!(await Chess.com.exists(username[1])))
 			return `@${data.username}, there is no Chess.com account with the username ${username[1]}.`;
-		const i = await queue.enqueue(data.username, username[1]);
+		const i = await queue.enqueue(data.username, username[1], data.badges.subscriber);
 		if (i === undefined) return `@${data.username}, you are already in the queue.`;
 		if (i === null) return `@${username[1]} is already in the queue.`;
 		const j = ordinal(i);

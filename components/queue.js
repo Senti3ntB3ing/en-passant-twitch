@@ -12,12 +12,20 @@ export class Queue {
 		return Queue.instance;
 	}
 
-	async enqueue(user, profile) {
+	async enqueue(user, profile, sub = false) {
 		this.#queue = (await this.#q.get()) || [];
-		if (this.#queue.findIndex(e => e.user == user) != -1) return undefined;
-		if (this.#queue.findIndex(e => e.profile == profile) != -1) return null;
-		this.#queue.push({ user, profile });
-		const position = this.#queue.length;
+		if (this.#queue.findIndex(e => e.user === user) !== -1) return undefined;
+		if (this.#queue.findIndex(e => e.profile === profile) !== -1) return null;
+		let position;
+		if (!sub) {
+			this.#queue.push({ user, profile, sub });
+			position = this.#queue.length;
+		} else {
+			let i = 0;
+			while (i < this.#queue.length && this.#queue[i].sub) i++;
+			this.#queue.splice(i, 0, { user, profile, sub });
+			position = i + 1;
+		}
 		if (!(await this.#q.set(this.#queue)))
 			console.error('failed to enqueue user ' + user);
 		return position;
