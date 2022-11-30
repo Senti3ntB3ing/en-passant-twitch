@@ -1,6 +1,6 @@
 
 import { readAll } from 'https://deno.land/std@0.150.0/streams/conversion.ts';
-import { TwitchChat } from 'https://deno.land/x/tmi_beta@v0.1.2/mod.ts';
+import { TwitchChat } from 'https://deno.land/x/tmi_beta@v0.1.3/mod.ts';
 
 import { randomBoard, randomThread, posts } from './components/4chan.js';
 import { diagram, gif } from './components/diagram.js';

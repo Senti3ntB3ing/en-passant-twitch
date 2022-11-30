@@ -36,15 +36,12 @@ export const task = (f, t) => {
 
 const RRSLV = new RegExp(`${Prefix}[A-Za-z0-9_\\.]+`, 'i');
 
-function allowed(badges, permissions) {
-	if ((badges.broadcaster != undefined && badges.broadcaster) ||
-		(badges.moderator != undefined && badges.moderator)) return true;
+function allowed(tags, permissions) {
+	if (tags.broadcaster || tags.mod) return true;
 	switch (permissions) {
 		case 'mod': return false;
-		case 'sub':
-			return badges.subscriber != undefined && badges.subscriber;
-		case 'vip':
-			return badges.vip != undefined && badges.vip;
+		case 'sub': return tags.sub;
+		case 'vip': return tags.vip;
 		case 'all': default: return true;
 	}
 }
@@ -56,7 +53,7 @@ export function resolve(data, channel) {
 	command = command[0].trim().replace(Prefix, '').toLowerCase();
 	for (const action of actions) {
 		if (!action.commands.includes(command)) continue;
-		if (!allowed(data.badges, action.permissions)) return;
+		if (!allowed(data.tags, action.permissions)) return;
 		if (action.reply != undefined) handler(
 			action.reply.replace(/%user(?:name)?%/gi, '@' + data.username)
 		);
@@ -64,7 +61,7 @@ export function resolve(data, channel) {
 	}
 	for (const action of programmables) {
 		if (!action.commands.includes(command)) continue;
-		if (!allowed(data.badges, action.permissions)) return;
+		if (!allowed(data.tags, action.permissions)) return;
 		if (action.execute.constructor.name == 'AsyncFunction')
 			action.execute(data, channel).then(handler);
 		else handler(action.execute(data, channel));
