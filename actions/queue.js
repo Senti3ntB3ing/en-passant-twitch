@@ -91,7 +91,7 @@ programmable({
 });
 
 programmable({
-	commands: [ 'queue', 'q' ],
+	commands: [ 'queue', 'q' ], permissions: 'mod',
 	description: 'Displays the current queue.',
 	execute: async () => {
 		const list = await queue.list();
