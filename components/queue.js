@@ -7,7 +7,7 @@ export class Queue {
 	#q = new Persistent('queue');
 	enabled = true;
 
-	constructor() { // threadsafe singleton
+	constructor() { // threadsafe singleton:
 		if (!Queue.instance) Queue.instance = this;
 		return Queue.instance;
 	}
@@ -30,12 +30,6 @@ export class Queue {
 			console.error('failed to enqueue user ' + user);
 		return position;
 	}
-	async position(user) {
-		this.#queue = (await this.#q.get()) || [];
-		const index = this.#queue.findIndex(e => e.user == user);
-		if (index == -1) return [ null, null ];
-		return [ this.#queue[index], index + 1 ];
-	}
 	async dequeue() {
 		this.#queue = (await this.#q.get()) || [];
 		if (this.#queue.length == 0) return undefined;
@@ -43,6 +37,11 @@ export class Queue {
 		if (!(await this.#q.set(this.#queue)))
 			console.error('failed to dequeue');
 		return removed;
+	}
+	position(user) {
+		const index = this.#queue.findIndex(e => e.user == user);
+		if (index == -1) return [ null, null ];
+		return [ this.#queue[index], index + 1 ];
 	}
 	async remove(data) {
 		this.#queue = (await this.#q.get()) || [];
@@ -61,9 +60,7 @@ export class Queue {
 		if (!(await this.#q.set(this.#queue)))
 			console.error('failed to clear queue');
 	}
-	async list() {
-		this.#queue = (await this.#q.get()) || [];
-		return this.#queue;
-	}
+	get list() { return this.#queue; }
+	get size() { return this.#queue.length; }
 
 }
