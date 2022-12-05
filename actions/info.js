@@ -2,16 +2,17 @@
 import { Streamer } from '../config.js';
 import { programmable } from '../parser.js';
 import { uptime, follow_count } from '../components/twitch.js';
-import { log } from '../parser.js';
-import { channel } from '../main.js';
+import { refresh } from './parser.js';
+import { channel, connect } from '../main.js';
 
 programmable({
 	commands: [ 'restart' ], permissions: 'mod',
-	description: 'Restarts the bot.',
-	execute: () => {
-		channel.send(`Force restart -> en-passant-twitch.cristian-98.repl.co`);
-		log('status', 'force restart');
-		setTimeout(() => Deno.exit(1), 1000);
+	description: 'Reloads the commands in case of halt.',
+	execute: async () => {
+		await refresh();
+		channel.send(`The bot is restarting.`);
+		await connect();
+		channel.send(`The bot is back online.`);
 	}
 });
 
