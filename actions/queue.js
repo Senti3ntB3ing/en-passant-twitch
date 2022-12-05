@@ -94,9 +94,8 @@ programmable({
 	commands: [ 'queue', 'q' ], permissions: 'mod',
 	description: 'Displays the current queue.',
 	execute: async () => {
-		const list = await queue.list();
-		if (list.length === 0) return 'The queue is empty.';
-		return 'Queue: ' + list.map(e => e.profile).join(' -> ');
+		if (queue.list.length === 0) return 'The queue is empty.';
+		return 'Queue: ' + queue.list.map(e => e.profile).join(' -> ');
 	}
 });
 
