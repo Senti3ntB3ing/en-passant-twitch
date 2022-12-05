@@ -40,9 +40,9 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		const URL_FETCH = /(?:https?:\/\/)?(?:[A-Za-z0-9_\-]+\.)+(?:com?|it|uk|gov|org|tv|gg|be|gle)(?:[^!,. ]+)*/g;
+		const URL_FETCH = /(?:https?:\/\/)?((?:[A-Za-z0-9_\-]+\.)+(?:com?|it|uk|gov|org|tv|gg|be|gle)(?:[^!,. ]+)*)/g;
 		const urlify = text => text.replace(
-			URL_FETCH, '<a href="https://$&" target="_blank">$&</a>'
+			URL_FETCH, '<a href="https://$1" target="_blank">$1</a>'
 		).replace(/@\w+/g, '<span class="text-gray-300">$&</span>');
 		const emojis = p => ({ mod: '🛂', sub: '💟', vip: '✴️', all: '✅', off: '🔴', on:'🟢', soff: '⚪️', son: '🟣' }[p]);
 		const mod = `%MOD%`, prefix = `%PREFIX%`, queue = `%QUEUE%`, challenge = `%CHALLENGE%`, subonly = `%SUBONLY%`;
