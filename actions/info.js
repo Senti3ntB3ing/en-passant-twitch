@@ -2,7 +2,7 @@
 import { Streamer } from '../config.js';
 import { programmable } from '../parser.js';
 import { uptime, follow_count } from '../components/twitch.js';
-import { refresh } from './parser.js';
+import { refresh } from '../parser.js';
 import { channel, connect } from '../main.js';
 
 programmable({
