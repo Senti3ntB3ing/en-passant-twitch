@@ -58,5 +58,7 @@
 	{ "tag": "Valuate•Asset#1050", "punishment": "BAN", "reason": "Scam messages." },
 	{ "tag": "W0LF#8968", "punishment": "BAN", "reason": "Moderator disrespect, insults." },
 	{ "tag": "' Yosef .#3527", "punishment": "WARN", "reason": "Pinging @Zach." },
-	{ "tag": "dlin#6359", "punishment": "WARN", "reason": "Pinging @Zach." }
+	{ "tag": "dlin#6359", "punishment": "WARN", "reason": "Pinging @Zach." },
+	{ "tag": "Not Even#6675", "punishment": "WARN", "reason": "Gaslighting Prion__#0604" },
+	{ "tag": "Prion__#0604", "punishment": "WARN", "reason": "Gaslighting Not Even#6675" }
 ]
