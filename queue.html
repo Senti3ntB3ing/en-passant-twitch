@@ -52,7 +52,7 @@
 		document.getElementById('list').innerHTML = status + JSON.parse("`%LIST%`").map(
 		(m, i) => `<tr class="bg-black bg-opacity-20">
 			<td class="px-6 py-4 whitespace-nowrap">${i}</td>
-			<td class="px-6 py-4 whitespace-nowrap font-mono"><a href="https://www.twitch.tv/${m.username}" target="_blank"><code>@${m.username}</code></a></td>
+			<td class="px-6 py-4 whitespace-nowrap font-mono"><a href="https://www.twitch.tv/${m.user}" target="_blank"><code>@${m.user}</code></a></td>
 			<td class="px-6 py-4 whitespace-nowrap font-mono"><a href="https://www.chess.com/member/${m.profile}" target="_blank"><code>${m.profile}</code></a></td>
 		</tr>`).join('\n');
 	</script>
