@@ -111,6 +111,19 @@ server.listen('audit', () => ({
 	)))
 }));
 
+server.listen('queue', () => {
+	const join = programmables.find(p => p.commands.includes('join'));
+	return {
+		headers: new Headers({ 'Content-Type': 'text/html' }),
+		status: 200, body: new TextDecoder().decode(
+			Deno.readFileSync('./queue.html')
+		).replace('`%LIST%`', JSON.stringify(queue.list))
+		.replace('`%QUEUE%`', queue.enabled ? "'on'" : "'off'")
+		.replace('`%CHALLENGE%`', challenge ? "'on'" : "'off'")
+		.replace('`%SUBONLY%`', join.permissions === 'sub' ? "'on'" : "'off'")
+	};
+});
+
 server.listen('map', () => ({
 	headers: new Headers({ 'Content-Type': 'text/html' }),
 	status: 200, body: Deno.readFileSync('./map.html')
