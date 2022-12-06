@@ -27,9 +27,9 @@
 					<div class="shadow overflow-hidden sm:rounded-lg">
 						<table class="min-w-full text-sm text-gray-400">
 							<thead class="bg-gray-800 text-xs uppercase font-medium">
-								<tr><td id="status" colspan="3" class="px-6 py-3 text-left tracking-wider uppercase text-blue"></td></tr>
+								<tr><td id="status" colspan="3" class="px-8 py-3 text-left tracking-wider uppercase text-blue"></td></tr>
 								<tr>
-									<th scope="col" class="px-6 py-3 text-left tracking-wider">#</th>
+									<th scope="col" class="px-6 py-3 text-center tracking-wider" width="40px">#</th>
 									<th scope="col" class="px-6 py-3 text-left tracking-wider">Twitch Name</th>
 									<th scope="col" class="px-6 py-3 text-left tracking-wider">Chess.com</th>
 								</tr>
@@ -45,8 +45,8 @@
 		const emojis = p => ({ off: '🔴', on:'🟢', soff: '⚪️', son: '🟣' }[p]);
 		const queue = `%QUEUE%`, challenge = `%CHALLENGE%`, subonly = `%SUBONLY%`;
 		document.getElementById('status').innerHTML = `
-			<b>Queue</b> ${emojis(queue)} <strong class="uppercase font-mono">${queue}</strong>
-			<b>Sub-only</b> ${emojis('s' + subonly)} <strong class="uppercase font-mono">${subonly}</strong>
+			<b>Queue</b> ${emojis(queue)} <strong class="pr-7 uppercase font-mono">${queue}</strong>
+			<b>Sub-only</b> ${emojis('s' + subonly)} <strong class="pr-7 uppercase font-mono">${subonly}</strong>
 			<b>Challenge</b> ${emojis(challenge)} <strong class="uppercase font-mono">${challenge}</strong></th>
 		</tr>`;
 		document.getElementById('list').innerHTML = status + JSON.parse("`%LIST%`").map(
