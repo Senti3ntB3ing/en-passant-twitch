@@ -49,7 +49,7 @@
 			<b>Sub-only</b> ${emojis('s' + subonly)} <strong class="pr-7 uppercase font-mono">${subonly}</strong>
 			<b>Challenge</b> ${emojis(challenge)} <strong class="uppercase font-mono">${challenge}</strong></th>
 		</tr>`;
-		document.getElementById('list').innerHTML = status + JSON.parse("`%LIST%`").map(
+		document.getElementById('list').innerHTML = `%LIST%`.map(
 		(m, i) => `<tr class="bg-black bg-opacity-20">
 			<td class="px-6 py-4 whitespace-nowrap">${i}</td>
 			<td class="px-6 py-4 whitespace-nowrap font-mono"><a href="https://www.twitch.tv/${m.user}" target="_blank"><code>@${m.user}</code></a></td>
