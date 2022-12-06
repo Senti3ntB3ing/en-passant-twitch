@@ -45,10 +45,10 @@
 		const emojis = p => ({ off: '🔴', on:'🟢', soff: '⚪️', son: '🟣' }[p]);
 		const queue = `%QUEUE%`, challenge = `%CHALLENGE%`, subonly = `%SUBONLY%`;
 		document.getElementById('status').innerHTML = `
-			<b>Queue</b> ${emojis(queue)} <strong class="pr-6 uppercase font-mono">${queue}</strong>
-			<b>Sub-only</b> ${emojis('s' + subonly)} <strong class="pr-6 uppercase font-mono">${subonly}</strong>
-			<b>Challenge</b> ${emojis(challenge)} <strong class="uppercase font-mono">${challenge}</strong></th>
-		</tr>`;
+			<b>Queue</b> ${emojis(queue)}
+			<b>Sub-only</b> ${emojis('s' + subonly)}
+			<b>Challenge</b> ${emojis(challenge)}
+		`;
 		document.getElementById('list').innerHTML = `%LIST%`.map(
 		(m, i) => `<tr class="bg-black bg-opacity-20">
 			<td class="px-6 py-4 text-center whitespace-nowrap">${i}</td>
