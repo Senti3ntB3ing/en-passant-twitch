@@ -27,7 +27,8 @@
 					<div class="shadow overflow-hidden sm:rounded-lg">
 						<table class="min-w-full text-sm text-gray-400">
 							<thead class="bg-gray-800 text-xs uppercase font-medium">
-								<tr><td></td><td id="status" colspan="2" class="px-6 py-3 text-left tracking-wider uppercase text-blue"></td></tr>
+								<tr><td id="status" colspan="3" class="px-6 py-3 text-center tracking-wider uppercase text-blue"></td></tr>
+								<tr><td colspan="3" class="divider"><hr style="border-color:#1F2838"></td></tr>
 								<tr>
 									<th scope="col" class="px-6 py-3 text-center tracking-wider" width="40px">#</th>
 									<th scope="col" class="px-6 py-3 text-center tracking-wider">Twitch Name</th>
@@ -46,8 +47,8 @@
 		const queue = `%QUEUE%`, challenge = `%CHALLENGE%`, subonly = `%SUBONLY%`;
 		document.getElementById('status').innerHTML = `
 			<b>Queue</b> ${emojis(queue)}
-			<b>Sub-only</b> ${emojis('s' + subonly)}
-			<b>Challenge</b> ${emojis(challenge)}
+			<b class="pl-5">Sub-only</b> ${emojis('s' + subonly)}
+			<b class="pl-5">Challenge</b> ${emojis(challenge)}
 		`;
 		document.getElementById('list').innerHTML = `%LIST%`.map(
 		(m, i) => `<tr class="bg-black bg-opacity-20">
