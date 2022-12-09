@@ -43,11 +43,11 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		const emojis = p => ({ off: '🔴', on:'🟢', soff: '⚪️', son: '🟣' }[p]);
+		const emojis = p => ({ off: '🔴', on:'🟢' }[p]);
 		const queue = `%QUEUE%`, challenge = `%CHALLENGE%`, subonly = `%SUBONLY%`;
 		document.getElementById('status').innerHTML = `
 			<b>Queue</b> ${emojis(queue)}
-			<b class="pl-5">Sub-only</b> ${emojis('s' + subonly)}
+			<b class="pl-5">Sub-only</b> ${emojis(subonly)}
 			<b class="pl-5">Challenge</b> ${emojis(challenge)}
 		`;
 		document.getElementById('list').innerHTML = `%LIST%`.map(
