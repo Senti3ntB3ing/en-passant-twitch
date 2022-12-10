@@ -71,6 +71,10 @@ server.listen([ 'fen', 'diagram' ], async request => {
 	} catch { return { status: 404, body: 'Not found' }; }
 });
 
+/// test: curl -o image.gif -X POST
+/// https://en-passant-twitch.cristian-98.repl.co/pgn/
+/// -H 'Content-Type: application/json'
+/// -d '{ "pgn": "1. d4 d5 2. c4 c6 3. Nf3 e6 4. Nbd2 Nf6" }'
 server.listen('pgn', async request => {
 	const data = await readAll(request.body);
 	try {
