@@ -15,7 +15,7 @@ programmable({
 		if (this.permissions === 'sub' && !data.tags.sub)
 			return `@${data.username}, the queue is currently sub-only.`;
 		const username = data.message.match(/join\s+([^ ]+)\s*/i);
-		if (username == null || username.length < 2)
+		if (username === null || username.length < 2)
 			return `@${data.username}, try with ${P}join username`;
 		if (!(await Chess.com.exists(username[1])))
 			return `@${data.username}, there is no Chess.com user '${username[1]}'.`;
@@ -53,7 +53,7 @@ programmable({
 	description: 'Insert somebody in the current queue.',
 	execute: async data => {
 		const username = data.message.match(/insert\s+@?(\w+)\s+(\w+)/i);
-		if (username == null || username.length < 3)
+		if (username === null || username.length < 3)
 			return `@${data.username}, try with ${P}insert "twitch" "Chess.com".`;
 		if (!(await Chess.com.exists(username[2])))
 			return `@${data.username}, there is no Chess.com user '${username[2]}'.`;
