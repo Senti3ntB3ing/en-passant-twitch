@@ -27,11 +27,11 @@ export function gif(pgn, perspective = 'w') {
 }
 
 function fen2board(fen) {
-	let f = 0, r = 7;
+	let f = 0, r = 0;
 	const board = [ [], [], [], [], [], [], [], [] ];
 	for (const c of fen) {
 		if (c === ' ') return board;
-		else if (c === '/') { f = 0; r--; }
+		else if (c === '/') { f = 0; r++; }
 		else if (c >= '1' && c <= '8') {
 			const s = parseInt(c); f += s;
 			for (let i = 0; i < s; i++) board[r].push(null);
