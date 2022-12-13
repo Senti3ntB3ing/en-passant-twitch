@@ -26,25 +26,9 @@ export function gif(pgn, perspective = 'w') {
 	return p.gif();
 }
 
-function fen2board(fen) {
-	let f = 0, r = 0;
-	const board = [ [], [], [], [], [], [], [], [] ];
-	for (const c of fen) {
-		if (c === ' ') return board;
-		else if (c === '/') { f = 0; r++; }
-		else if (c >= '1' && c <= '8') {
-			const s = parseInt(c); f += s;
-			for (let i = 0; i < s; i++) board[r].push(null);
-		} else {
-			if (c === c.toLowerCase()) board[r].push({ piece: c, color: 'b' });
-			else board[r].push({ piece: c.toLowerCase(), color: 'w' });
-			f++;
-		}
-	}
-	return board;
-}
-
 export async function diagram(fen, perspective) {
-	const p = new Position(fen2board(fen));
-	return await p.picture(perspective || fen.includes('w'));
+	const game = new Chess(fen);
+	perspective = perspective || game.turn;
+	const p = new Position(game.board);
+	return await p.picture(perspective);
 }
