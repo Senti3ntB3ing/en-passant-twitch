@@ -60,6 +60,10 @@ await connect();
 
 const server = new Server();
 
+/// test: curl -o image.png -X POST
+/// https://en-passant-twitch.cristian-98.repl.co/fen/
+/// -H 'Content-Type: application/json'
+/// -d '{ "fen": "4r2r/pp2n3/3kP2p/2pP2p1/2P5/6Q1/P5PP/6K1 b - - 1 26" }'
 server.listen([ 'fen', 'diagram' ], async request => {
 	const data = await readAll(request.body);
 	try {
