@@ -19,10 +19,9 @@
 		#time {
 			font-size: 30px;
 			text-align: center;
-			width: 120px;
 			padding: 0 10px;
 			align-self: center;
-			margin: 20px;
+			margin: 20px auto;
 		}
 	</style>
 </head>
@@ -31,7 +30,7 @@
 		<h1 class="text-lg text-gray-200 font-medium">en-passant 🇺🇳 <span class="bot">BOT</span> Time 🕰️</h1>
 		<h3 class="mt-6 uppercase mb-4"><b><a href="https://en-passant-twitch.cristian-98.repl.co/time/">🔄 Reload</a></b></h3>
 		<div class="flex flex-col mt-6">
-			<input type="time" id="time" pattern="[0-9]{2}:[0-9]{2}" class="sm:rounded-lg text-gray-200 font-medium font-mono form-control bg-gray-800 text-center" style="font-size:30px" value="" onchange="handle()">
+			<div style="text-align: center;"><input type="time" id="time" pattern="[0-9]{2}:[0-9]{2}" class="sm:rounded-lg text-gray-200 font-medium font-mono form-control bg-gray-800 text-center" style="font-size:30px" value="" onchange="handle()"></div>
 			<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 				<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 					<div class="shadow overflow-hidden sm:rounded-lg">
@@ -47,7 +46,7 @@
 								<tr class="bg-black even:bg-opacity-20 odd:bg-opacity-30">
 									<td class="px-6 py-4 text-gray-100">🇨🇦 Zach</td>
 									<td class="px-6 py-4 text-left whitespace-nowrap font-mono" id="zach">00:00</td>
-									<td class="px-6 py-4 text-center whitespace-nowrap font-mono">America / Toronto</td>
+									<td class="px-6 py-4 text-center whitespace-nowrap">America / Toronto</td>
 								</tr>
 							</tbody>
 						</table>
@@ -75,7 +74,7 @@
 				<tr class="bg-black even:bg-opacity-20 odd:bg-opacity-30">
 					<td class="px-6 py-4 text-gray-${ mod.active ? 100 : 200 }">${mod.flag} ${mod.name}</td>
 					<td class="px-6 py-4 text-left whitespace-nowrap font-mono" id="${mod.name.toLowerCase()}">00:00</td>
-					<td class="px-6 py-4 text-center whitespace-nowrap font-mono">${mod.zone.replace('/', ' / ').replace('_', ' ')}</td>
+					<td class="px-6 py-4 text-center whitespace-nowrap">${mod.zone.replace('Kolkata', 'Mumbai').replace('/', ' / ').replace('_', ' ')}</td>
 				</tr>
 			`;
 		}
