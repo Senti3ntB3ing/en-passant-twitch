@@ -47,7 +47,7 @@
 								<tr class="bg-black even:bg-opacity-20 odd:bg-opacity-30">
 									<td class="px-6 py-4 text-gray-100">🇨🇦 Zach</td>
 									<td class="px-6 py-4 text-left whitespace-nowrap font-mono" id="zach">00:00</td>
-									<td class="px-6 py-4 text-left whitespace-nowrap font-mono">America / Toronto</td>
+									<td class="px-6 py-4 text-center whitespace-nowrap font-mono">America / Toronto</td>
 								</tr>
 							</tbody>
 						</table>
@@ -75,7 +75,7 @@
 				<tr class="bg-black even:bg-opacity-20 odd:bg-opacity-30">
 					<td class="px-6 py-4 text-gray-${ mod.active ? 100 : 200 }">${mod.flag} ${mod.name}</td>
 					<td class="px-6 py-4 text-left whitespace-nowrap font-mono" id="${mod.name.toLowerCase()}">00:00</td>
-					<td class="px-6 py-4 text-left whitespace-nowrap font-mono">${mod.zone.replace('/', ' / ').replace('_', ' ')}</td>
+					<td class="px-6 py-4 text-center whitespace-nowrap font-mono">${mod.zone.replace('/', ' / ').replace('_', ' ')}</td>
 				</tr>
 			`;
 		}
