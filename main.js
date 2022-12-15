@@ -119,6 +119,13 @@ server.listen('audit', () => ({
 	)))
 }));
 
+server.listen('time', () => ({
+	headers: new Headers({ 'Content-Type': 'text/html' }),
+	status: 200, body: new TextDecoder().decode(
+		Deno.readFileSync('./time.html')
+	)
+}));
+
 server.listen('queue', () => {
 	const join = programmables.find(p => p.commands.includes('join'));
 	return {
