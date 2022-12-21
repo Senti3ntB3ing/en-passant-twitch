@@ -62,5 +62,6 @@
 	{ "tag": "Not Even#6675", "punishment": "WARN", "reason": "Gaslighting `Prion__#0604`." },
 	{ "tag": "Prion__#0604", "punishment": "WARN", "reason": "Gaslighting `Not Even#6675`." },
 	{ "tag": "J_Erik.#9605", "punishment": "BAN", "reason": "Crypto, selfpromotion spam." },
-	{ "tag": "gibran#8867", "punishment": "BAN", "reason": "Invited @everyone to `Tits` discord server." }
+	{ "tag": "gibran#8867", "punishment": "BAN", "reason": "Invited @everyone to `Tits` discord server." },
+	{ "tag": "Amonarhh#4584", "punishment": "BAN", "reason": "Chess club, priced tournament cheating." }
 ]
