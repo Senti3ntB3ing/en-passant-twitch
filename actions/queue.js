@@ -17,6 +17,8 @@ programmable({
 		const username = data.message.match(/join\s+([^ ]+)\s*/i);
 		if (username === null || username.length < 2)
 			return `@${data.username}, try with ${P}join username`;
+		if (username[1].toLowerCase().trim() === 'username')
+			return `@${data.username}, really dude? r u 4 real?`;
 		if (!(await Chess.com.exists(username[1])))
 			return `@${data.username}, there is no Chess.com user '${username[1]}'.`;
 		const i = await queue.enqueue(data.username, username[1], data.tags.sub || data.tags.mod || data.tags.vip);
