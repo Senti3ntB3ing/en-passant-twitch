@@ -69,7 +69,7 @@
 			'60S-T': '⏱️', '1M-T': '⏱️', '5M-T': '⏲️', '10M-T': '🧨',
 			'1H-T': '🕰️', '1D-T': '🗞️', '1W-T': '🗓️',
 		}[p]);
-		document.getElementById('list').innerHTML = JSON.parse(`%AUDIT%`).map(
+		document.getElementById('list').innerHTML = `%AUDIT%`.map(
 		a => `<tr class="bg-black bg-opacity-20">
 			<td class="px-6 py-4 whitespace-nowrap font-mono"><code>${a.tag}</code></td>
 			<td class="px-6 py-4 whitespace-nowrap">${emojis(a.punishment)} <strong class="uppercase font-mono">${a.punishment}</strong></td>
