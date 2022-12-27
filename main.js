@@ -11,6 +11,7 @@ import { Server, ROOT, NOT_FOUND } from './server.js';
 
 import { queue } from './actions/queue.js';
 import { challenge } from './actions/info.js';
+import { Database } from './database.js';
 
 // ==== Actions ============================
 
@@ -110,13 +111,11 @@ server.listen([ ROOT, 'help', 'mod' ], async request => {
 	};
 });
 
-server.listen('audit', () => ({
+server.listen('audit', async () => ({
 	headers: new Headers({ 'Content-Type': 'text/html' }),
 	status: 200, body: new TextDecoder().decode(
 		Deno.readFileSync('./audit.html')
-	).replace('`%AUDIT%`', JSON.stringify(new TextDecoder().decode(
-		Deno.readFileSync('./audit.json')
-	)))
+	).replace('`%AUDIT%`', JSON.stringify((await Database.get('audit')) || []))
 }));
 
 server.listen('time', () => ({
