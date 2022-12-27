@@ -115,7 +115,7 @@ server.listen('audit', async () => ({
 	headers: new Headers({ 'Content-Type': 'text/html' }),
 	status: 200, body: new TextDecoder().decode(
 		Deno.readFileSync('./audit.html')
-	).replace('`%AUDIT%`', JSON.stringify((await Database.get('audit')) || []))
+	).replace('`%AUDIT%`', (await Database.get('audit') || []))
 }));
 
 server.listen('time', () => ({
