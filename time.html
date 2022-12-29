@@ -8,13 +8,13 @@
 	<meta name="theme-color" content="#101827">
 	<meta name="author" content="Zachary Saine">
 	<style>
+		body { overflow-x: hidden; }
 		@font-face {
 			font-family: 'Noto Color Emoji';
 			src: url(https://raw.githack.com/googlefonts/noto-emoji/main/fonts/NotoColorEmoji.ttf);
 		}
-        body {
+        h1, .modflags {
 			font-family: -apple-system, ui-sans-serif, system-ui, "Apple Color Emoji", "Noto Color Emoji";
-			overflow-x: hidden;
         }
 		input[type="time"]::-webkit-calendar-picker-indicator { background: none; display:none; }
 		a, .text-blue { color: #6cbdff !important; }
@@ -81,7 +81,7 @@
 		for (const mod of mods) {
 			document.getElementById('timetable').innerHTML += `
 				<tr class="bg-black even:bg-opacity-20 odd:bg-opacity-30">
-					<td class="px-6 py-4 text-gray-${ mod.active ? 100 : 200 }">${mod.flag} ${mod.name}</td>
+					<td class="px-6 py-4 text-gray-${ mod.active ? 100 : 200 } modflags">${mod.flag} ${mod.name}</td>
 					<td class="px-6 py-4 text-left whitespace-nowrap font-mono" id="${mod.name.toLowerCase()}">00:00</td>
 					<td class="px-6 py-4 text-center whitespace-nowrap">${mod.zone.replace('Kolkata', 'Mumbai').replace('/', ' / ').replace('_', ' ')}</td>
 				</tr>
@@ -89,7 +89,7 @@
 		}
 		function tick(date = new Date()) {
 			document.getElementById("time").value = date.toLocaleString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
-			document.getElementById("zach").innerHTML = date.toLocaleString("en-US", { timeZone: 'America/Montreal', hour: "2-digit", minute: "2-digit", timeZoneName: 'short' });
+			document.getElementById("zach").innerHTML = emojify(date, 'America/Montreal');
 			for (const mod of mods) document.getElementById(mod.name.toLowerCase()).innerHTML = emojify(date, mod.zone);
 		}
 		tick();
