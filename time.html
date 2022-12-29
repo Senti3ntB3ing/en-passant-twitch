@@ -90,8 +90,7 @@
 		function tick(date = new Date()) {
 			document.getElementById("time").value = date.toLocaleString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
 			document.getElementById("zach").innerHTML = date.toLocaleString("en-US", { timeZone: 'America/Montreal', hour: "2-digit", minute: "2-digit", timeZoneName: 'short' });
-			for (const mod of mods)
-				document.getElementById(mod.name.toLowerCase()).innerHTML = date.toLocaleString("en-US", { timeZone: mod.zone, hour: "2-digit", minute: "2-digit", timeZoneName: 'short' });
+			for (const mod of mods) document.getElementById(mod.name.toLowerCase()).innerHTML = emojify(date, mod.zone);
 		}
 		tick();
 		function handle() {
@@ -100,6 +99,21 @@
 			date.setHours(time[0]);
 			date.setMinutes(time[1]);
 			tick(date);
+		}
+		function emojify(date, zone) {
+			const time = date.toLocaleString("en-US", { timeZone: zone, hour: "2-digit", minute: "2-digit", timeZoneName: 'short' });
+			let [ h, m ] = time.replace(/ .+$/g, "").split(':').map(x => parseInt(x));
+			if (m < 15) m = '00';
+			else if (m < 45) m = '30';
+			else { m = '00'; h++; }
+			h = (h % 12).toString().padStart(2, '0');
+			const times = {
+				'00:00': '🕛', '00:30': '🕧', '01:00': '🕐', '01:30': '🕜', '02:00': '🕑', '02:30': '🕝',
+				'03:00': '🕒', '03:30': '🕞', '04:00': '🕓', '04:30': '🕟', '05:00': '🕔', '05:30': '🕠',
+				'06:00': '🕕', '06:30': '🕡', '07:00': '🕖', '07:30': '🕢', '08:00': '🕗', '08:30': '🕣',
+				'09:00': '🕘', '09:30': '🕤', '10:00': '🕙', '10:30': '🕥', '11:00': '🕚', '11:30': '🕦',
+			};
+			return times[h + ':' + m] + ' ' + time;
 		}
 	</script>
 </body>
