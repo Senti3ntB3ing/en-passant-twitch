@@ -7,6 +7,13 @@
 	<meta name="theme-color" content="#101827">
 	<meta name="author" content="Zachary Saine">
 	<style>
+		@font-face {
+			font-family: 'Noto Color Emoji';
+			src: url(https://raw.githack.com/googlefonts/noto-emoji/main/fonts/NotoColorEmoji.ttf);
+		}
+        body {
+			font-family: -apple-system, ui-sans-serif, system-ui, "Apple Color Emoji", "Noto Color Emoji";
+        }
 		a, .text-blue { color: #6cbdff !important; }
 		.bot {
 			background: #5765F2;
@@ -51,7 +58,7 @@
 			<b class="pl-5">Challenge</b> ${emojis(challenge)}
 		`;
 		document.getElementById('list').innerHTML = `%LIST%`.map(
-		(m, i) => `<tr class="bg-black bg-opacity-20">
+		(m, i) => `<tr class="bg-black even:bg-opacity-20 odd:bg-opacity-30">
 			<td class="px-6 py-4 text-center whitespace-nowrap font-mono">${i}</td>
 			<td class="px-6 py-4 text-center whitespace-nowrap font-mono"><a href="https://www.twitch.tv/${m.user}" target="_blank"><code>@${m.user}</code></a></td>
 			<td class="px-6 py-4 text-center whitespace-nowrap font-mono"><a href="https://www.chess.com/member/${m.profile}" target="_blank"><code>${m.profile}</code></a></td>
