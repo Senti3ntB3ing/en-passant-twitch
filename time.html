@@ -81,7 +81,7 @@
 		for (const mod of mods) {
 			document.getElementById('timetable').innerHTML += `
 				<tr class="bg-black even:bg-opacity-20 odd:bg-opacity-30">
-					<td class="px-6 py-4 text-gray-${ mod.active ? 100 : 200 } modflags">${mod.flag} ${mod.name}</td>
+					<td class="px-6 py-4 text-gray-${ mod.active ? 100 : 400 } modflags">${mod.flag} ${mod.name}</td>
 					<td class="px-6 py-4 text-left whitespace-nowrap font-mono" id="${mod.name.toLowerCase()}">00:00</td>
 					<td class="px-6 py-4 text-center whitespace-nowrap">${mod.zone.replace('Kolkata', 'Mumbai').replace('/', ' / ').replace('_', ' ')}</td>
 				</tr>
@@ -113,7 +113,7 @@
 				'06:00': '🕕', '06:30': '🕡', '07:00': '🕖', '07:30': '🕢', '08:00': '🕗', '08:30': '🕣',
 				'09:00': '🕘', '09:30': '🕤', '10:00': '🕙', '10:30': '🕥', '11:00': '🕚', '11:30': '🕦',
 			};
-			return times[h + ':' + m] + ' ' + time.replace(/ .[AP]M/g, "<span class='text-white'>$&</span>");
+			return times[h + ':' + m] + ' ' + time.replace(/^ .+[AP]M/g, "<span class='text-white'>$&</span>");
 		}
 	</script>
 </body>
