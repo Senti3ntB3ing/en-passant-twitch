@@ -24,6 +24,11 @@ export class Server {
 	async start() {
 		if (this.#server === null) return;
 		for await (const request of this.#server) {
+			// if the path doesn't end with a slash, redirect to the same path with a slash
+			if (!request.url.endsWith('/')) {
+				request.respond({ status: 301, headers: new Headers({ Location: request.url + '/' }) });
+				continue;
+			}
 			request.url = request.url.trim().replace(PRX, '').trim();
 			let response;
 			if (request.url in this.#handlers) {
