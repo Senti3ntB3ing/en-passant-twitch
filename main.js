@@ -140,6 +140,11 @@ server.listen('map', () => ({
 	status: 200, body: Deno.readFileSync('./map.html')
 }));
 
+server.listen('tourney', () => ({
+	headers: new Headers({ 'Content-Type': 'text/html' }),
+	status: 200, body: Deno.readFileSync('./tourney.html')
+}));
+
 server.listen('training', async () => {
 	const board = await randomBoard();
 	const thread = await randomThread(board);

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>en-passant 🇺🇳 Mod Tourney 💎</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css">
+	<script src="https://cdn.tailwindcss.com"></script>
+	<meta name="theme-color" content="#101827">
+	<meta name="author" content="Zachary Saine">
+	<style>
+		body { overflow-x: hidden; }
+		@font-face {
+			font-family: 'Noto Color Emoji';
+			src: url(https://raw.githack.com/googlefonts/noto-emoji/main/fonts/NotoColorEmoji.ttf);
+		}
+        h1, .modflags {
+			font-family: -apple-system, ui-sans-serif, system-ui, "Apple Color Emoji", "Noto Color Emoji";
+        }
+		input[type="time"]::-webkit-calendar-picker-indicator { background: none; display:none; }
+		a, .text-blue { color: #6cbdff !important; }
+		.bot {
+			background: #5765F2;
+			border-radius: 2px;
+			padding: 2px 4px;
+			font-size: 10px;
+			color: #fff;
+		}
+		#time {
+			font-size: 30px;
+			text-align: center;
+			padding: 0 10px;
+			align-self: center;
+			margin: 20px auto;
+		}
+		#top-headers { text-align: left; }
+		.modflags { margin-right: 10px; }
+		.vertical {
+			transform: rotate(-90deg);
+			white-space: nowrap;
+			width: 60px;
+			margin-bottom: -20px;
+		}
+		.round-top-left { border-top-left-radius: 0.5rem; }
+	</style>
+</head>
+<body class="bg-gray-900">
+	<div class="flex flex-col items-center justify-center w-screen min-h-screen bg-gray-900 py-10">
+		<h1 class="text-lg text-gray-200 font-medium">en-passant 🇺🇳 <span class="bot">BOT</span> Mod Tourney 💎</h1>
+		<div class="flex flex-col mt-6">
+			<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+				<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+					<div class="overflow-hidden sm:rounded-lg">
+						<table class="min-w-full text-sm text-gray-400">
+							<thead class="bg-gray-800">
+								<tr id="top-headers" style="height: 120px"><th class="bg-gray-900"></th></tr>
+							</thead>
+							<tbody class="" id="table-body"></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
+	<script type="text/javascript">
+		const mods = [
+			{ flag: '🇮🇹', name: 'Cristian' },
+			{ flag: '🇲🇽', name: 'Sofia' },
+			{ flag: '🇺🇸', name: 'Chris' },
+			{ flag: '🇺🇸', name: 'Gavin', },
+			{ flag: '🇬🇧', name: 'Adam' },
+			{ flag: '🇵🇱', name: 'Matt' },
+			{ flag: '🇮🇳', name: 'Sahil' },
+			{ flag: '🇪🇬', name: 'Ahmad' },
+		];
+		const results = [
+			//[ 'Sahil', 'Adam', '1' ]
+		];
+		for (let i = 0; i < mods.length; i++) {
+			const mod = mods[i];
+			document.getElementById('top-headers').innerHTML += `
+				<th scope="col" class="text-left tracking-wider text-gray${
+					i === 0 ? ' round-top-left' : ''
+				}" style="width: 60px;"><div class="vertical"><span class="modflags">${mod.flag}</span>${mod.name}</div></th>
+			`;
+			let row = "";
+			for (let j = 1; j <= mods.length; j++) {
+				row += `<td white="${mods[i].name}" black="${mods[j - 1].name}" class="bg-gray-700 bg-opacity-${
+					i % 2 === j % 2 ? 30 : 50
+				} text-center text-xl text-white font-mono">${i + 1 === j ? '-' : ''}</td>`;
+			}
+			document.getElementById("table-body").innerHTML += `
+				<tr>
+					<th class="px-6 py-4 bg-gray-800 text-gray-100 modflags${
+						i === 0 ? ' round-top-left' : ''
+					}" style="height: 60px;">${mod.flag} ${mod.name}</th>${row}
+				</tr>
+			`;
+		}
+		for (const result of results) document.querySelector(`td[white="${result[0]}"][black="${result[1]}"]`).innerHTML = result[2];
+	</script>
+</body>
+</html>
