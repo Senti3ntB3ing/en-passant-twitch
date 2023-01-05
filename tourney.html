@@ -32,8 +32,7 @@
 			align-self: center;
 			margin: 20px auto;
 		}
-		#top-headers { text-align: left; }
-		.modflags { margin-right: 10px; }
+		#top-headers { text-align: left; }		
 		.vertical {
 			transform: rotate(-90deg);
 			white-space: nowrap;
@@ -41,6 +40,14 @@
 			margin-bottom: -20px;
 		}
 		.round-top-left { border-top-left-radius: 0.5rem; }
+		.round-bottom-left { border-bottom-left-radius: 0.5rem; }
+		.round-top-right { border-top-right-radius: 0.5rem; }
+		.round-bottom-right { border-bottom-right-radius: 0.5rem; }
+		sub { bottom: -1.2rem !important; }
+		sup { top: -1.2rem !important; }
+		.white-r { box-shadow: inset -4px 0 0 #fff; height: 60px; }
+		.black-b { box-shadow: inset 0 -4px 0 #000; width: 60px; }
+		td { cursor: default; }
 	</style>
 </head>
 <body class="bg-gray-900">
@@ -52,7 +59,7 @@
 					<div class="overflow-hidden sm:rounded-lg">
 						<table class="min-w-full text-sm text-gray-400">
 							<thead class="bg-gray-800">
-								<tr id="top-headers" style="height: 120px"><th class="bg-gray-900"></th></tr>
+								<tr id="top-headers" style="height: 120px"><th class="bg-gray-900 text-center text-xl"><sub>⬜</sub> ╲ <sup>⬛</sup></th></tr>
 							</thead>
 							<tbody class="" id="table-body"></tbody>
 						</table>
@@ -73,15 +80,12 @@
 			{ flag: '🇮🇳', name: 'Sahil' },
 			{ flag: '🇪🇬', name: 'Ahmad' },
 		];
-		const results = [
-			//[ 'Sahil', 'Adam', '1' ]
-		];
 		for (let i = 0; i < mods.length; i++) {
 			const mod = mods[i];
 			document.getElementById('top-headers').innerHTML += `
-				<th scope="col" class="text-left tracking-wider text-gray${
-					i === 0 ? ' round-top-left' : ''
-				}" style="width: 60px;"><div class="vertical"><span class="modflags">${mod.flag}</span>${mod.name}</div></th>
+				<th scope="col" class="text-left tracking-wider black-b text-gray${
+					i === 0 ? ' round-top-left' : (i === mods.length - 1 ? ' round-top-right' : '')
+				}"><div class="vertical modflags">${mod.flag} ${mod.name}</div></th>
 			`;
 			let row = "";
 			for (let j = 1; j <= mods.length; j++) {
@@ -91,13 +95,39 @@
 			}
 			document.getElementById("table-body").innerHTML += `
 				<tr>
-					<th class="px-6 py-4 bg-gray-800 text-gray-100 modflags${
-						i === 0 ? ' round-top-left' : ''
-					}" style="height: 60px;">${mod.flag} ${mod.name}</th>${row}
+					<th class="px-6 py-4 bg-gray-800 text-gray-100 text-right white-r modflags${
+						i === 0 ? ' round-top-left' : (i === mods.length - 1 ? ' round-bottom-left' : '')
+					}">${mod.name} ${mod.flag}</th>
+					${row}
+					<td total-white="${mod.name}" class="text-center text-gray-100 text-xl text-white font-mono" width="60px" height="60px"></td>
 				</tr>
 			`;
 		}
-		for (const result of results) document.querySelector(`td[white="${result[0]}"][black="${result[1]}"]`).innerHTML = result[2];
+		let res_row = "<th></th>";
+		for (const mod of mods)
+			res_row += `<td total-black="${mod.name}" class="text-center text-gray-100 text-xl text-white font-mono" width="60px" height="60px"></td>`;
+		document.getElementById("table-body").innerHTML += '<tr>' + res_row + '</tr>';
+		document.getElementById('top-headers').innerHTML += `<th class="bg-gray-900"></th>`;
+		const results = [
+			// WHITE       BLACK         SCORE
+			//[  'Sahil',    'Adam',         1 ],
+			//[   'Adam',   'Sahil',         0 ],
+			//[  'Gavin',    'Adam',       1/2 ],
+		];
+		const totals = { white: {}, black: {} }; mods.forEach(mod => {
+			totals.white[mod.name] = 0; totals.black[mod.name] = 0;
+		});
+		const $ = s => s.toString().replace(/0?\.5/, '½');
+		for (const result of results) {
+			totals.white[result[0]] += result[2];
+			totals.black[result[1]] += 1 - result[2];
+			document.querySelector(`td[white="${result[0]}"][black="${result[1]}"]`).innerText = $(result[2]);
+			document.querySelector(`td[total-white="${result[0]}"]`).innerText = $(totals.white[result[0]]);
+			document.querySelector(`td[total-black="${result[1]}"]`).innerText = $(totals.black[result[1]]);
+			document.querySelector(`td[white="${result[0]}"][black="${result[1]}"]`).setAttribute(
+				"title", result[2] == 0 ? "Black Won" : (result[2] == 1 ? "White Won" : "Draw")
+			);
+		}
 	</script>
 </body>
 </html>
