@@ -19,8 +19,6 @@ export const StreamerID = '428214501';
 export const ZACH_FIDE_ID = '2624346';
 export const DISCORD = 'discord.gg/DKHBFF22TJ';
 
-export const SETUP = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
-
 export const saxon_genitive = s => s + (s[s.length - 1] == 's' ? "'" : "'s");
 
 export const Time = {
