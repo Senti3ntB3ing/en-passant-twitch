@@ -16,6 +16,12 @@ programmable({
 	}
 });
 
+programmable({
+	commands: [ 'kill' ], permissions: 'mod',
+	description: 'Kills the bot.',
+	execute: () => { Deno.exit(0); }
+});
+
 // ==== Challenge ==============================================================
 
 export let challenge = false;
