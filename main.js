@@ -57,6 +57,8 @@ await connect();
 
 // =========================================
 
+refresh();
+
 const server = new Server();
 
 server.listen(NOT_FOUND, () => ({ status: 404, body: 'Not found' }));
