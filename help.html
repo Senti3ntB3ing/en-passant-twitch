@@ -29,24 +29,16 @@
 </head>
 <body class="bg-gray-900">
 	<h1 class="text-lg text-gray-200 font-medium text-center mt-6">en-passant 🇺🇳 <span class="bot">BOT</span> Twitch Actions 🛟</h1>
-	<div class="flex flex-col mt-6">
-		<div class="-my-2 sm:-mx-6 lg:-mx-8">
-			<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-				<div class="shadow sm:rounded-lg">
-					<table class="text-sm text-gray-400">
-						<thead class="bg-gray-800 text-xs uppercase font-medium">
-							<tr>
-								<th scope="col" class="px-6 py-3 text-left tracking-wider">Command</th>
-								<th scope="col" class="px-6 py-3 text-left tracking-wider">Allowed</th>
-								<th scope="col" class="px-6 py-3 text-left tracking-wider">Description</th>
-							</tr>
-						</thead>
-						<tbody id="list" class="bg-gray-800"></tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
+	<table class="text-sm text-gray-400">
+		<thead class="bg-gray-800 text-xs uppercase font-medium">
+			<tr>
+				<th scope="col" class="px-6 py-3 text-left tracking-wider">Command</th>
+				<th scope="col" class="px-6 py-3 text-left tracking-wider">Allowed</th>
+				<th scope="col" class="px-6 py-3 text-left tracking-wider">Description</th>
+			</tr>
+		</thead>
+		<tbody id="list" class="bg-gray-800"></tbody>
+	</table>
 	<script type="text/javascript">
 		const URL_FETCH = /(?:https?:\/\/)?((?:[A-Za-z0-9_\-]+\.)+(?:com?|it|uk|gov|org|tv|gg|be|gle)(?:[^!,. ]+)*)/g;
 		const urlify = text => text.replace(
