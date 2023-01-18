@@ -1,5 +1,5 @@
 
-import { Streamer } from '../config.js';
+import { Streamer, Time } from '../config.js';
 import { programmable } from '../parser.js';
 import { uptime, follow_count } from '../components/twitch.js';
 import { refresh } from '../parser.js';
@@ -93,35 +93,18 @@ programmable({
 });
 
 programmable({
-	commands: [ 'tos' ], permissions: 'mod',
+	commands: [ 'tos' ], permissions: 'vip',
 	description: 'Chess.com terms of service.',
 	execute: data => {
 		let user = data.message.match(/@(\w+)/);
-		if (user == null || user.length < 2)
-			return `Please don't suggest moves for the current position as ` +
-			`it's against chess.com terms of service. Instead please ask ` +
-			`Zach about a possible move after the position has passed`;
+		if (user === null || user.length < 2)
+			return `Please don't suggest moves for the current position ` +
+			`as it's against chess.com terms of service!`;
 		user = user[1];
 		return `@${user} please don't suggest moves for the current position ` +
-			`as it's against chess.com terms of service. Instead please ask ` +
-			`Zach about a possible move after the position has passed`;
+			`as it's against chess.com terms of service!`;
 	}
 });
-
-const leap = (y) => ((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0);
-
-function difference(major, minor) {
-	if (major < minor) [ major, minor ] = [ minor, major ];
-	const monthsDays = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
-	const majorDays = Math.floor(major.valueOf() / 86400000);
-	const minorDays = Math.floor(minor.valueOf() / 86400000);
-	let delta = majorDays - minorDays, years = 0, months = 0;
-	let i = minor.getFullYear(), l = leap(i) ? 366 : 365;
-	while (delta >= l) delta -= l = (leap(i++) ? 366 : 365);
-	years = i - minor.getFullYear();
-	while (delta >= monthsDays[months]) delta -= monthsDays[months++];
-	return { years, months, weeks: Math.floor(delta / 7), days: delta % 7 };
-}
 
 // https://api.2g.be/twitch/followage/thechessnerdlive/user?format=ymwd)
 programmable({
@@ -129,8 +112,8 @@ programmable({
 	description: 'Gets your current follow age.',
 	execute: async data => {
 		const user = data.username;
-		if (data.username == 'thechessnerdlive') {
-			const d = difference(new Date(), new Date(2022, 2, 19));
+		if (data.username === Streamer) {
+			const d = Time.difference(new Date(), new Date(2022, 2, 19));
 			let s = 'Zach has been streaming for ';
 			if (d.years > 0) s += `${d.years} years, `;
 			if (d.months > 0) s += `${d.months} months, `;
@@ -141,7 +124,7 @@ programmable({
 		const response = await fetch(
 			`https://api.2g.be/twitch/followage/${Streamer}/${user}?format=ymwd`
 		);
-		if (response.status != 200) return;
+		if (response.status !== 200) return;
 		return '@' + (await response.text()).replace(Streamer + ' ', '');
 	}
 });

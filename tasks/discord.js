@@ -6,4 +6,4 @@ import { live } from '../components/twitch.js';
 task(async () => {
 	if (await live(Streamer))
 		return '💙 Join our thriving Discord community -> ' + DISCORD;
-}, Time.minutes(20));
+}, Time.minutes(15));

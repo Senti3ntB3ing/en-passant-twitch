@@ -50,8 +50,22 @@ export const Time = {
 		if (h > 0) v += h + 'h ';
 		if (m > 0) v += m + 'm ';
 		return v.trim();
+	},
+	difference: (major, minor) => {
+		if (major < minor) [ major, minor ] = [ minor, major ];
+		const monthsDays = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+		const majorDays = Math.floor(major.valueOf() / 86400000);
+		const minorDays = Math.floor(minor.valueOf() / 86400000);
+		let delta = majorDays - minorDays, years = 0, months = 0;
+		let i = minor.getFullYear(), l = leap(i) ? 366 : 365;
+		while (delta >= l) delta -= l = (leap(i++) ? 366 : 365);
+		years = i - minor.getFullYear();
+		while (delta >= monthsDays[months]) delta -= monthsDays[months++];
+		return { years, months, weeks: Math.floor(delta / 7), days: delta % 7 };
 	}
 };
+
+const leap = (y) => ((y % 4 === 0) && (y % 100 !== 0)) || (y % 400 === 0);
 
 export const Size = {
 	byte: 1,

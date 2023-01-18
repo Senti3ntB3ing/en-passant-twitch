@@ -61,8 +61,15 @@ const server = new Server();
 
 server.listen(NOT_FOUND, () => ({ status: 404, body: 'Not found' }));
 
-server.listen([ ROOT, 'help', 'mod' ], async request => {
+server.listen("refresh", async request => {
 	await refresh();
+	return {
+		headers: new Headers({ 'Content-Type': 'text/html' }),
+		status: 200, body: "Commands Refreshed!"
+	};
+});
+
+server.listen([ ROOT, 'mod' ], async request => {
 	const mod = request.url.includes('mod');
 	const join = programmables.find(p => p.commands.includes('join'));
 	return {
