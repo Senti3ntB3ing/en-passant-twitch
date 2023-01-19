@@ -53,8 +53,8 @@
 			<table class="text-gray-400 sm:text-lg md:text-md lg:text-lg">
 				<thead class="bg-gray-800 uppercase font-medium md:text-md">
 					<tr>
+						<th scope="col" class="px-6 py-3 sm:px-0 text-left tracking-wider"></th>
 						<th scope="col" class="px-6 py-3 text-left tracking-wider">Command</th>
-						<th scope="col" class="px-6 py-3 sm:px-0 text-left tracking-wider"><span class="sm:hidden md:visible">Allowed</span></th>
 						<th scope="col" class="px-6 py-3 text-left tracking-wider">Description</th>
 					</tr>
 				</thead>
@@ -72,15 +72,15 @@
 		const actions = `%ACTIONS%`.filter(a => mod || a.permissions != 'mod').sort(
 			(a, b) => a.commands[0] > b.commands[0] ? 1 : -1
 		).map(a => `<tr class="bg-black even:bg-opacity-20 odd:bg-opacity-30">
+			<td class="px-6 py-4 sm:px-0 whitespace-prewrap" title="${a.permissions}">${emojis(a.permissions)}</td>
 			<td class="px-6 py-4 whitespace-prewrap font-mono text-white">${a.commands.map(c => prefix + c).join(' ')}</td>
-			<td class="px-6 py-4 sm:px-0 whitespace-prewrap">${emojis(a.permissions)} <strong class="uppercase font-mono sm:hidden md:visible">${a.permissions}</strong></td>
 			<td class="px-6 py-4 whitespace-prewrap" style="">${urlify(a.reply).replace(/->/g, '→')}</td>
 		</tr>`).join('\n')
 		const programmables = `%PROGRAMMABLES%`.filter(p => mod || p.permissions != 'mod').sort(
 			(a, b) => a.commands[0] > b.commands[0] ? 1 : -1
 		).map(p => `<tr class="bg-black odd:bg-opacity-20 even:bg-opacity-30">
+			<td class="px-6 py-4 sm:px-0 whitespace-prewrap" title="${p.permissions}">${emojis(p.permissions)}</td>
 			<td class="px-6 py-4 whitespace-prewrap font-mono text-white">${p.commands.map(c => prefix + c).join(' ')}</td>
-			<td class="px-6 py-4 sm:px-0 whitespace-prewrap">${emojis(p.permissions)} <strong class="uppercase font-mono sm:hidden md:visible">${p.permissions}</strong></td>
 			<td class="px-6 py-4 whitespace-prewrap" style="">${urlify(p.description).replace(/->/g, '→')}</td>
 		</tr>`).join('\n');
 		const separator = `<tr><td colspan="3" class="divider"><hr style="border-color:#1F2838"></td></tr>`;
