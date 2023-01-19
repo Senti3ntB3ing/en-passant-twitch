@@ -43,7 +43,10 @@
 			white-space: pre-wrap;
 			word-break: break-all;
 		}
-		#list tr td:nth-child(2) { white-space: nowrap; }
+		#list tr td:nth-child(2) {
+			word-wrap: break-word;
+    		max-width: 200px;
+		}
 	</style>
 </head>
 <body class="bg-gray-900">
