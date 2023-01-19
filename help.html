@@ -75,14 +75,14 @@
 		const actions = `%ACTIONS%`.filter(a => mod || a.permissions != 'mod').sort(
 			(a, b) => a.commands[0] > b.commands[0] ? 1 : -1
 		).map(a => `<tr class="bg-black even:bg-opacity-20 odd:bg-opacity-30">
-			<td class="px-6 py-4" title="${a.permissions}">${emojis(a.permissions)}</td>
+			<td class="px-6 py-4" title="${a.permissions.toUpperCase()}">${emojis(a.permissions)}</td>
 			<td class="px-6 py-4 font-mono text-white">${a.commands.map(c => prefix + c).join(' ')}</td>
 			<td class="px-6 py-4" style="">${urlify(a.reply).replace(/->/g, '→')}</td>
 		</tr>`).join('\n')
 		const programmables = `%PROGRAMMABLES%`.filter(p => mod || p.permissions != 'mod').sort(
 			(a, b) => a.commands[0] > b.commands[0] ? 1 : -1
 		).map(p => `<tr class="bg-black odd:bg-opacity-20 even:bg-opacity-30">
-			<td class="px-6 py-4" title="${p.permissions}">${emojis(p.permissions)}</td>
+			<td class="px-6 py-4" title="${p.permissions.toUpperCase()}">${emojis(p.permissions)}</td>
 			<td class="px-6 py-4 font-mono text-white">${p.commands.map(c => prefix + c).join(' ')}</td>
 			<td class="px-6 py-4" style="">${urlify(p.description).replace(/->/g, '→')}</td>
 		</tr>`).join('\n');
