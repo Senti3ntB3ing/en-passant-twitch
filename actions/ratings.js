@@ -59,27 +59,20 @@ programmable({
 });
 
 programmable({
-	commands: [ 'rating', 'ratings' ], permissions: 'all',
-	description: 'Gets Zach\'s current Chess.com ratings.',
-	execute: async () => {
-		const ratings = await Chess.com.ratings('thechessnerd');
-		if (ratings == undefined)
-			return `Zach's Chess.com profile -> chess.com/member/thechessnerd`;
-		return 'Zach\'s Chess.com ratings -> ' + ratings.map(
-			r => emojis[r.category] + ` ${r.category} ${r.rating}`
-		).join(', ') + '.';
-	}
-});
-
-programmable({
-	commands: [ 'chess.com', 'chesscom' ], permissions: 'all',
+	commands: [ 'chess.com', 'chesscom', 'ratings' ], permissions: 'all',
 	description: 'Gets Chess.com ratings for the specified user.',
 	execute: async data => {
 		const match = data.message.match(CHESS_COM_REGEX);
-		if (match == null || match.length < 2)
-			return `Try with ${Prefix}chess.com <username>.`;
+		if (match === null || match.length < 2) {
+			const ratings = await Chess.com.ratings('thechessnerd');
+			if (ratings === undefined)
+				return `Zach's Chess.com profile -> chess.com/member/thechessnerd`;
+			return 'Zach\'s Chess.com ratings -> ' + ratings.map(
+				r => emojis[r.category] + ` ${r.category} ${r.rating}`
+			).join(', ') + '.';
+		}
 		const ratings = await Chess.com.ratings(match[1]);
-		if (ratings == undefined)
+		if (ratings === undefined)
 			return `Couldn't find Chess.com user '${match[1]}'.`;
 		return saxon_genitive(match[1]) + ' Chess.com ratings -> ' + ratings.map(
 			r => emojis[r.category] + ` ${r.category} ${r.rating}`
