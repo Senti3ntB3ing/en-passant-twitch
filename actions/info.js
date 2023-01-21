@@ -46,7 +46,7 @@ programmable({
 // ==== Generic Info ===========================================================
 
 programmable({
-	commands: [ 'timezone' ],
+	commands: [ 'time', 'timezone' ],
 	description: 'Gets Zach\'s current time.',
 	execute: () => `For Zach it is ${(new Date()).toLocaleTimeString('en-US', {
 		timeZone: 'America/Montreal',
