@@ -27,7 +27,7 @@ programmable({
 export let challenge = false;
 
 programmable({
-	commands: [ 'challenge', 'match' ],
+	commands: [ 'challenge' ],
 	description: 'Challenge Zach to a game.',
 	execute: () => challenge ?
 		"Zach is accepting challenges today, !join the queue to play him." :
@@ -35,7 +35,7 @@ programmable({
 });
 
 programmable({
-	commands: [ 'togglechallenge', 'togglec' ], permissions: 'mod',
+	commands: [ 'togglec' ], permissions: 'mod',
 	description: 'Toggle the challenge message.',
 	execute: () => {
 		challenge = !challenge;
@@ -46,7 +46,7 @@ programmable({
 // ==== Generic Info ===========================================================
 
 programmable({
-	commands: [ 'time' ],
+	commands: [ 'timezone' ],
 	description: 'Gets Zach\'s current time.',
 	execute: () => `For Zach it is ${(new Date()).toLocaleTimeString('en-US', {
 		timeZone: 'America/Montreal',
