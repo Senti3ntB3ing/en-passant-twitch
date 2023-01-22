@@ -50,7 +50,7 @@ export function resolve(data, channel) {
 	if (!data.message.includes(Prefix)) return;
 	let command = RRSLV.exec(data.message);
 	if (command === null) return;
-	if (/\b(command|use)\b/i.test(data.message)) return;
+	if (/\b(command|use|type)\b/i.test(data.message)) return;
 	command = command[0].trim().replace(Prefix, '').toLowerCase();
 	for (const action of actions) {
 		if (!action.commands.includes(command)) continue;
