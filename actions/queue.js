@@ -41,7 +41,7 @@ programmable({
 });
 
 programmable({
-	commands: [ 'position' ],
+	commands: [ 'position', 'pos' ],
 	description: 'Get your position in the queue.',
 	execute: data => {
 		const [ _u, i ] = queue.position(data.username);
