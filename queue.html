@@ -61,7 +61,7 @@
 		`;
 		document.getElementById('list').innerHTML = `%LIST%`.map(
 		(m, i) => `<tr class="bg-black even:bg-opacity-20 odd:bg-opacity-30">
-			<td class="px-6 py-4 text-center whitespace-nowrap font-mono">${i}</td>
+			<td class="px-6 py-4 text-center whitespace-nowrap font-mono">${i + 1}</td>
 			<td class="px-6 py-4 text-center whitespace-nowrap font-mono"><a href="https://www.twitch.tv/${m.user}" target="_blank"><code>@${m.user}</code></a></td>
 			<td class="px-6 py-4 text-center whitespace-nowrap font-mono"><a href="https://www.chess.com/member/${m.profile}" target="_blank"><code>${m.profile}</code></a></td>
 		</tr>`).join('\n');
