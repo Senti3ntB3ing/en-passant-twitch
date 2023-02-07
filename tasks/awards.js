@@ -6,7 +6,7 @@ import { live } from '../components/twitch.js';
 task(async () => {
 	if (await live(Streamer))
 		return "🧡 Streamer Awards are almost here! " +
-			"Show your support and vote thechessnerdlive " +
-			"for the chess and rising star awards (10 and 23) "
+			"Show your support and vote thechessnerdlive for " +
+			"the chess and rising star awards (10 and 23) " +
 			"-> thestreamerawards.com";
 }, Time.minutes(10));
