@@ -21,6 +21,7 @@ import './actions/video.js';
 // ==== Tasks ==============================
 
 import './tasks/discord.js';
+import './tasks/awards.js';
 // import './tasks/drop.js';
 
 // =========================================
