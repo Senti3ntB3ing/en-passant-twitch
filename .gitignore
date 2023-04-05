@@ -1,4 +1,5 @@
 
+/flags/
 .env
 *.env
 test*.*

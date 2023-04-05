@@ -81,7 +81,7 @@ programmable({
 	execute: async () => `Zach has ${await follow_count(Streamer)} followers.`
 });
 
-programmable({
+/*programmable({ // no need to use this anymore as it's built into twitch now.
 	commands: [ 'so', 'shoutout' ], permissions: 'mod',
 	description: 'Shout out to the specified streamer.',
 	execute: data => {
@@ -90,7 +90,7 @@ programmable({
 		const streamer = args[1].replace(/^@+/, '');
 		return `Follow @${streamer} at twitch.tv/${streamer}`;
 	}
-});
+});*/
 
 programmable({
 	commands: [ 'tos' ], permissions: 'vip',

@@ -18,6 +18,7 @@ import './actions/video.js';
 // ==== Tasks ==============================
 
 import './tasks/discord.js';
+// import './tasks/awards.js';
 // import './tasks/drop.js';
 
 // =========================================
@@ -60,7 +61,7 @@ const server = new Server();
 
 server.listen(NOT_FOUND, () => ({ status: 404, body: 'Not found' }));
 
-server.listen("refresh", async request => {
+server.listen("refresh", async _request => {
 	await refresh();
 	return {
 		headers: new Headers({ 'Content-Type': 'text/html' }),
@@ -68,9 +69,8 @@ server.listen("refresh", async request => {
 	};
 });
 
-server.listen([ ROOT, 'mod' ], async request => {
+server.listen([ ROOT, 'mod' ], request => {
 	const mod = request.url.includes('mod');
-	const join = programmables.find(p => p.commands.includes('join'));
 	return {
 		headers: new Headers({ 'Content-Type': 'text/html' }),
 		status: 200, body: new TextDecoder().decode(
