@@ -1,15 +1,12 @@
 
 import { TwitchChat } from 'https://deno.land/x/tmi_beta@v0.1.4/mod.ts';
 
-import { randomBoard, randomThread, posts } from './components/4chan.js';
-
 import { log, resolve, actions, programmables, refresh } from './parser.js';
 import { Streamer, StreamerID, Prefix } from './config.js';
 import { Server, ROOT, NOT_FOUND } from './server.js';
 
 import { queue } from './actions/queue.js';
 import { challenge } from './actions/info.js';
-import { Database } from './database.js';
 
 // ==== Actions ============================
 
@@ -85,13 +82,6 @@ server.listen([ ROOT, 'mod' ], async request => {
 	};
 });
 
-server.listen('audit', async () => ({
-	headers: new Headers({ 'Content-Type': 'text/html' }),
-	status: 200, body: new TextDecoder().decode(
-		Deno.readFileSync('./audit.html')
-	).replace('`%AUDIT%`', JSON.stringify((await Database.get('audit')) || []))
-}));
-
 server.listen('time', () => ({
 	headers: new Headers({ 'Content-Type': 'text/html' }),
 	status: 200, body: new TextDecoder().decode(
@@ -121,20 +111,6 @@ server.listen('tourney', () => ({
 	headers: new Headers({ 'Content-Type': 'text/html' }),
 	status: 200, body: Deno.readFileSync('./tourney.html')
 }));
-
-server.listen('training', async () => {
-	const board = await randomBoard();
-	const thread = await randomThread(board);
-	let messages = await posts(board, thread);
-	// get first 10 to 20 rand messages:
-	messages = messages.slice(0, Math.floor(Math.random() * 10) + 10);
-	return {
-		headers: new Headers({ 'Content-Type': 'text/html' }),
-		status: 200, body: new TextDecoder().decode(
-			Deno.readFileSync('./training.html')
-		).replace('`%MESSAGES%`', JSON.stringify(messages))
-	};
-});
 
 server.start();
 log('status', 'server connected');
