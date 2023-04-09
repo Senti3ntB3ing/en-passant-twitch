@@ -24,6 +24,8 @@
 			font-size: 10px;
 			color: #fff;
 		}
+		code.text-purple { color: #772ce8; }
+		code.text-green { color: #67ca44; }
 	</style>
 </head>
 <body class="bg-gray-900">
@@ -62,8 +64,8 @@
 		document.getElementById('list').innerHTML = `%LIST%`.map(
 		(m, i) => `<tr class="bg-black even:bg-opacity-20 odd:bg-opacity-30">
 			<td class="px-6 py-4 text-center whitespace-nowrap font-mono">${i + 1}</td>
-			<td class="px-6 py-4 text-center whitespace-nowrap font-mono"><a href="https://www.twitch.tv/${m.user}" target="_blank"><code>@${m.user}</code></a></td>
-			<td class="px-6 py-4 text-center whitespace-nowrap font-mono"><a href="https://www.chess.com/member/${m.profile}" target="_blank"><code>${m.profile}</code></a></td>
+			<td class="px-6 py-4 text-center whitespace-nowrap font-mono"><a href="https://www.twitch.tv/${m.user}" target="_blank"><code class="text-purple">@${m.user}</code></a></td>
+			<td class="px-6 py-4 text-center whitespace-nowrap font-mono"><a href="https://www.chess.com/member/${m.profile}" target="_blank"><code class="text-green">${m.profile}</code></a></td>
 		</tr>`).join('\n');
 	</script>
 </body>
