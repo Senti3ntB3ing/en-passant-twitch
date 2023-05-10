@@ -1,9 +1,5 @@
 
-import { DISCORD, Streamer, Time } from "../config.js";
+import { DISCORD, Time } from "../config.js";
 import { task } from "../parser.js";
-import { live } from "../components/twitch.js";
 
-task(async () => {
-	if (await live(Streamer))
-		return "💙 Join our thriving Discord community -> " + DISCORD;
-}, Time.minutes(15));
+task(() => "💙 Join our Discord community -> " + DISCORD, Time.minutes(15));

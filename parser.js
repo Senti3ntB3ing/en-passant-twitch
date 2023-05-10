@@ -3,6 +3,8 @@ import { Prefix } from './config.js';
 import { Database } from './database.js';
 import { channel } from './main.js';
 
+import { live } from "../components/twitch.js";
+
 export let actions = []; export const programmables = [];
 
 export const log = (component, text) => console.log(
@@ -11,9 +13,7 @@ export const log = (component, text) => console.log(
 	})} UTC] ${component}: ${text}`
 );
 
-const hearts = {
-	'🧡': "orange", '💚': "green", '💙': "blue", '💜': "purple"
-};
+const hearts = { '🧡': "orange", '💚': "green", '💙': "blue", '💜': "purple" };
 
 const handler = message => {
 	if (message === undefined) return;
@@ -24,8 +24,10 @@ const handler = message => {
 	channel.send(message);
 };
 
-export const task = (f, t) => {
-	setInterval(() => {
+// l: live switch, enables or disables the task based on the streamer's status
+export const task = (f, t, l = true) => {
+	setInterval(async () => {
+		if (l && !(await live(Streamer))) return;
 		if (f.constructor.name === 'AsyncFunction')
 			f(channel).then(handler);
 		else handler(f(channel));
