@@ -1,25 +1,26 @@
 
-import { TwitchChat } from 'https://deno.land/x/tmi_beta@v0.1.4/mod.ts';
+import { TwitchChat } from "https://deno.land/x/tmi_beta@v0.1.4/mod.ts";
 
-import { log, resolve, actions, programmables, refresh } from './parser.js';
-import { Streamer, StreamerID, Prefix } from './config.js';
-import { Server, ROOT, NOT_FOUND } from './server.js';
+import { log, resolve, actions, programmables, refresh } from "./parser.js";
+import { Streamer, StreamerID, Prefix } from "./config.js";
+import { Server, ROOT, NOT_FOUND } from "./server.js";
 
-import { queue } from './actions/queue.js';
-import { challenge } from './actions/info.js';
+import { queue } from "./actions/queue.js";
+import { challenge } from "./actions/info.js";
 
 // ==== Actions ============================
 
-import './actions/info.js';
-import './actions/queue.js';
-import './actions/ratings.js';
-import './actions/video.js';
+import "./actions/info.js";
+import "./actions/queue.js";
+import "./actions/ratings.js";
+import "./actions/video.js";
 
 // ==== Tasks ==============================
 
-import './tasks/discord.js';
-// import './tasks/awards.js';
-// import './tasks/drop.js';
+import "./tasks/discord.js";
+import "./tasks/chesscom.js";
+// import "./tasks/awards.js";
+// import "./tasks/drop.js";
 
 // =========================================
 
@@ -38,17 +39,17 @@ export async function connect() {
 		if (channel !== null) {
 			channel.part();
 			chat.disconnect();
-			log('status', 'twitch chat disconnected');
+			log("status", "twitch chat disconnected");
 		}
-		chat = new TwitchChat(Deno.env.get('TWITCH_OAUTH_BOT'));
+		chat = new TwitchChat(Deno.env.get("TWITCH_OAUTH_BOT"));
 		await chat.connect();
 		channel = chat.join(Streamer, StreamerID);
-		channel.listener('privmsg', data => resolve(data, channel));
+		channel.listener("privmsg", data => resolve(data, channel));
 	} catch (e) {
 		console.error(e);
 		Deno.exit(1);
 	}
-	log('status', 'twitch chat connected');
+	log("status", "twitch chat connected");
 }
 
 await connect();
@@ -59,58 +60,58 @@ refresh();
 
 const server = new Server();
 
-server.listen(NOT_FOUND, () => ({ status: 404, body: 'Not found' }));
+server.listen(NOT_FOUND, () => ({ status: 404, body: "Not found" }));
 
 server.listen("refresh", async _request => {
 	await refresh();
 	return {
-		headers: new Headers({ 'Content-Type': 'text/html' }),
+		headers: new Headers({ "Content-Type": "text/html" }),
 		status: 200, body: "Commands Refreshed!"
 	};
 });
 
-server.listen([ ROOT, 'mod' ], request => {
-	const mod = request.url.includes('mod');
+server.listen([ ROOT, "mod" ], request => {
+	const mod = request.url.includes("mod");
 	return {
-		headers: new Headers({ 'Content-Type': 'text/html' }),
+		headers: new Headers({ "Content-Type": "text/html" }),
 		status: 200, body: new TextDecoder().decode(
-			Deno.readFileSync('./help.html')
-		).replace('`%ACTIONS%`', JSON.stringify(actions))
-		.replace('`%PROGRAMMABLES%`', JSON.stringify(programmables))
-		.replace('`%PREFIX%`', `'${Prefix}'`)
-		.replace('`%MOD%`', JSON.stringify(mod))
+			Deno.readFileSync("./help.html")
+		).replace("`%ACTIONS%`", JSON.stringify(actions))
+		.replace("`%PROGRAMMABLES%`", JSON.stringify(programmables))
+		.replace("`%PREFIX%`", `'${Prefix}'`)
+		.replace("`%MOD%`", JSON.stringify(mod))
 	};
 });
 
-server.listen('time', () => ({
-	headers: new Headers({ 'Content-Type': 'text/html' }),
+server.listen("time", () => ({
+	headers: new Headers({ "Content-Type": "text/html" }),
 	status: 200, body: new TextDecoder().decode(
-		Deno.readFileSync('./time.html')
+		Deno.readFileSync("./time.html")
 	)
 }));
 
-server.listen('queue', () => {
-	const join = programmables.find(p => p.commands.includes('join'));
+server.listen("queue", () => {
+	const join = programmables.find(p => p.commands.includes("join"));
 	return {
-		headers: new Headers({ 'Content-Type': 'text/html' }),
+		headers: new Headers({ "Content-Type": "text/html" }),
 		status: 200, body: new TextDecoder().decode(
-			Deno.readFileSync('./queue.html')
-		).replace('`%LIST%`', JSON.stringify(queue.list))
-		.replace('`%QUEUE%`', queue.enabled ? "'on'" : "'off'")
-		.replace('`%CHALLENGE%`', challenge ? "'on'" : "'off'")
-		.replace('`%SUBONLY%`', join.permissions === 'sub' ? "'on'" : "'off'")
+			Deno.readFileSync("./queue.html")
+		).replace("`%LIST%`", JSON.stringify(queue.list))
+		.replace("`%QUEUE%`", queue.enabled ? "'on'" : "'off'")
+		.replace("`%CHALLENGE%`", challenge ? "'on'" : "'off'")
+		.replace("`%SUBONLY%`", join.permissions === 'sub' ? "'on'" : "'off'")
 	};
 });
 
-server.listen('map', () => ({
-	headers: new Headers({ 'Content-Type': 'text/html' }),
-	status: 200, body: Deno.readFileSync('./map.html')
+server.listen("map", () => ({
+	headers: new Headers({ "Content-Type": "text/html" }),
+	status: 200, body: Deno.readFileSync("./map.html")
 }));
 
-server.listen('tourney', () => ({
-	headers: new Headers({ 'Content-Type': 'text/html' }),
-	status: 200, body: Deno.readFileSync('./tourney.html')
+server.listen("tourney", () => ({
+	headers: new Headers({ "Content-Type": "text/html" }),
+	status: 200, body: Deno.readFileSync("./tourney.html")
 }));
 
 server.start();
-log('status', 'server connected');
+log("status", "server connected");
