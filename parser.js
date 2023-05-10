@@ -3,7 +3,7 @@ import { Prefix } from './config.js';
 import { Database } from './database.js';
 import { channel } from './main.js';
 
-import { live } from "../components/twitch.js";
+import { live } from "./components/twitch.js";
 
 export let actions = []; export const programmables = [];
 
