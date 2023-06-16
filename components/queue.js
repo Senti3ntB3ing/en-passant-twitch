@@ -5,7 +5,7 @@ export class Queue {
 
 	#queue = [];
 	#q = new Persistent('queue');
-	enabled = true;
+	enabled = false;
 
 	constructor() { // threadsafe singleton:
 		if (!Queue.instance) Queue.instance = this;
