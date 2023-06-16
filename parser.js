@@ -1,5 +1,5 @@
 
-import { Prefix } from './config.js';
+import { Prefix, Streamer } from './config.js';
 import { Database } from './database.js';
 import { channel } from './main.js';
 
