@@ -20,8 +20,7 @@ import "./actions/video.js";
 import "./tasks/discord.js";
 import "./tasks/chesscom.js";
 import "./tasks/feedback.js";
-// import "./tasks/awards.js";
-// import "./tasks/drop.js";
+import "./tasks/drop.js";
 
 // =========================================
 
