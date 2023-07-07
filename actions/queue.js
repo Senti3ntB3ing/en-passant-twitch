@@ -1,7 +1,7 @@
 
 import { Prefix as P, ordinal } from '../config.js';
 import { programmable, programmables } from '../parser.js';
-import { Chess } from '../components/chesscom.js';
+import { Chess } from '../components/chess.com.js';
 import { Queue } from '../components/queue.js';
 
 export const queue = new Queue();
