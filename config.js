@@ -5,19 +5,19 @@ Array.prototype.random = function() {
 
 export const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 export const ordinal = n => {
-	const s = [ 'th', 'st', 'nd', 'rd' ];
+	const s = [ "th", "st", "nd", "rd" ];
 	const v = `${n}`, l = parseInt(v[v.length - 1]);
 	if (n == 11 || n == 12 || n == 13) return `${n}th`;
 	return n + (l < 4 ? s[l] : s[0]);
 };
 
-export const Name = 'en passant';
+export const Name = "en passant";
 export const Prefix = '!';
 
-export const Streamer = 'thechessnerdlive';
-export const StreamerID = '428214501';
-export const ZACH_FIDE_ID = '2624346';
-export const DISCORD = 'discord.gg/DKHBFF22TJ';
+export const Streamer = "thechessnerdlive";
+export const StreamerID = "428214501";
+export const ZACH_FIDE_ID = "2624346";
+export const DISCORD = "discord.gg/DKHBFF22TJ";
 
 export const saxon_genitive = s => s + (s[s.length - 1] == 's' ? "'" : "'s");
 
@@ -65,17 +65,4 @@ export const Time = {
 	}
 };
 
-const leap = (y) => ((y % 4 === 0) && (y % 100 !== 0)) || (y % 400 === 0);
-
-export const Size = {
-	byte: 1,
-	kilobyte: 1024,
-	megabyte: 1024 ** 2,
-	gigabyte: 1024 ** 3,
-	terabyte: 1024 ** 4,
-	bytes: t => t,
-	kilobytes: t => t * 1024,
-	megabytes: t => t * 1024 ** 2,
-	gigabytes: t => t * 1024 ** 3,
-	terabytes: t => t * 1024 ** 4,
-};
+const leap = y => ((y % 4 === 0) && (y % 100 !== 0)) || (y % 400 === 0);

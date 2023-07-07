@@ -18,7 +18,7 @@ import "./actions/video.js";
 // ==== Tasks ==============================
 
 import "./tasks/discord.js";
-import "./tasks/chesscom.js";
+import "./tasks/chess.com.js";
 import "./tasks/feedback.js";
 import "./tasks/drop.js";
 
