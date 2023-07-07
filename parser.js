@@ -3,7 +3,8 @@ import { Prefix, Streamer } from './config.js';
 import { Database } from './database.js';
 import { channel } from './main.js';
 
-export let actions = [], announcements = [];
+export let actions = [];
+export let announcements = [];
 export const programmables = [];
 
 export const log = (component, text) => console.log(
