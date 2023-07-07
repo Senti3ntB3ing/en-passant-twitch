@@ -3,9 +3,8 @@ import { Prefix, Streamer } from './config.js';
 import { Database } from './database.js';
 import { channel } from './main.js';
 
-import { live } from "./components/twitch.js";
-
-export let actions = []; export const programmables = [];
+export let actions = [], announcements = [];
+export const programmables = [];
 
 export const log = (component, text) => console.log(
 	`[${(new Date()).toLocaleTimeString('en-GB', {
@@ -22,16 +21,6 @@ const handler = message => {
 		return;
 	}
 	channel.send(message);
-};
-
-// l: live switch, enables or disables the task based on the streamer's status
-export const task = (f, t, l = true) => {
-	setInterval(async () => {
-		if (l && !(await live(Streamer))) return;
-		if (f.constructor.name === 'AsyncFunction')
-			f(channel).then(handler);
-		else handler(f(channel));
-	}, t);
 };
 
 // ==== Twitch Actions =========================================================
@@ -76,6 +65,12 @@ export async function reloadActions() {
 	return A;
 }
 
+export async function reloadAnnouncements() {
+	const A = await Database.get('announcements');
+	if (A === undefined || A === null) return [];
+	return A;
+}
+
 export function programmable(command) {
 	if (typeof command.execute !== 'function') return;
 	if (command.commands === undefined) return;
@@ -85,4 +80,7 @@ export function programmable(command) {
 	programmables.push(command);
 }
 
-export async function refresh() { actions = await reloadActions(); }
+export async function refresh() {
+	actions = await reloadActions();
+	announcements = await reloadAnnouncements();
+}

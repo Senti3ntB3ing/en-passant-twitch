@@ -1,8 +1,10 @@
 
 import { TwitchChat } from "https://deno.land/x/tmi_beta@v0.1.4/mod.ts";
 
-import { log, resolve, actions, programmables, refresh } from "./parser.js";
-import { Streamer, StreamerID, Prefix } from "./config.js";
+import {
+	log, resolve, actions, announcements, programmables, refresh, announcements
+} from "./parser.js";
+import { Time, Streamer, StreamerID, Prefix } from "./config.js";
 import { Server, ROOT, NOT_FOUND } from "./server.js";
 
 import { queue } from "./actions/queue.js";
@@ -14,13 +16,6 @@ import "./actions/info.js";
 import "./actions/queue.js";
 import "./actions/ratings.js";
 import "./actions/video.js";
-
-// ==== Tasks ==============================
-
-import "./tasks/discord.js";
-import "./tasks/chess.com.js";
-import "./tasks/feedback.js";
-import "./tasks/drop.js";
 
 // =========================================
 
@@ -53,6 +48,19 @@ export async function connect() {
 }
 
 await connect();
+
+// ==== Announcements ======================
+
+let last = Math.floor(Math.random() * announcements.length);
+setInterval(async () => {
+	if (announcements.length === 0) return;
+	last = (last + 1) % announcements.length;
+	const a = announcements[last];
+	const message = a.message, color = a.color || "green";
+	if (message === undefined) return;
+	if ((a.live || true) && !(await live(Streamer))) return;
+	channel.commands.announce(message, color);
+}, Time.minutes(7));
 
 // =========================================
 
