@@ -2,7 +2,7 @@
 import { TwitchChat } from "https://deno.land/x/tmi_beta@v0.1.4/mod.ts";
 
 import {
-	log, resolve, actions, announcements, programmables, refresh, announcements
+	log, resolve, actions, announcements, programmables, refresh
 } from "./parser.js";
 import { Time, Streamer, StreamerID, Prefix } from "./config.js";
 import { Server, ROOT, NOT_FOUND } from "./server.js";
