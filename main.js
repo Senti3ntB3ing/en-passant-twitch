@@ -10,7 +10,7 @@ import { Server, ROOT, NOT_FOUND } from "./server.js";
 import { queue } from "./actions/queue.js";
 import { challenge } from "./actions/info.js";
 
-import { live } from "./components/twitch.tv.js";
+import { live } from "./components/twitch.js";
 
 // ==== Actions ============================
 
