@@ -6,6 +6,7 @@ import {
 } from "./parser.js";
 import { Time, Streamer, StreamerID, Prefix } from "./config.js";
 import { Server, ROOT, NOT_FOUND } from "./server.js";
+import { Database } from "./database.js";
 
 import { queue } from "./actions/queue.js";
 import { challenge } from "./actions/info.js";
@@ -38,7 +39,8 @@ export async function connect() {
 			chat.disconnect();
 			log("status", "twitch chat disconnected");
 		}
-		chat = new TwitchChat(Deno.env.get("TWITCH_OAUTH_BOT"));
+		//chat = new TwitchChat(Deno.env.get("TWITCH_OAUTH_BOT"));
+		chat = new TwitchChat(Database.get("twitch_oauth_bot"));
 		await chat.connect();
 		channel = chat.join(Streamer, StreamerID);
 		channel.listener("privmsg", data => resolve(data, channel));
