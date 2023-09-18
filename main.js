@@ -11,7 +11,7 @@ import { Database } from "./database.js";
 import { queue } from "./actions/queue.js";
 import { challenge } from "./actions/info.js";
 
-import { live } from "./components/twitch.js";
+import { live, validate } from "./components/twitch.js";
 
 // ==== Actions ============================
 
@@ -39,8 +39,11 @@ export async function connect() {
 			chat.disconnect();
 			log("status", "twitch chat disconnected");
 		}
-		//chat = new TwitchChat(Deno.env.get("TWITCH_OAUTH_BOT"));
-		chat = new TwitchChat(await Database.get("twitch_oauth_bot"));
+		const token = await Database.get("twitch_oauth_bot");
+		if (!validate(token)) {
+			// refresh token
+		}
+		chat = new TwitchChat(token);
 		await chat.connect();
 		channel = chat.join(Streamer, StreamerID);
 		channel.listener("privmsg", data => resolve(data, channel));

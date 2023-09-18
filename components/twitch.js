@@ -1,8 +1,9 @@
 
+import { Database } from '../database.js';
 import { Time } from '../config.js';
 
-const TWITCH_CLIENT_ID = Deno.env.get("TWITCH_CLIENT_ID");
-const TWITCH_OAUTH_BOT = Deno.env.get("TWITCH_OAUTH_BOT");
+const TWITCH_CLIENT_ID = await Database.get("twitch_client_id");
+const TWITCH_OAUTH_BOT = await Database.get("twitch_oauth_bot");
 
 export const BASE_URL = "https://api.twitch.tv/helix/";
 export const QUERIES = {
@@ -85,4 +86,20 @@ export async function follow_count(streamer) {
 		const data = await req.json();
 		return 'followers_total' in data ? data.followers_total : null;
 	} catch { return null; }
+}
+
+// To validate a token, send an HTTP GET request to https://id.twitch.tv/oauth2/validate.
+// The following cURL example shows the request.
+// curl -X GET 'https://id.twitch.tv/oauth2/validate' \
+// -H 'Authorization: OAuth <token>'
+// if the token is not valid, the request returns HTTP status code 401
+// docs: https://dev.twitch.tv/docs/authentication/validate-tokens/
+export async function validate(token) {
+	const url = "https://id.twitch.tv/oauth2/validate";
+	try {
+		const req = await fetch(url, { headers: {
+			"Authorization": "OAuth " + token
+		} });
+		return req.status != 401;
+	} catch { return true; } // assumes token is valid
 }
