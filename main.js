@@ -40,7 +40,7 @@ export async function connect() {
 			log("status", "twitch chat disconnected");
 		}
 		//chat = new TwitchChat(Deno.env.get("TWITCH_OAUTH_BOT"));
-		chat = new TwitchChat(Database.get("twitch_oauth_bot"));
+		chat = new TwitchChat(await Database.get("twitch_oauth_bot"));
 		await chat.connect();
 		channel = chat.join(Streamer, StreamerID);
 		channel.listener("privmsg", data => resolve(data, channel));
