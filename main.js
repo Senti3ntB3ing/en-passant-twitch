@@ -11,7 +11,7 @@ import { Database } from "./database.js";
 import { queue } from "./actions/queue.js";
 import { challenge } from "./actions/info.js";
 
-import { live, validate } from "./components/twitch.js";
+import { live, validate, refresh as twitch_refresh } from "./components/twitch.js";
 
 // ==== Actions ============================
 
@@ -39,10 +39,8 @@ export async function connect() {
 			chat.disconnect();
 			log("status", "twitch chat disconnected");
 		}
-		const token = await Database.get("twitch_oauth_bot");
-		if (!validate(token)) {
-			// refresh token
-		}
+		let token = await Database.get("twitch_oauth_bot");
+		if (!validate(token)) token = await twitch_refresh();
 		chat = new TwitchChat(token);
 		await chat.connect();
 		channel = chat.join(Streamer, StreamerID);

@@ -103,3 +103,41 @@ export async function validate(token) {
 		return req.status != 401;
 	} catch { return true; } // assumes token is valid
 }
+
+export async function refresh() {
+	const TWITCH_APP_ID     = await Database.get("twitch_app_id");
+	const TWITCH_APP_SECRET = await Database.get("twitch_app_secret");
+	const TWITCH_REFRESH    = await Database.get("twitch_refresh_token");
+	const details = {
+		"client_id": TWITCH_APP_ID,
+		"client_secret": TWITCH_APP_SECRET,
+		"grant_type": "refresh_token",
+		"refresh_token": TWITCH_REFRESH
+	};
+	let formBody = [];
+	for (let property in details) {
+		let encodedKey = encodeURIComponent(property);
+		let encodedValue = encodeURIComponent(details[property]);
+		formBody.push(encodedKey + '=' + encodedValue);
+	}
+	formBody = formBody.join('&');
+	const response = await fetch("https://id.twitch.tv/oauth2/token", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+		},
+		body: formBody
+	});
+	if (response.status != 200) {
+		console.error("failed to refresh twitch token");
+		return;
+	}
+	const data = await response.json();
+	if (!("scope" in data) || !("access_token" in data) || !("refresh_token" in data)) {
+		console.error("refresh twitch token not present");
+		return;
+	}
+	await Database.set("twitch_oauth_bot", data.access_token);
+	await Database.set("twitch_refresh_token", data.refresh_token);
+	return data.access_token;
+}
