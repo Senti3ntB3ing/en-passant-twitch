@@ -25,8 +25,6 @@ export async function channel(streamer) {
 	if (streamer === '') return undefined;
 	try {
 		const queryUrl = buildUrl(QUERIES.search.channel);
-		console.log(queryUrl + streamer + "&first=10");
-		console.log(HEADERS);
 		const req = await fetch(queryUrl + streamer + "&first=10", HEADERS);
 		if (req.status != 200) return null;
 		const data = (await req.json()).data;
