@@ -40,7 +40,7 @@ export async function connect() {
 			log("status", "twitch chat disconnected");
 		}
 		let token = await Database.get("twitch_oauth_bot");
-		if (!validate(token)) token = await twitch_refresh();
+		if (!(await validate(token))) token = await twitch_refresh();
 		chat = new TwitchChat(token);
 		await chat.connect();
 		channel = chat.join(Streamer, StreamerID);
