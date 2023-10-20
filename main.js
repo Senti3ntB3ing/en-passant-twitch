@@ -96,13 +96,6 @@ server.listen([ ROOT, "mod" ], request => {
 	};
 });
 
-server.listen("time", () => ({
-	headers: new Headers({ "Content-Type": "text/html" }),
-	status: 200, body: new TextDecoder().decode(
-		Deno.readFileSync("./time.html")
-	)
-}));
-
 server.listen("queue", () => {
 	const join = programmables.find(p => p.commands.includes("join"));
 	return {
@@ -115,16 +108,6 @@ server.listen("queue", () => {
 		.replace("`%SUBONLY%`", join.permissions === 'sub' ? "'on'" : "'off'")
 	};
 });
-
-server.listen("map", () => ({
-	headers: new Headers({ "Content-Type": "text/html" }),
-	status: 200, body: Deno.readFileSync("./map.html")
-}));
-
-server.listen("tourney", () => ({
-	headers: new Headers({ "Content-Type": "text/html" }),
-	status: 200, body: Deno.readFileSync("./tourney.html")
-}));
 
 server.start();
 log("status", "server connected");
