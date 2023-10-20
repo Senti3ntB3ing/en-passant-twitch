@@ -22,10 +22,10 @@ const HEADERS = {
 export const buildUrl = uri => BASE_URL + uri;
 
 export async function channel(streamer) {
-	if (streamer === '') return undefined;
+	if (streamer === "") return undefined;
 	try {
 		const queryUrl = buildUrl(QUERIES.search.channel);
-		const req = await fetch(queryUrl + streamer + "&first=10", HEADERS);
+		const req = await fetch(queryUrl + streamer + "&first=1", HEADERS);
 		if (req.status != 200) return null;
 		const data = (await req.json()).data;
 		for (const channel of data)
@@ -69,8 +69,8 @@ export async function schedule(id, date) {
 
 export async function uptime(streamer) {
 	const c = await channel(streamer);
-	if (c == undefined || c == null || !c.is_live ||
-		c.started_at == undefined || c.started_at == '') return null;
+	if (c === undefined || c === null || !c.is_live ||
+		c.started_at === undefined || c.started_at === "") return null;
 	const s = new Date(c.started_at);
 	const e = new Date();
 	const d = e.getTime() - s.getTime();
@@ -85,7 +85,7 @@ export async function follow_count(streamer) {
 		const req = await fetch(url);
 		if (req.status != 200) return null;
 		const data = await req.json();
-		return 'followers_total' in data ? data.followers_total : null;
+		return "followers_total" in data ? data.followers_total : null;
 	} catch { return null; }
 }
 
