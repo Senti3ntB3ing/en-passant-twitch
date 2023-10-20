@@ -2,7 +2,8 @@
 import { Database } from '../database.js';
 import { Time } from '../config.js';
 
-const TWITCH_CLIENT_ID = await Database.get("twitch_client_id");
+// const TWITCH_CLIENT_ID = await Database.get("twitch_client_id");
+const TWITCH_APP_ID    = await Database.get("twitch_app_id");
 const TWITCH_OAUTH_BOT = await Database.get("twitch_oauth_bot");
 
 export const BASE_URL = "https://api.twitch.tv/helix/";
@@ -14,7 +15,7 @@ export const QUERIES = {
 const HEADERS = { 
 	headers: { 
 		"Authorization": "Bearer " + TWITCH_OAUTH_BOT,
-		"Client-Id": TWITCH_CLIENT_ID
+		"Client-Id": TWITCH_APP_ID
 	} 
 };
 
@@ -24,6 +25,8 @@ export async function channel(streamer) {
 	if (streamer === '') return undefined;
 	try {
 		const queryUrl = buildUrl(QUERIES.search.channel);
+		console.log(queryUrl + streamer + "&first=10");
+		console.log(HEADERS);
 		const req = await fetch(queryUrl + streamer + "&first=10", HEADERS);
 		if (req.status != 200) return null;
 		const data = (await req.json()).data;
