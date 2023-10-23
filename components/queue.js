@@ -77,13 +77,14 @@ export class Queue {
 		this.#leave_critical_section();
 		return removed;
 	}
-	position(user) {
+	async position(user) {
+		await this.#prepare();
 		const index = this.#queue.findIndex(e => e.user == user);
 		if (index === -1) return [ null, null ];
 		return [ this.#queue[index], index + 1 ];
 	}
 	async remove(data) {
-		this.#prepare();
+		await this.#prepare();
 		await this.#enter_critical_section();
 		const index = this.#queue.findIndex(
 			e => e.user === data || e.profile === data
@@ -99,12 +100,21 @@ export class Queue {
 		return [ removed.user, removed.profile ];
 	}
 	async clear() {
+		await this.#prepare();
 		await this.#enter_critical_section();
 		this.#queue = [];
 		await this.#update();
-		this.leave_critical_section();
+		this.#leave_critical_section();
 	}
-	get list() { return this.#queue; }
-	get size() { return this.#queue.length; }
+
+	async list() {
+		await this.#prepare();
+		return this.#queue || [];
+	}
+
+	async size() {
+		await this.#prepare();
+		return this.#queue.length;
+	}
 
 }

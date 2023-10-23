@@ -43,10 +43,10 @@ programmable({
 programmable({
 	commands: [ 'position', 'pos' ],
 	description: 'Get your position in the queue.',
-	execute: data => {
-		const [ _u, i ] = queue.position(data.username);
+	execute: async data => {
+		const [ _u, i ] = await queue.position(data.username);
 		if (i === null) return `@${data.username}, you're not in queue.`;
-		return `@${data.username} you're ${ordinal(i)} / ${queue.size}.`;
+		return `@${data.username} you're ${ordinal(i)} / ${await queue.size()}.`;
 	}
 });
 
@@ -96,9 +96,10 @@ programmable({
 programmable({
 	commands: [ 'queue', 'q' ], permissions: 'mod',
 	description: 'Displays the current queue.',
-	execute: () => {
-		if (queue.list.length === 0) return 'The queue is empty.';
-		return 'Queue: ' + queue.list.map(e => e.profile).join(' -> ');
+	execute: async () => {
+		const list = await queue.list();
+		if (list.length === 0) return 'The queue is empty.';
+		return 'Queue: ' + list.map(e => e.profile).join(' -> ');
 	}
 });
 
