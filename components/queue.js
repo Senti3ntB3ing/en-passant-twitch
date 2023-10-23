@@ -1,10 +1,13 @@
 
-import { Persistent } from '../persistent.js';
+import { Lock } from "https://deno.land/x/unified_deno_lock@v0.1.1/mod.ts";
+
+import { Database } from '../database.js';
 
 export class Queue {
 
-	#queue = [];
-	#q = new Persistent('queue');
+	#queue = null;
+	#lock_m = new Lock();
+	#lock_d = new Lock();
 	enabled = false;
 
 	constructor() { // threadsafe singleton:
@@ -12,10 +15,42 @@ export class Queue {
 		return Queue.instance;
 	}
 
+	async #prepare() {
+		if (this.#queue !== null) return;
+		await this.#lock_d.knock();
+		this.#lock_d.lock();
+		this.#queue = (await Database.get("queue")) || [];
+		this.#lock_d.unlock();
+	}
+
+	async #update() {
+		this.#prepare();
+		await this.#lock_d.knock();
+		this.#lock_d.lock();
+		await Database.set("queue", this.#queue);
+		this.#lock_d.unlock();
+	}
+
+	async #enter_critical_section() {
+		await this.#lock_m.knock();
+		this.#lock_m.lock();
+	}
+
+	#leave_critical_section() {
+		this.#lock_m.unlock();
+	}
+
 	async enqueue(user, profile, sub = false) {
-		this.#queue = (await this.#q.get()) || [];
-		if (this.#queue.findIndex(e => e.user === user) !== -1) return undefined;
-		if (this.#queue.findIndex(e => e.profile === profile) !== -1) return null;
+		await this.#prepare();
+		await this.#enter_critical_section();
+		if (this.#queue.findIndex(e => e.user === user) !== -1) {
+			this.#leave_critical_section();
+			return undefined;
+		}
+		if (this.#queue.findIndex(e => e.profile === profile) !== -1) {
+			this.#leave_critical_section();
+			return null;
+		}
 		let position;
 		if (!sub) {
 			this.#queue.push({ user, profile, sub });
@@ -26,39 +61,48 @@ export class Queue {
 			this.#queue.splice(i, 0, { user, profile, sub });
 			position = i + 1;
 		}
-		if (!(await this.#q.set(this.#queue)))
-			console.error('failed to enqueue user ' + user);
+		await this.#update();
+		this.#leave_critical_section();
 		return position;
 	}
 	async dequeue() {
-		this.#queue = (await this.#q.get()) || [];
-		if (this.#queue.length == 0) return undefined;
+		await this.#prepare();
+		await this.#enter_critical_section();
+		if (this.#queue.length === 0) {
+			this.#leave_critical_section();
+			return undefined;
+		}
 		const removed = this.#queue.shift();
-		if (!(await this.#q.set(this.#queue)))
-			console.error('failed to dequeue');
+		await this.#update();
+		this.#leave_critical_section();
 		return removed;
 	}
 	position(user) {
 		const index = this.#queue.findIndex(e => e.user == user);
-		if (index == -1) return [ null, null ];
+		if (index === -1) return [ null, null ];
 		return [ this.#queue[index], index + 1 ];
 	}
 	async remove(data) {
-		this.#queue = (await this.#q.get()) || [];
+		this.#prepare();
+		await this.#enter_critical_section();
 		const index = this.#queue.findIndex(
-			e => e.user == data || e.profile == data
+			e => e.user === data || e.profile === data
 		);
-		if (index == -1) return false;
+		if (index === -1) {
+			this.#leave_critical_section();
+			return false;
+		}
 		const removed = this.#queue[index];
-		this.#queue = this.#queue.filter((_, i) => i != index);
-		if (!(await this.#q.set(this.#queue)))
-			console.error('failed to remove ' + data + ' from queue');
+		this.#queue.splice(index, 1);
+		await this.#update();
+		this.#leave_critical_section();
 		return [ removed.user, removed.profile ];
 	}
 	async clear() {
+		await this.#enter_critical_section();
 		this.#queue = [];
-		if (!(await this.#q.set(this.#queue)))
-			console.error('failed to clear queue');
+		await this.#update();
+		this.leave_critical_section();
 	}
 	get list() { return this.#queue; }
 	get size() { return this.#queue.length; }
