@@ -5,7 +5,7 @@ const FIREBASE_SECRET = Deno.env.get("FIREBASE_SECRET");
 export class Database {
 
 	static async get(key) {
-		return await fetch(FIREBASE_URL + encodeURIComponent(key) + '/.json?auth=' + FIREBASE_SECRET)
+		return await fetch(FIREBASE_URL + encodeURIComponent(key) + "/.json?auth=" + FIREBASE_SECRET)
 			.then(e => e.text())
 			.then(value => {
 				if (!value) return null;
@@ -17,16 +17,16 @@ export class Database {
 	}
 
 	static async set(key, value) {
-		await fetch(FIREBASE_URL + encodeURIComponent(key) + '/.json?auth=' + FIREBASE_SECRET, {
-			method: 'PUT',
-			headers: { 'Content-Type': 'application/json' },
+		await fetch(FIREBASE_URL + encodeURIComponent(key) + "/.json?auth=" + FIREBASE_SECRET, {
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(value),
 		});
 	}
 
 	static async delete(key) {
 		await fetch(
-			FIREBASE_URL + encodeURIComponent(key) + '/.json?auth=' + FIREBASE_SECRET,
+			FIREBASE_URL + encodeURIComponent(key) + "/.json?auth=" + FIREBASE_SECRET,
 			{ method: "DELETE" }
 		);
 	}
