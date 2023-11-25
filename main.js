@@ -109,5 +109,14 @@ server.listen("queue", () => {
 	};
 });
 
+server.listen("validate", async () => {
+	let token = await Database.get("twitch_oauth_bot");
+	if (!(await validate(token))) token = await twitch_refresh();
+	return {
+		headers: new Headers({ "Content-Type": "text/html" }),
+		status: 200, body: "Token Validated!"
+	};
+});
+
 server.start();
 log("status", "server connected");
