@@ -118,5 +118,14 @@ server.listen("validate", async () => {
 	};
 });
 
+server.listen("connect", async () => {
+	await connect()
+	log("status", "twitch chat connected");
+	return {
+		headers: new Headers({ "Content-Type": "text/html" }),
+		status: 200, body: "twitch chat connected"
+	};
+});
+
 server.start();
 log("status", "server connected");
