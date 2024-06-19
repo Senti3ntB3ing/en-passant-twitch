@@ -13,6 +13,8 @@ import { challenge } from "./actions/info.js";
 
 import { live, validate, refresh as twitch_refresh } from "./components/twitch.js";
 
+import { verifyAndDecode } from "./twitch-ext.js";
+
 // ==== Actions ============================
 
 import "./actions/info.js";
@@ -124,6 +126,18 @@ server.listen("connect", async () => {
 	return {
 		headers: new Headers({ "Content-Type": "text/html" }),
 		status: 200, body: "twitch chat connected"
+	};
+});
+
+//====Twitch-Extension============
+
+
+server.listen("ext", async () => {
+	let header = verifyAndDecode(req.headers.authorization);
+	
+	return {
+		headers: new Headers({ "Content-Type": "text/html" }),
+		status: 200, body: "jwt verified"
 	};
 });
 
