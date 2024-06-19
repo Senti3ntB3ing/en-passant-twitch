@@ -134,6 +134,7 @@ server.listen("connect", async () => {
 
 server.listen("ext", () => {
 	let header = verifyAndDecode(req.headers.authorization);
+	console.log(header);
 	// Note that the origin of an extension iframe will be null
     // so the Access-Control-Allow-Origin has to be wildcard.
 	return {
@@ -142,7 +143,7 @@ server.listen("ext", () => {
 								"Access-Control-Allow-Methods": "OPTIONS, GET, POST",
 								"Access-Control-Allow-Origin": "*" }),
 		status: 200, body: "jwt verified", 
-		data: {
+		json: {
 			'list': JSON.stringify(queue.list),
 			'queue': queue.enabled ? "'on'" : "'off'",
 			'challenge': challenge ? "'on'" : "'off'",
