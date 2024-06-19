@@ -1,6 +1,6 @@
 import { verify } from "https://deno.land/x/djwt@v3.0.2/mod.ts";
 
-import { Database } from "./database";
+import { Database } from "./database.js";
 
 // =========================================
 
