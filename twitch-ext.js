@@ -1,4 +1,4 @@
-import { validateJwt } from "https://deno.land/x/djwt/validate.ts";
+import { verify } from "https://deno.land/x/djwt@$VERSION/mod.ts"
 
 import { Database } from "./database";
 
@@ -6,7 +6,7 @@ import { Database } from "./database";
 
 
 const key = await Database.get("twitch_ext_secret");
-const secret = Buffer.from(key, 'base64');
+const jwt = Buffer.from(key, 'base64');
 const bearerPrefix = 'Bearer '; 
 
 export async function verifyAndDecode (header) {
@@ -14,7 +14,7 @@ export async function verifyAndDecode (header) {
     if (header.startsWith(bearerPrefix)) {
       try {
         const token = header.substring(bearerPrefix.length);
-        return (await validateJwt({ jwt, key, algorithm: "HS256" })).isValid;
+        return await verify(jwt, key);
       }
       catch (ex) {
         return console.log("Invalid JWT");
