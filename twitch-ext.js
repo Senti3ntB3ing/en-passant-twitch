@@ -1,5 +1,9 @@
 import { verify, decode } from "https://deno.land/x/djwt@v3.0.2/mod.ts";
 import * as djwt from "https://deno.land/x/djwt@v3.0.2/mod.ts";
+import {
+  encodeBase64,
+  decodeBase64,
+} from "https://deno.land/std@0.224.0/encoding/base64.ts"
 
 import { Database } from "./database.js";
 
@@ -7,7 +11,7 @@ import { Database } from "./database.js";
 
 
 const key = await Database.get("twitch_ext_secret");
-const [header, payload, jwt] = decode(key);
+const jwt = decodeBase64(key);
 const bearerPrefix = 'Bearer '; 
 
 export async function verifyAndDecode (header) {
