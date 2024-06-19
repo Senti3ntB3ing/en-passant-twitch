@@ -132,7 +132,7 @@ server.listen("connect", async () => {
 //====Twitch-Extension============
 
 
-server.listen("ext", async () => {
+server.listen("ext", () => {
 	let header = verifyAndDecode(req.headers.authorization);
 	// Note that the origin of an extension iframe will be null
     // so the Access-Control-Allow-Origin has to be wildcard.
@@ -141,7 +141,13 @@ server.listen("ext", async () => {
 								"Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
 								"Access-Control-Allow-Methods": "OPTIONS, GET, POST",
 								"Access-Control-Allow-Origin": "*" }),
-		status: 200, body: "jwt verified"
+		status: 200, body: "jwt verified", 
+		data: {
+			'list': JSON.stringify(queue.list),
+			'queue': queue.enabled ? "'on'" : "'off'",
+			'challenge': challenge ? "'on'" : "'off'",
+			'sub-only' : join.permissions === 'sub' ? "'on'" : "'off'"
+		} 
 	};
 });
 
