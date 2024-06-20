@@ -137,9 +137,9 @@ server.listen("ext", request => {
 	let header = verifyAndDecode(request.headers.authorization);
 	let data = JSON.stringify({
 		'list': JSON.stringify(queue.list),
-		'queue': queue.enabled ? "'on'" : "'off'",
-		'challenge': challenge ? "'on'" : "'off'",
-		'sub-only': join.permissions === 'sub' ? "'on'" : "'off'"
+		'queue': queue.enabled ? 'on' : 'off',
+		'challenge': challenge ? 'on' : 'off',
+		'sub_only': join.permissions === 'sub' ? 'on' : 'off'
 	});
 	// Note that the origin of an extension iframe will be null
 	// so the Access-Control-Allow-Origin has to be wildcard.
