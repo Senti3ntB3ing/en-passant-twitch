@@ -145,7 +145,7 @@ server.listen("ext", () => {
 	// Note that the origin of an extension iframe will be null
     // so the Access-Control-Allow-Origin has to be wildcard.
 	return {
-		headers: new Headers({ 	"Content-Type": "text/html", 
+		headers: new Headers({ 	"Content-Type": "application/json", 
 								"Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
 								"Access-Control-Allow-Methods": "OPTIONS, GET, POST",
 								"Access-Control-Allow-Origin": "*" }),
