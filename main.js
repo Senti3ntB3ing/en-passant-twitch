@@ -134,6 +134,12 @@ server.listen("connect", async () => {
 
 server.listen("ext", () => {
 	let header = verifyAndDecode(req.headers.authorization);
+	let data = JSON.stringify({
+		'list': JSON.stringify(queue.list),
+		'queue': queue.enabled ? "'on'" : "'off'",
+		'challenge': challenge ? "'on'" : "'off'",
+		'sub-only' : join.permissions === 'sub' ? "'on'" : "'off'"
+	} )
 	console.log(header);
 	// Note that the origin of an extension iframe will be null
     // so the Access-Control-Allow-Origin has to be wildcard.
@@ -143,12 +149,7 @@ server.listen("ext", () => {
 								"Access-Control-Allow-Methods": "OPTIONS, GET, POST",
 								"Access-Control-Allow-Origin": "*" }),
 		status: 200, body: "jwt verified", 
-		json: {
-			'list': JSON.stringify(queue.list),
-			'queue': queue.enabled ? "'on'" : "'off'",
-			'challenge': challenge ? "'on'" : "'off'",
-			'sub-only' : join.permissions === 'sub' ? "'on'" : "'off'"
-		} 
+		json: data
 	};
 });
 
