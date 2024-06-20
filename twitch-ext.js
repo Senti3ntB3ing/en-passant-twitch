@@ -15,16 +15,16 @@ const jwt = decodeBase64(key);
 const bearerPrefix = 'Bearer '; 
 
 export async function verifyAndDecode (header) {
-    console.log("in verify")
-    if (header.startsWith(bearerPrefix)) {
-      try {
-        const token = header.substring(bearerPrefix.length);
-        return await verify(jwt, key);
-      }
-      catch (ex) {
-        return console.log("Invalid JWT");
-      }
-    }
+    console.log(header);
+    // if (header.startsWith(bearerPrefix)) {
+    //   try {
+    //     const token = header.substring(bearerPrefix.length);
+    //     return await verify(jwt, key);
+    //   }
+    //   catch (ex) {
+    //     return console.log("Invalid JWT");
+    //   }
+    // }
 }
 
 // export function extMiddle(req, res, next) {

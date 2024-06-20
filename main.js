@@ -85,16 +85,16 @@ server.listen("refresh", async _request => {
 	};
 });
 
-server.listen([ ROOT, "mod" ], request => {
+server.listen([ROOT, "mod"], request => {
 	const mod = request.url.includes("mod");
 	return {
 		headers: new Headers({ "Content-Type": "text/html" }),
 		status: 200, body: new TextDecoder().decode(
 			Deno.readFileSync("./help.html")
 		).replace("`%ACTIONS%`", JSON.stringify(actions))
-		.replace("`%PROGRAMMABLES%`", JSON.stringify(programmables))
-		.replace("`%PREFIX%`", `'${Prefix}'`)
-		.replace("`%MOD%`", JSON.stringify(mod))
+			.replace("`%PROGRAMMABLES%`", JSON.stringify(programmables))
+			.replace("`%PREFIX%`", `'${Prefix}'`)
+			.replace("`%MOD%`", JSON.stringify(mod))
 	};
 });
 
@@ -105,9 +105,9 @@ server.listen("queue", () => {
 		status: 200, body: new TextDecoder().decode(
 			Deno.readFileSync("./queue.html")
 		).replace("`%LIST%`", JSON.stringify(queue.list))
-		.replace("`%QUEUE%`", queue.enabled ? "'on'" : "'off'")
-		.replace("`%CHALLENGE%`", challenge ? "'on'" : "'off'")
-		.replace("`%SUBONLY%`", join.permissions === 'sub' ? "'on'" : "'off'")
+			.replace("`%QUEUE%`", queue.enabled ? "'on'" : "'off'")
+			.replace("`%CHALLENGE%`", challenge ? "'on'" : "'off'")
+			.replace("`%SUBONLY%`", join.permissions === 'sub' ? "'on'" : "'off'")
 	};
 });
 
@@ -132,24 +132,25 @@ server.listen("connect", async () => {
 //====Twitch-Extension============
 
 
-server.listen("ext", () => {
+server.listen("ext", request => {
 	let join = programmables.find((p) => p.commands.includes("join"));
-	let header = verifyAndDecode(req.headers.authorization);
+	let header = verifyAndDecode(request.headers.authorization);
 	let data = JSON.stringify({
 		'list': JSON.stringify(queue.list),
 		'queue': queue.enabled ? "'on'" : "'off'",
 		'challenge': challenge ? "'on'" : "'off'",
-		'sub-only' : join.permissions === 'sub' ? "'on'" : "'off'"
-	} )
-	console.log(header);
+		'sub-only': join.permissions === 'sub' ? "'on'" : "'off'"
+	});
 	// Note that the origin of an extension iframe will be null
-    // so the Access-Control-Allow-Origin has to be wildcard.
+	// so the Access-Control-Allow-Origin has to be wildcard.
 	return {
-		headers: new Headers({ 	"Content-Type": "application/json", 
-								"Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
-								"Access-Control-Allow-Methods": "OPTIONS, GET, POST",
-								"Access-Control-Allow-Origin": "*" }),
-		status: 200, body: data 
+		headers: new Headers({
+			"Content-Type": "application/json",
+			"Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
+			"Access-Control-Allow-Methods": "OPTIONS, GET, POST",
+			"Access-Control-Allow-Origin": "*"
+		}),
+		status: 200, body: data
 	};
 });
 
