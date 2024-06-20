@@ -133,6 +133,7 @@ server.listen("connect", async () => {
 
 
 server.listen("ext", () => {
+	let join = programmables.find((p) => p.commands.includes("join"));
 	let header = verifyAndDecode(req.headers.authorization);
 	let data = JSON.stringify({
 		'list': JSON.stringify(queue.list),
@@ -148,8 +149,7 @@ server.listen("ext", () => {
 								"Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
 								"Access-Control-Allow-Methods": "OPTIONS, GET, POST",
 								"Access-Control-Allow-Origin": "*" }),
-		status: 200, body: "jwt verified", 
-		json: data
+		status: 200, body: data 
 	};
 });
 
